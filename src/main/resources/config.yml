@@ -1,0 +1,20 @@
+#      _   _           _     _____  _             _                #
+#     | \ | |         | |   |  __ \| |           (_)               #
+#     |  \| | _____  _| |_  | |__) | |_   _  __ _ _ _ __  ___      #
+#     | . ` |/ _ \ \/ / __| |  ___/| | | | |/ _` | | '_ \/ __|     #
+#     | |\  |  __/>  <| |_  | |    | | |_| | (_| | | | | \__ \     #
+#     |_| \_|\___/_/\_\\__| |_|    |_|\__,_|\__, |_|_| |_|___/     #
+#                                           __/ |                  #
+#                                          |___/                   #
+#                       Servidor de Suporte                        #
+#                      discord.gg/JtTN7E6A2q                       #
+
+database:
+  type: 'sqlite' # Opções válidas: 'sqlite' e 'mysql'
+  mysql:
+    address: 'localhost:3306'
+    username: 'root'
+    password: ''
+    database: 'test'
+  sqlite:
+    file: 'database/database.db'
