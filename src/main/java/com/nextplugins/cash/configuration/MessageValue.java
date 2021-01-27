@@ -35,15 +35,6 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("operations.see") private String seeBalance;
     @ConfigField("operations.see-other") private String seeOtherBalance;
 
-    // transactions
-
-    @ConfigField("transactions.paid") private String amountPaid;
-    @ConfigField("transactions.received") private String amountReceived;
-    @ConfigField("transactions.is-yourself") private String targetIsYourself;
-    @ConfigField("transactions.insufficient-amount") private String insufficientAmount;
-    @ConfigField("transactions.transaction-completed") private String transactionCompleted;
-    @ConfigField("transactions.transaction-completed-target") private String transactionCompletedTarget;
-
     public static <T> T get(Function<MessageValue, T> function) {
         return function.apply(instance);
     }
