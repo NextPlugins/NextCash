@@ -1,4 +1,4 @@
-package com.nextplugins.cash.api.model.user;
+package com.nextplugins.cash.api.model.account;
 
 import lombok.Builder;
 import lombok.Data;

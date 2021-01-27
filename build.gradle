@@ -36,7 +36,7 @@ dependencies {
 }
 
 bukkit {
-    main = 'com.nextplugins.cash.NextEconomy'
+    main = 'com.nextplugins.cash.NextCash'
     authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
     website = 'https://github.com/NextPlugins'
 }
