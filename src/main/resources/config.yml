@@ -23,3 +23,5 @@ plugin:
   configuration:
     # opções válidas: 'DECIMAL' e 'LETTER'
     format-type: 'DECIMAL' # letter = 1K, 1M etc... decimal = 1.000,00, 1.000.000,00 etc...
+    # delay de salvamento das contas online (em segundos)
+    save-delay: 300
