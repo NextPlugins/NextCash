@@ -46,7 +46,6 @@ public final class CashCommand {
     @Command(
             name = "cash.set",
             permission = "nextcash.command.set",
-            target = CommandTarget.PLAYER,
             async = true
     )
     public void cashSetCommand(Context<Player> context, Player target, double amount) {
@@ -70,7 +69,6 @@ public final class CashCommand {
     @Command(
             name = "cash.add",
             permission = "nextcash.command.add",
-            target = CommandTarget.PLAYER,
             async = true
     )
     public void cashAddCommand(Context<Player> context, Player target, double amount) {
@@ -94,7 +92,6 @@ public final class CashCommand {
     @Command(
             name = "cash.remove",
             permission = "nextcash.command.add",
-            target = CommandTarget.PLAYER,
             async = true
     )
     public void cashRemoveCommand(Context<Player> context, Player target, double amount) {
@@ -118,7 +115,6 @@ public final class CashCommand {
     @Command(
             name = "cash.reset",
             permission = "nextcash.command.reset",
-            target = CommandTarget.PLAYER,
             async = true
     )
     public void cashResetCommand(Context<Player> context, Player target) {
