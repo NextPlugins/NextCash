@@ -2,6 +2,7 @@ package com.nextplugins.cash;
 
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.nextplugins.cash.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.cash.dao.AccountDAO;
 import com.nextplugins.cash.listener.registry.ListenerRegistry;
 import com.nextplugins.cash.sql.SQLProvider;
@@ -20,6 +21,10 @@ public final class NextCash extends JavaPlugin {
     private AccountDAO accountDAO;
     private AccountStorage accountStorage;
 
+    public static NextCash getInstance() {
+        return getPlugin(NextCash.class);
+    }
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -33,6 +38,7 @@ public final class NextCash extends JavaPlugin {
 
                 accountStorage.init();
 
+                ConfigurationRegistry.of(this).register();
                 ListenerRegistry.of(this).register();
 
                 getLogger().info("Plugin inicializado com sucesso.");
@@ -42,10 +48,6 @@ public final class NextCash extends JavaPlugin {
                 Bukkit.getPluginManager().disablePlugin(this);
             }
         });
-    }
-
-    public NextCash getInstance() {
-        return getPlugin(NextCash.class);
     }
 
 }
