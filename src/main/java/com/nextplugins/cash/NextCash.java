@@ -2,6 +2,7 @@ package com.nextplugins.cash;
 
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.nextplugins.cash.command.registry.CommandRegistry;
 import com.nextplugins.cash.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.cash.dao.AccountDAO;
 import com.nextplugins.cash.listener.registry.ListenerRegistry;
@@ -36,6 +37,7 @@ public final class NextCash extends JavaPlugin {
 
                 ConfigurationRegistry.of(this).register();
                 ListenerRegistry.of(this).register();
+                CommandRegistry.of(this).register();
 
                 getLogger().info("Plugin inicializado com sucesso.");
             } catch (Throwable t) {
