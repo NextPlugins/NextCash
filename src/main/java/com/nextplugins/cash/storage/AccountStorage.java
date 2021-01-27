@@ -5,7 +5,6 @@ import com.nextplugins.cash.dao.AccountDAO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -57,8 +56,8 @@ public final class AccountStorage {
         accountDAO.deleteOne(account);
     }
 
-    public void purge(Player player) {
-        Account account = accounts.getOrDefault(player.getName(), null);
+    public void purge(String owner) {
+        Account account = accounts.getOrDefault(owner, null);
 
         if (account == null) return;
 
