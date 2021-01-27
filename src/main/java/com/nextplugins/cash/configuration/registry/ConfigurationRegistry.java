@@ -1,6 +1,7 @@
 package com.nextplugins.cash.configuration.registry;
 
 import com.henryfabio.minecraft.configinjector.bukkit.injector.BukkitConfigurationInjector;
+import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.configuration.MessageValue;
 import lombok.Data;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,7 +20,8 @@ public final class ConfigurationRegistry {
         );
 
         configurationInjector.injectConfiguration(
-                MessageValue.instance()
+                MessageValue.instance(),
+                GeneralConfiguration.instance()
         );
     }
 

@@ -21,10 +21,6 @@ public final class NextCash extends JavaPlugin {
     private AccountDAO accountDAO;
     private AccountStorage accountStorage;
 
-    public static NextCash getInstance() {
-        return getPlugin(NextCash.class);
-    }
-
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -48,6 +44,10 @@ public final class NextCash extends JavaPlugin {
                 Bukkit.getPluginManager().disablePlugin(this);
             }
         });
+    }
+
+    public static NextCash getInstance() {
+        return getPlugin(NextCash.class);
     }
 
 }
