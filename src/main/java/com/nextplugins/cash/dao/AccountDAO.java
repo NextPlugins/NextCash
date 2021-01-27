@@ -50,9 +50,9 @@ public final class AccountDAO {
 
     public void insertOne(Account account) {
         sqlExecutor.updateQuery(
-                "INSERT INTO " + TABLE + " VALUES(?,?,?);",
+                "INSERT INTO " + TABLE + " VALUES(?,?);",
                 statement -> {
-                    statement.set(1, account.getOwner());
+                    statement.set(1, account.getOwner().getName());
                     statement.set(2, account.getBalance());
                 }
         );
@@ -63,14 +63,14 @@ public final class AccountDAO {
                 "UPDATE " + TABLE + " SET balance = ? WHERE owner = ?",
                 statement -> {
                     statement.set(1, account.getBalance());
-                    statement.set(2, account.getOwner());
+                    statement.set(2, account.getOwner().getName());
                 }
         );
     }
 
     public void deleteOne(Account account) {
         sqlExecutor.updateQuery(
-                "DELETE FROM " + TABLE + " WHERE owner = '" + account.getOwner() + "'"
+                "DELETE FROM " + TABLE + " WHERE owner = '" + account.getOwner().getName() + "'"
         );
     }
 

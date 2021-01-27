@@ -22,6 +22,7 @@ public final class NextCash extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         PluginDependencyManager.of(this).loadAllDependencies().thenRun(() -> {
             try {
                 sqlConnector = SQLProvider.of(this).setup();
@@ -29,6 +30,8 @@ public final class NextCash extends JavaPlugin {
 
                 accountDAO = new AccountDAO(sqlExecutor);
                 accountStorage = new AccountStorage(accountDAO);
+
+                accountStorage.init();
 
                 ListenerRegistry.of(this).register();
 
