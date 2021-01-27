@@ -2,16 +2,9 @@ messages:
   requests:
     invalid-target: '&cO jogador solicitado não encontra-se online ou é inexistente.'
   operations:
-    see: '&aVocê possui&f $amount&a de coins.'
-    see-other: '&f$player&a possui&f $amount&a de coins.'
+    see: '&aVocê possui&f $amount&a de cash.'
+    see-other: '&f$player&a possui&f $amount&a de cash.'
     set: '&aVocê alterou o saldo de&f $player&a para&f $amount'
     add: '&aVocê adicionou&f $amount&a ao saldo de&f $player'
     remove: '&aVocê removeu&f $amount&a do saldo de&f $player'
     reset: '&aVocê zerou o saldo de&f $player'
-  transactions:
-    paid: '&aVocê enviou&f $amount&a para&f $player'
-    received: '&aVocê recebeu&f $amount&a de&f $player'
-    is-yourself: '&cVocê não pode fazer uma transação para si mesmo.'
-    insufficient-amount: '&cVocê não tem dinheiro suficiente para completar esta transação.'
-    transaction-completed: '&aVocê acaba de realizar uma transação.&7 ($amount&2 ➡&f $player&7)'
-    transaction-completed-target: '&aVocê acaba de receber uma transação.&7 (&f$player&2 ➡&f $amount&7)'
