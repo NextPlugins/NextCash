@@ -3,6 +3,7 @@ package com.nextplugins.cash.command;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.configuration.RankingConfiguration;
+import com.nextplugins.cash.inventory.RankingInventory;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.util.NumberFormat;
@@ -149,23 +150,32 @@ public final class CashCommand {
     public void cashResetCommand(Context<Player> context) {
         Player player = context.getSender();
 
+        String rankingType = RankingConfiguration.get(RankingConfiguration::rankingType);
+
         LinkedHashMap<String, Double> rankingAccounts = rankingStorage.getRankingAccounts();
 
-        List<String> header = RankingConfiguration.get(RankingConfiguration::chatModelHeader);
-        String body = RankingConfiguration.get(RankingConfiguration::chatModelBody);
-        List<String> footer = RankingConfiguration.get(RankingConfiguration::chatModelFooter);
+        if (rankingType.equalsIgnoreCase("CHAT")) {
+            List<String> header = RankingConfiguration.get(RankingConfiguration::chatModelHeader);
+            String body = RankingConfiguration.get(RankingConfiguration::chatModelBody);
+            List<String> footer = RankingConfiguration.get(RankingConfiguration::chatModelFooter);
 
-        header.forEach(player::sendMessage);
+            header.forEach(player::sendMessage);
 
-        AtomicInteger position = new AtomicInteger(1);
+            AtomicInteger position = new AtomicInteger(1);
 
-        rankingAccounts.forEach((owner, balance) -> player.sendMessage(body
-                .replace("$position", String.valueOf(position.getAndIncrement()))
-                .replace("$player", owner)
-                .replace("$amount", NumberFormat.format(balance))
-        ));
+            rankingAccounts.forEach((owner, balance) -> player.sendMessage(body
+                    .replace("$position", String.valueOf(position.getAndIncrement()))
+                    .replace("$player", owner)
+                    .replace("$amount", NumberFormat.format(balance))
+            ));
 
-        footer.forEach(player::sendMessage);
+            footer.forEach(player::sendMessage);
+        } else if (rankingType.equalsIgnoreCase("INVENTORY")) {
+            RankingInventory rankingInventory = new RankingInventory().init();
+            rankingInventory.openInventory(player);
+        } else {
+            throw new IllegalArgumentException("Tipo de ranking inválido: + " + rankingType + ". (ranking.yml)");
+        }
 
     }
 

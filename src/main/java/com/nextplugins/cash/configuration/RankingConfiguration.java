@@ -38,6 +38,12 @@ public final class RankingConfiguration implements ConfigurationInjectable {
     @ConfigField("model.chat.body") private String chatModelBody;
     @ConfigField("model.chat.footer") private List<String> chatModelFooter;
 
+    // inventory model
+
+    @ConfigField("inventory.title") private String inventoryModelTitle;
+    @ConfigField("inventory.head-display-name") private String inventoryModelHeadDisplayName;
+    @ConfigField("inventory.head-lore") private List<String> inventoryModelHeadLore;
+
     public static <T> T get(Function<RankingConfiguration, T> function) {
         return function.apply(instance);
     }

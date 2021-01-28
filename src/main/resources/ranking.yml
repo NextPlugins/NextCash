@@ -8,8 +8,15 @@ ranking:
         - ''
         - ' &6&lCASH TOP &8&l➡ &fJogadores com mais cash'
         - ''
-      body: ' &f$positionº &8-&6 $player &7(&6✪&f$amount&7)'
+      body: ' &f$positionº&8 -&6 $player &7(&6✪ &f$amount&7)'
       footer:
         - ''
         - ' &7Atualiza automaticamente.'
         - ''
+  inventory:
+    title: 'Ranking - Cash'
+    head-display-name: '&f$positionº&8 - &e$player '
+    head-lore:
+      - ''
+      - ' &7Quantia: &7(&6✪ &f$amount&7)'
+      - ''

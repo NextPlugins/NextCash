@@ -1,5 +1,6 @@
 package com.nextplugins.cash;
 
+import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.cash.command.registry.CommandRegistry;
@@ -39,6 +40,7 @@ public final class NextCash extends JavaPlugin {
                 rankingStorage = new RankingStorage();
 
                 accountStorage.init();
+                InventoryManager.enable(this);
 
                 ConfigurationRegistry.of(this).register();
                 ListenerRegistry.of(this).register();
