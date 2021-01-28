@@ -1,16 +1,15 @@
 package com.nextplugins.cash.listener;
 
+import com.google.inject.Inject;
 import com.nextplugins.cash.storage.AccountStorage;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-@RequiredArgsConstructor
 public final class UserDisconnectListener implements Listener {
 
-    private final AccountStorage accountStorage;
+    @Inject private AccountStorage accountStorage;
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent event) {

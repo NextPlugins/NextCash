@@ -1,19 +1,18 @@
 package com.nextplugins.cash.task.registry;
 
+import com.google.inject.Inject;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.task.AccountRankingTask;
 import com.nextplugins.cash.task.AccountSaveTask;
-import lombok.Data;
 import org.bukkit.scheduler.BukkitScheduler;
 
-@Data(staticConstructor = "of")
 public final class TaskRegistry {
 
-    private final NextCash plugin;
+    @Inject private static NextCash plugin;
 
-    public void register() {
+    public static void register() {
 
         BukkitScheduler scheduler = plugin.getServer().getScheduler();
 
