@@ -18,6 +18,7 @@ repositories {
 
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
+    maven { url = 'https://repo.codemc.org/repository/maven-public'}
 
     maven { url = 'https://jitpack.io/' }
 }
@@ -31,10 +32,7 @@ dependencies {
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
 
     pdm 'com.github.SaiintBrisson:command-framework:1.1.0'
-    pdm "com.google.inject:guice:4.0"
-    pdm "javax.inject:javax.inject:1"
-    pdm "aopalliance:aopalliance:1.0"
-    pdm "org.ow2.asm:asm:8.0.1"
+    pdm 'org.bstats:bstats:1.8'
 
     compileOnly 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
