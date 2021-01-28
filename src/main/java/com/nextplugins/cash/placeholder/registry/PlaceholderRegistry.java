@@ -7,10 +7,12 @@ import org.bukkit.plugin.PluginManager;
 public class PlaceholderRegistry {
 
     private static final PluginManager MANAGER = Bukkit.getPluginManager();
-    private static final String PLACEHOLDERS_API = "PlaceholdersAPI";
+    private static final String PLACEHOLDERS_API = "PlaceholderAPI";
 
     public static void register() {
-        if (!MANAGER.isPluginEnabled(PLACEHOLDERS_API)) return;
+        if (!MANAGER.isPluginEnabled(PLACEHOLDERS_API)) {
+            return;
+        }
 
         new CashPlaceholderHook().register();
     }

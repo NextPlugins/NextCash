@@ -1,18 +1,25 @@
 package com.nextplugins.cash.placeholder;
 
+import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.NextCashAPI;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.util.NumberFormat;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CashPlaceholderHook extends PlaceholderExpansion {
+public final class CashPlaceholderHook extends PlaceholderExpansion {
+
+    private final NextCash plugin = NextCash.getInstance();
+
+    @Override
+    public @NotNull String getName() {
+        return plugin.getName();
+    }
 
     @Override
     public @NotNull String getIdentifier() {
-        return "cash";
+        return "nextcash";
     }
 
     @Override
@@ -22,14 +29,14 @@ public class CashPlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "v1.0.0";
+        return plugin.getDescription().getVersion();
     }
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
-        if (player == null) return "";
+        if (player == null) return "&cOcorreu um erro.";
 
-        final Account account = NextCashAPI.get(player);
+        final Account account = NextCashAPI.getInstance().findAccountByPlayer(player).orElse(null);
         final double amount = account != null ? account.getBalance() : 0D;
 
         if (params.equalsIgnoreCase("amount")) {
@@ -39,8 +46,4 @@ public class CashPlaceholderHook extends PlaceholderExpansion {
         return "";
     }
 
-    @Override
-    public String onRequest(OfflinePlayer player, @NotNull String params) {
-        return onPlaceholderRequest(player.getPlayer(), params);
-    }
 }
