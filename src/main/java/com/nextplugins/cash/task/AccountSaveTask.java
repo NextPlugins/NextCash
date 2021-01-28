@@ -5,6 +5,8 @@ import com.nextplugins.cash.dao.AccountDAO;
 import com.nextplugins.cash.storage.AccountStorage;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Collection;
+
 @RequiredArgsConstructor
 public final class AccountSaveTask implements Runnable {
 
@@ -13,9 +15,14 @@ public final class AccountSaveTask implements Runnable {
 
     @Override
     public void run() {
-        for (Account account : accountStorage.getAccounts().values()) {
-            accountDAO.saveOne(account);
+        Collection<Account> accounts = accountStorage.getAccounts().values();
+
+        if (!accounts.isEmpty()) {
+            for (Account account : accountStorage.getAccounts().values()) {
+                accountDAO.saveOne(account);
+            }
         }
+
     }
 
 }
