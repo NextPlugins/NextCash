@@ -1,0 +1,3 @@
+ranking:
+  update-delay: 300 # delay de update do ranking (em segundos)
+  limit: 10 # limite de contas que serão mostradas no ranking

@@ -8,6 +8,7 @@ import com.nextplugins.cash.dao.AccountDAO;
 import com.nextplugins.cash.listener.registry.ListenerRegistry;
 import com.nextplugins.cash.sql.SQLProvider;
 import com.nextplugins.cash.storage.AccountStorage;
+import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.task.registry.TaskRegistry;
 import lombok.Getter;
 import me.bristermitten.pdm.PluginDependencyManager;
@@ -22,6 +23,7 @@ public final class NextCash extends JavaPlugin {
 
     private AccountDAO accountDAO;
     private AccountStorage accountStorage;
+    private RankingStorage rankingStorage;
 
     @Override
     public void onEnable() {
@@ -33,6 +35,7 @@ public final class NextCash extends JavaPlugin {
 
                 accountDAO = new AccountDAO(sqlExecutor);
                 accountStorage = new AccountStorage(accountDAO);
+                rankingStorage = new RankingStorage();
 
                 accountStorage.init();
 

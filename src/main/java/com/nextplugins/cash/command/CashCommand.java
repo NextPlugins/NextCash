@@ -3,6 +3,7 @@ package com.nextplugins.cash.command;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.storage.AccountStorage;
+import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.util.NumberFormat;
 import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
@@ -11,10 +12,13 @@ import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.entity.Player;
 
+import java.util.LinkedHashMap;
+
 @RequiredArgsConstructor
 public final class CashCommand {
 
     private final AccountStorage accountStorage;
+    private final RankingStorage rankingStorage;
 
     @Command(
             name = "cash",
@@ -132,6 +136,21 @@ public final class CashCommand {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
 
+    }
+
+    @Command(
+            name = "cash.top",
+            permission = "nextcash.command.top",
+            async = true
+    )
+    public void cashResetCommand(Context<Player> context) {
+        Player player = context.getSender();
+
+        LinkedHashMap<String, Double> rankingAccounts = rankingStorage.getRankingAccounts();
+
+        rankingAccounts.forEach((owner, balance) -> {
+            player.sendMessage("§a" + owner + " §7-§f " + balance);
+        });
     }
 
 }
