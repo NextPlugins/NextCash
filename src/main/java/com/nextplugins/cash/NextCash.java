@@ -6,6 +6,7 @@ import com.nextplugins.cash.command.registry.CommandRegistry;
 import com.nextplugins.cash.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.cash.dao.AccountDAO;
 import com.nextplugins.cash.listener.registry.ListenerRegistry;
+import com.nextplugins.cash.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.cash.sql.SQLProvider;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
@@ -43,6 +44,7 @@ public final class NextCash extends JavaPlugin {
                 ListenerRegistry.of(this).register();
                 CommandRegistry.of(this).register();
                 TaskRegistry.of(this).register();
+                PlaceholderRegistry.register();
 
                 getLogger().info("Plugin inicializado com sucesso.");
             } catch (Throwable t) {
