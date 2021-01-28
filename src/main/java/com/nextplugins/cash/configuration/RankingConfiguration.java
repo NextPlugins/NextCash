@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Getter
@@ -26,6 +27,16 @@ public final class RankingConfiguration implements ConfigurationInjectable {
 
     @ConfigField("update-delay") private int updateDelay;
     @ConfigField("limit") private int rankingLimit;
+
+    // model
+
+    @ConfigField("model.type") private String rankingType;
+
+    // chat model
+
+    @ConfigField("model.chat.header") private List<String> chatModelHeader;
+    @ConfigField("model.chat.body") private String chatModelBody;
+    @ConfigField("model.chat.footer") private List<String> chatModelFooter;
 
     public static <T> T get(Function<RankingConfiguration, T> function) {
         return function.apply(instance);

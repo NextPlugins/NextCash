@@ -2,6 +2,7 @@ package com.nextplugins.cash.command;
 
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.MessageValue;
+import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.util.NumberFormat;
@@ -13,6 +14,8 @@ import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
 public final class CashCommand {
@@ -148,9 +151,22 @@ public final class CashCommand {
 
         LinkedHashMap<String, Double> rankingAccounts = rankingStorage.getRankingAccounts();
 
-        rankingAccounts.forEach((owner, balance) -> {
-            player.sendMessage("§a" + owner + " §7-§f " + balance);
-        });
+        List<String> header = RankingConfiguration.get(RankingConfiguration::chatModelHeader);
+        String body = RankingConfiguration.get(RankingConfiguration::chatModelBody);
+        List<String> footer = RankingConfiguration.get(RankingConfiguration::chatModelFooter);
+
+        header.forEach(player::sendMessage);
+
+        AtomicInteger position = new AtomicInteger(1);
+
+        rankingAccounts.forEach((owner, balance) -> player.sendMessage(body
+                .replace("$position", String.valueOf(position.getAndIncrement()))
+                .replace("$player", owner)
+                .replace("$amount", NumberFormat.format(balance))
+        ));
+
+        footer.forEach(player::sendMessage);
+
     }
 
 }
