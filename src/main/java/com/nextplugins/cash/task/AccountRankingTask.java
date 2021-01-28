@@ -18,8 +18,10 @@ public final class AccountRankingTask implements Runnable {
 
         Set<Account> accounts = accountDAO.selectAll("ORDER BY balance DESC LIMIT 10");
 
-        rankingStorage.getRankingAccounts().clear();
-        accounts.forEach(rankingStorage::addAccount);
+        if (!accounts.isEmpty()) {
+            rankingStorage.getRankingAccounts().clear();
+            accounts.forEach(rankingStorage::addAccount);
+        }
 
     }
 
