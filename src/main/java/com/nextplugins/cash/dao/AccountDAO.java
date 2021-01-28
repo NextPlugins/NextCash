@@ -1,6 +1,5 @@
 package com.nextplugins.cash.dao;
 
-import com.google.inject.Inject;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.dao.adapter.AccountAdapter;
@@ -8,11 +7,12 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
 
+@RequiredArgsConstructor
 public final class AccountDAO {
 
     private final String TABLE = "cash_accounts";
 
-    @Inject private SQLExecutor sqlExecutor;
+    private final SQLExecutor sqlExecutor;
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +

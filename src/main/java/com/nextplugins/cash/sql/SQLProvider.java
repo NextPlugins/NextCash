@@ -1,22 +1,24 @@
 package com.nextplugins.cash.sql;
 
-import com.google.inject.Inject;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.connector.type.SQLDatabaseType;
 import com.henryfabio.sqlprovider.connector.type.impl.MySQLDatabaseType;
 import com.henryfabio.sqlprovider.connector.type.impl.SQLiteDatabaseType;
-import com.nextplugins.cash.NextCash;
+import lombok.Data;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.logging.Logger;
 
+@Data(staticConstructor = "of")
 public final class SQLProvider {
 
-    @Inject private static NextCash javaPlugin;
+    private final JavaPlugin javaPlugin;
 
-    public static SQLConnector setup() {
+    public SQLConnector setup() {
+
         FileConfiguration configuration = javaPlugin.getConfig();
         ConfigurationSection databaseConfiguration = configuration.getConfigurationSection("database");
 
@@ -49,13 +51,13 @@ public final class SQLProvider {
 
     }
 
-    private static SQLDatabaseType sqliteDatabaseType(ConfigurationSection section) {
+    private SQLDatabaseType sqliteDatabaseType(ConfigurationSection section) {
         return SQLiteDatabaseType.builder()
                 .file(new File(javaPlugin.getDataFolder(), section.getString("file")))
                 .build();
     }
 
-    private static SQLDatabaseType mysqlDatabaseType(ConfigurationSection section) {
+    private SQLDatabaseType mysqlDatabaseType(ConfigurationSection section) {
         return MySQLDatabaseType.builder()
                 .address(section.getString("address"))
                 .username(section.getString("username"))

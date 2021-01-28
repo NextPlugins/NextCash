@@ -1,15 +1,16 @@
 package com.nextplugins.cash.listener;
 
-import com.google.inject.Inject;
 import com.nextplugins.cash.storage.AccountStorage;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+@RequiredArgsConstructor
 public final class UserConnectListener implements Listener {
 
-    @Inject private AccountStorage accountStorage;
+    private final AccountStorage accountStorage;
 
     @EventHandler
     public void onConnect(PlayerJoinEvent event) {

@@ -1,15 +1,16 @@
 package com.nextplugins.cash.command.registry;
 
-import com.google.inject.Inject;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.command.CashCommand;
+import lombok.Data;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 
+@Data(staticConstructor = "of")
 public final class CommandRegistry {
 
-    @Inject private static NextCash plugin;
+    private final NextCash plugin;
 
-    public static void register() {
+    public void register() {
         try {
             BukkitFrame bukkitFrame = new BukkitFrame(plugin);
 

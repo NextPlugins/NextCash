@@ -1,27 +1,26 @@
 package com.nextplugins.cash.listener.registry;
 
-import com.google.inject.Inject;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.listener.UserConnectListener;
 import com.nextplugins.cash.listener.UserDisconnectListener;
+import lombok.Data;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 
+@Data(staticConstructor = "of")
 public final class ListenerRegistry {
 
-    @Inject private static NextCash plugin;
+    private final NextCash plugin;
 
-    public static void register() {
+    public void register() {
         try {
-            final Listener[] listeners = new Listener[] {
-                    new UserConnectListener(),
-                    new UserDisconnectListener()
-            };
-
-            for (Listener listener : listeners) {
-                Bukkit.getPluginManager().registerEvents(listener, plugin);
-            }
-
+            Bukkit.getPluginManager().registerEvents(
+                    new UserConnectListener(plugin.getAccountStorage()),
+                    plugin
+            );
+            Bukkit.getPluginManager().registerEvents(
+                    new UserDisconnectListener(plugin.getAccountStorage()),
+                    plugin
+            );
             plugin.getLogger().info("Listeners registrados com sucesso.");
         } catch (Throwable t) {
             t.printStackTrace();

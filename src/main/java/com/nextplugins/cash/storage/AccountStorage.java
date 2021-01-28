@@ -1,19 +1,20 @@
 package com.nextplugins.cash.storage;
 
-import com.google.inject.Inject;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.dao.AccountDAO;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor
 public final class AccountStorage {
 
     @Getter private final Map<String, Account> accounts = new LinkedHashMap<>();
 
-    @Inject private AccountDAO accountDAO;
+    private final AccountDAO accountDAO;
 
     public void init() {
         accountDAO.createTable();
