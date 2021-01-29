@@ -37,11 +37,11 @@ public final class MessageValue implements ConfigurationInjectable {
 
     // npc ranking
 
-    @ConfigField("npc.wrong-position") private String wrongPosition;
-    @ConfigField("npc.position-already-defined") private String positionAlreadyDefined;
-    @ConfigField("npc.position-successful-created") private String positionSuccessfulCreated;
-    @ConfigField("npc.position-not-yet-defined") private String positionNotYetDefined;
-    @ConfigField("npc.position-successful-removed") private String positionSuccessfulRemoved;
+    @ConfigField("npc-ranking.wrong-position") private String wrongPosition;
+    @ConfigField("npc-ranking.position-already-defined") private String positionAlreadyDefined;
+    @ConfigField("npc-ranking.position-successful-created") private String positionSuccessfulCreated;
+    @ConfigField("npc-ranking.position-not-yet-defined") private String positionNotYetDefined;
+    @ConfigField("npc-ranking.position-successful-removed") private String positionSuccessfulRemoved;
 
     public static <T> T get(Function<MessageValue, T> function) {
         return function.apply(instance);
