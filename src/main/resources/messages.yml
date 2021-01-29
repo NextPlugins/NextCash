@@ -8,3 +8,9 @@ messages:
     add: '&aVocê adicionou&f $amount&a ao saldo de&f $player'
     remove: '&aVocê removeu&f $amount&a do saldo de&f $player'
     reset: '&aVocê zerou o saldo de&f $player'
+  npc-ranking:
+    wrong-position: '&cInsira uma posição acima de 0!'
+    position-already-defined: '&cEste posição já está definida!'
+    position-successful-created: '&aPosição do NPC&f #$position&a foi definida com sucesso.'
+    position-not-yet-defined: '&cEsta posição não existe.'
+    position-successful-removed: '&aPosição do NPC&f #$position&a foi removida com sucesso.'

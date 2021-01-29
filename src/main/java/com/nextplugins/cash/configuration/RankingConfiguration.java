@@ -40,9 +40,15 @@ public final class RankingConfiguration implements ConfigurationInjectable {
 
     // inventory model
 
-    @ConfigField("inventory.title") private String inventoryModelTitle;
-    @ConfigField("inventory.head-display-name") private String inventoryModelHeadDisplayName;
-    @ConfigField("inventory.head-lore") private List<String> inventoryModelHeadLore;
+    @ConfigField("model.inventory.title") private String inventoryModelTitle;
+    @ConfigField("model.inventory.head-display-name") private String inventoryModelHeadDisplayName;
+    @ConfigField("model.inventory.head-lore") private List<String> inventoryModelHeadLore;
+
+    // npc
+
+    @ConfigField("npc.hologram.height") private int hologramHeight;
+    @ConfigField("npc.hologram.lines") private List<String> hologramLines;
+    @ConfigField("npc.locations") private List<String> npcLocations;
 
     public static <T> T get(Function<RankingConfiguration, T> function) {
         return function.apply(instance);

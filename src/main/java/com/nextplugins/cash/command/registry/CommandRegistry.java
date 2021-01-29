@@ -15,7 +15,12 @@ public final class CommandRegistry {
             BukkitFrame bukkitFrame = new BukkitFrame(plugin);
 
             bukkitFrame.registerCommands(
-                    new CashCommand(plugin.getAccountStorage(), plugin.getRankingStorage())
+                    new CashCommand(
+                            plugin,
+                            plugin.getAccountStorage(),
+                            plugin.getRankingStorage(),
+                            plugin.getLocationManager()
+                    )
             );
         } catch (Throwable t) {
             t.printStackTrace();

@@ -8,6 +8,8 @@ import com.nextplugins.cash.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.cash.dao.AccountDAO;
 import com.nextplugins.cash.listener.registry.ListenerRegistry;
 import com.nextplugins.cash.placeholder.registry.PlaceholderRegistry;
+import com.nextplugins.cash.ranking.NPCRankingRegistry;
+import com.nextplugins.cash.ranking.manager.LocationManager;
 import com.nextplugins.cash.sql.SQLProvider;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
@@ -15,7 +17,11 @@ import com.nextplugins.cash.task.registry.TaskRegistry;
 import lombok.Getter;
 import me.bristermitten.pdm.PluginDependencyManager;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 @Getter
 public final class NextCash extends JavaPlugin {
@@ -27,9 +33,20 @@ public final class NextCash extends JavaPlugin {
     private AccountStorage accountStorage;
     private RankingStorage rankingStorage;
 
+    private LocationManager locationManager;
+
+    private File npcFile;
+    private FileConfiguration npcConfiguration;
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        npcFile = new File(getDataFolder(), "npcs.yml");
+        if (!npcFile.exists()) {
+            saveResource("npcs.yml", false);
+        }
+        npcConfiguration = YamlConfiguration.loadConfiguration(npcFile);
+
         PluginDependencyManager.of(this).loadAllDependencies().thenRun(() -> {
             try {
                 sqlConnector = SQLProvider.of(this).setup();
@@ -39,6 +56,8 @@ public final class NextCash extends JavaPlugin {
                 accountStorage = new AccountStorage(accountDAO);
                 rankingStorage = new RankingStorage();
 
+                locationManager = new LocationManager();
+
                 accountStorage.init();
                 InventoryManager.enable(this);
 
@@ -47,6 +66,7 @@ public final class NextCash extends JavaPlugin {
                 CommandRegistry.of(this).register();
                 TaskRegistry.of(this).register();
                 PlaceholderRegistry.register();
+                NPCRankingRegistry.of(this).register();
 
                 getLogger().info("Plugin inicializado com sucesso.");
             } catch (Throwable t) {
