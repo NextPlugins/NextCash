@@ -26,6 +26,7 @@ public final class GeneralConfiguration implements ConfigurationInjectable {
 
     @ConfigField("configuration.format-type") private String formatType;
     @ConfigField("configuration.save-delay") private int saveDelay;
+    @ConfigField("configuration.use-bStats") private boolean useBStats;
 
     public static <T> T get(Function<GeneralConfiguration, T> function) {
         return function.apply(instance);

@@ -57,7 +57,6 @@ public final class NPCRunnable implements Runnable {
             if (!locationManager.getLocationMap().containsKey(position.get())) return;
 
             Location location = locationManager.getLocation(position.get());
-            System.out.println(location.toString());
             List<String> hologramLines = RankingConfiguration.get(RankingConfiguration::hologramLines);
             int hologramHeight = RankingConfiguration.get(RankingConfiguration::hologramHeight);
 
@@ -85,8 +84,6 @@ public final class NPCRunnable implements Runnable {
 
             NPC.add(npc);
             position.getAndIncrement();
-
-            System.out.println("Renovando o ranking de npc...");
 
         });
 

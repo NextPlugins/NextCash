@@ -1,9 +1,11 @@
 package com.nextplugins.cash.task;
 
+import com.nextplugins.cash.api.event.operations.CashRankingUpdateEvent;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.dao.AccountDAO;
 import com.nextplugins.cash.storage.RankingStorage;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 
 import java.util.Set;
 
@@ -21,6 +23,9 @@ public final class AccountRankingTask implements Runnable {
         if (!accounts.isEmpty()) {
             rankingStorage.getRankingAccounts().clear();
             accounts.forEach(rankingStorage::addAccount);
+            Bukkit.getPluginManager().callEvent(
+                    new CashRankingUpdateEvent(accounts)
+            );
         }
 
     }

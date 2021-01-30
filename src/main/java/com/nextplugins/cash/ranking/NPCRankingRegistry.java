@@ -25,7 +25,7 @@ public final class NPCRankingRegistry {
                 plugin,
                 new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage()),
                 0,
-                10 * 20L
+                updateDelay * 20L
         );
     }
 
