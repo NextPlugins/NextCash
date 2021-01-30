@@ -16,6 +16,7 @@ import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.task.registry.TaskRegistry;
 import lombok.Getter;
 import me.bristermitten.pdm.PluginDependencyManager;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -67,6 +68,8 @@ public final class NextCash extends JavaPlugin {
                 TaskRegistry.of(this).register();
                 PlaceholderRegistry.register();
                 NPCRankingRegistry.of(this).register();
+
+                new Metrics(this, 10155);
 
                 getLogger().info("Plugin inicializado com sucesso.");
             } catch (Throwable t) {

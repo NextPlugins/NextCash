@@ -25,3 +25,11 @@ plugin:
     format-type: 'DECIMAL' # letter = 1K, 1M etc... decimal = 1.000,00, 1.000.000,00 etc...
     # delay de salvamento das contas online (em segundos)
     save-delay: 300
+
+# A função de conversão está disponível, por enquanto, apenas para MySQL
+converter-playerpoint-mysql:
+  address: 'localhost:3306'
+  username: 'root'
+  password: ''
+  database: 'test'
+  origin-table: 'playerpoints' # Tabela onde o PlayerPoints salva os dados
