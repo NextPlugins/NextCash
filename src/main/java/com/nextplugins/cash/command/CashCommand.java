@@ -4,7 +4,6 @@ import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.configuration.RankingConfiguration;
-import com.nextplugins.cash.converter.PlayerPointConverter;
 import com.nextplugins.cash.inventory.RankingInventory;
 import com.nextplugins.cash.ranking.manager.LocationManager;
 import com.nextplugins.cash.ranking.util.LocationUtil;
@@ -258,19 +257,6 @@ public final class CashCommand {
         plugin.getNpcConfiguration().save(plugin.getNpcFile());
 
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved));
-    }
-
-    @Command(
-            name = "cash.converter",
-            aliases = { "convert" },
-            permission = "cash.convert",
-            target = CommandTarget.CONSOLE
-    )
-    public void handleConvertCommand(Context context) {
-        PlayerPointConverter.builder()
-                .plugin(plugin)
-                .build()
-                .start();
     }
 
 }

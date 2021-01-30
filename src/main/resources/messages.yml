@@ -1,6 +1,13 @@
 messages:
   requests:
     invalid-target: '&cO jogador solicitado não encontra-se online ou é inexistente.'
+  convert:
+    start: '&aA conversão de dados começou.'
+    kick:
+      - '&c&lNEXT CASH'
+      - ''
+      - '&cA conversão começou, você foi expulso por não estar na whitelist.'
+    end: '&aA conversão de dados acabou!'
   operations:
     see: '&aVocê possui&f $amount&a de cash.'
     see-other: '&f$player&a possui&f $amount&a de cash.'

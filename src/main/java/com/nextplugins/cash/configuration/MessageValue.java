@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Getter
@@ -34,6 +35,12 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("operations.reset") private String resetBalance;
     @ConfigField("operations.see") private String seeBalance;
     @ConfigField("operations.see-other") private String seeOtherBalance;
+
+    // convert
+
+    @ConfigField("covert.start") private String convertStart;
+    @ConfigField("convert.kick") private List<String> convertWhitelistKick;
+    @ConfigField("convert.end") private String convertEnd;
 
     // npc ranking
 
