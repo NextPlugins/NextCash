@@ -1,5 +1,6 @@
 package com.nextplugins.cash;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
@@ -10,6 +11,7 @@ import com.nextplugins.cash.listener.registry.ListenerRegistry;
 import com.nextplugins.cash.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.cash.ranking.NPCRankingRegistry;
 import com.nextplugins.cash.ranking.manager.LocationManager;
+import com.nextplugins.cash.ranking.runnable.NPCRunnable;
 import com.nextplugins.cash.sql.SQLProvider;
 import com.nextplugins.cash.stats.MetricsProvider;
 import com.nextplugins.cash.storage.AccountStorage;
@@ -17,6 +19,7 @@ import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.task.registry.TaskRegistry;
 import lombok.Getter;
 import me.bristermitten.pdm.PluginDependencyManager;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -38,6 +41,10 @@ public final class NextCash extends JavaPlugin {
 
     private File npcFile;
     private FileConfiguration npcConfiguration;
+
+    public static NextCash getInstance() {
+        return getPlugin(NextCash.class);
+    }
 
     @Override
     public void onEnable() {
@@ -80,8 +87,14 @@ public final class NextCash extends JavaPlugin {
         });
     }
 
-    public static NextCash getInstance() {
-        return getPlugin(NextCash.class);
+    @Override
+    public void onDisable() {
+        for (NPC npc : NPCRunnable.NPC) {
+            npc.destroy();
+        }
+        for (Hologram hologram : NPCRunnable.HOLOGRAM) {
+            hologram.delete();
+        }
     }
 
 }

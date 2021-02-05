@@ -1,5 +1,5 @@
 ranking:
-  update-delay: 300 # delay de update do ranking (em segundos)
+  update-delay: 900 # delay de update do ranking (em segundos)
   limit: 10 # limite de contas que serão mostradas no ranking
   model:
     type: 'CHAT' # tipo do ranking, tipos válidos: 'CHAT' e 'INVENTORY'
