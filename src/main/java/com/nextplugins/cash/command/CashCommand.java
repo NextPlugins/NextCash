@@ -75,7 +75,10 @@ public final class CashCommand {
         Player player = context.getSender();
 
         if (target != null) {
-            if (target == player) player.sendMessage(MessageValue.get(MessageValue::isYourself));
+            if (target.equals(player)) {
+                player.sendMessage(MessageValue.get(MessageValue::isYourself));
+                return;
+            }
 
             Account account = accountStorage.getByName(player.getName());
             Account targetAccount = accountStorage.getByName(target.getName());
