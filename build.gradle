@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.nextplugins'
-version = '1.0.0'
+version = '1.0.0-SNAPSHOT'
 
 tasks.build.dependsOn('pdm', 'shadowJar')
 
@@ -37,10 +37,11 @@ dependencies {
 
     implementation 'com.github.HenryFabio:inventory-api:2.0.3'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
-    implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
+    implementation 'com.github.HenryFabio:configuration-injector:main-SNAPSHOT'
+    implementation 'org.bstats:bstats-bukkit:1.8'
 
+    pdm 'com.github.NextPlugins:data-converter:experimental-0.0.1'
     pdm 'com.github.SaiintBrisson:command-framework:1.1.0'
-    pdm 'org.bstats:bstats:1.8'
 
     compileOnly 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
@@ -50,7 +51,7 @@ bukkit {
     main = 'com.nextplugins.cash.NextCash'
     authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
     website = 'https://github.com/NextPlugins'
-    depend = ['Citizens', 'HolographicDisplays']
+    depend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
 }
 
 shadowJar {
@@ -58,6 +59,7 @@ shadowJar {
     relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.cash.libs.inventoryapi'
     relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.cash.libs.sqlprovider'
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.cash.libs.configinjector'
+    relocate 'org.bstats', 'com.nextplugins.cash.libs.bstats'
 }
 
 compileJava {

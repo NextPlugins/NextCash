@@ -1,6 +1,10 @@
 package com.nextplugins.cash.command;
 
 import com.nextplugins.cash.NextCash;
+import com.nextplugins.cash.api.event.operations.CashDepositEvent;
+import com.nextplugins.cash.api.event.operations.CashSetEvent;
+import com.nextplugins.cash.api.event.operations.CashWithdrawEvent;
+import com.nextplugins.cash.api.event.transactions.TransactionCompletedEvent;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.configuration.RankingConfiguration;
@@ -16,6 +20,7 @@ import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -33,8 +38,8 @@ public final class CashCommand {
 
     @Command(
             name = "cash",
-            description = "Utilize para ver a sua quantia de Cash.",
-            permission = "nextcash.command.see",
+            usage = "/cash <jogador>",
+            description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
             target = CommandTarget.PLAYER,
             async = true
     )
@@ -59,7 +64,68 @@ public final class CashCommand {
     }
 
     @Command(
+            name = "cash.pay",
+            aliases = {"cash.enviar"},
+            usage = "/cash enviar {jogador} {quantia}",
+            description = "Utilize para enviar uma quantia da sua conta para outra.",
+            permission = "nextcash.command.pay",
+            async = true
+    )
+    public void cashPayCommand(Context<Player> context, Player target, double amount) {
+        Player player = context.getSender();
+
+        if (target != null) {
+            if (target == player) player.sendMessage(MessageValue.get(MessageValue::isYourself));
+
+            Account account = accountStorage.getByName(player.getName());
+            Account targetAccount = accountStorage.getByName(target.getName());
+
+            if (account.hasAmount(amount)) {
+                targetAccount.depositAmount(amount);
+                account.withdrawAmount(amount);
+
+                player.sendMessage(
+                        MessageValue.get(MessageValue::paid).replace("$player", target.getName())
+                                .replace("$amount", NumberFormat.format(amount))
+                );
+
+                target.sendMessage(
+                        MessageValue.get(MessageValue::received).replace("$player", player.getName())
+                                .replace("$amount", NumberFormat.format(amount))
+                );
+
+                Bukkit.getPluginManager().callEvent(new TransactionCompletedEvent(player, target, amount));
+            } else {
+                player.sendMessage(MessageValue.get(MessageValue::insufficientAmount));
+            }
+        } else {
+            player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+        }
+
+    }
+
+    @Command(
+            name = "cash.help",
+            aliases = {"cash.ajuda", "cash.comandos"},
+            description = "Utilize para receber ajuda com os comandos do plugin.",
+            permission = "nextcash.command.help",
+            async = true
+    )
+    public void cashHelpCommand(Context<Player> context) {
+        Player player = context.getSender();
+
+        if (player.hasPermission("nextcash.command.help.staff")) {
+            ColorUtil.colored(MessageValue.get(MessageValue::helpCommandStaff)).forEach(player::sendMessage);
+        } else {
+            ColorUtil.colored(MessageValue.get(MessageValue::helpCommand)).forEach(player::sendMessage);
+        }
+    }
+
+    @Command(
             name = "cash.set",
+            aliases = {"cash.alterar"},
+            usage = "/cash set {jogador} {quantia}",
+            description = "Utilize para alterar a quantia de cash de alguém.",
             permission = "nextcash.command.set",
             async = true
     )
@@ -75,6 +141,8 @@ public final class CashCommand {
                     .replace("$player", targetAccount.getOwner().getName())
                     .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
             );
+
+            Bukkit.getPluginManager().callEvent(new CashSetEvent(player, target, amount));
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -83,6 +151,9 @@ public final class CashCommand {
 
     @Command(
             name = "cash.add",
+            aliases = {"cash.adicionar", "cash.deposit", "cash.depositar"},
+            usage = "/cash adicionar {jogador} {quantia} ",
+            description = "Utilize para adicionar uma quantia de cash para alguém.",
             permission = "nextcash.command.add",
             async = true
     )
@@ -98,6 +169,8 @@ public final class CashCommand {
                     .replace("$player", targetAccount.getOwner().getName())
                     .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
             );
+
+            Bukkit.getPluginManager().callEvent(new CashDepositEvent(player, target, amount));
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -106,6 +179,9 @@ public final class CashCommand {
 
     @Command(
             name = "cash.remove",
+            aliases = {"cash.remover", "cash.withdraw", "cash.retirar"},
+            usage = "/cash remover {jogador} {quantia}",
+            description = "Utilize para remover uma quantia de cash de alguém.",
             permission = "nextcash.command.add",
             async = true
     )
@@ -121,6 +197,8 @@ public final class CashCommand {
                     .replace("$player", targetAccount.getOwner().getName())
                     .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
             );
+
+            Bukkit.getPluginManager().callEvent(new CashWithdrawEvent(player, target, amount));
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -129,6 +207,9 @@ public final class CashCommand {
 
     @Command(
             name = "cash.reset",
+            aliases = {"cash.zerar"},
+            usage = "/cash zerar {jogador}",
+            description = "Utilize para zerar a quantia de cash de alguém.",
             permission = "nextcash.command.reset",
             async = true
     )
@@ -151,10 +232,12 @@ public final class CashCommand {
 
     @Command(
             name = "cash.top",
+            aliases = {"cash.ranking", "cash.podio"},
+            description = "Utilize para ver os jogadores com mais cash do servidor.",
             permission = "nextcash.command.top",
             async = true
     )
-    public void cashResetCommand(Context<Player> context) {
+    public void cashTopCommand(Context<Player> context) {
         Player player = context.getSender();
 
         String rankingType = RankingConfiguration.get(RankingConfiguration::rankingType);
@@ -188,26 +271,24 @@ public final class CashCommand {
 
     @Command(
             name = "cash.npc",
-            permission = "nextcash.command.npc",
+            usage = "/cash npc",
+            description = "Utilize para ver a ajuda para os comandos do sistema de NPC.",
+            permission = "nextcash.command.npc.help",
             target = CommandTarget.PLAYER,
             async = true
     )
     public void npcCommand(Context<Player> context) {
         Player player = context.getSender();
 
-        player.sendMessage(ColorUtil.colored(
-                "",
-                "&a&lNextCash &8&l➡&f NPC Ranking",
-                "",
-                "&a/cash npc add (position) &8-&7 Adicione uma localização para spawn de um NPC da posição desejada.",
-                "&a/cash npc remove (position) &8-&7 Remova a localização do NPC da posição desejada.",
-                ""
-        ));
+        ColorUtil.colored(MessageValue.get(MessageValue::npcHelp)).forEach(player::sendMessage);
     }
 
     @Command(
             name = "cash.npc.add",
-            permission = "nextcash.command.npc",
+            aliases = {"cash.npc.adicionar"},
+            usage = "/cash npc add {posição}",
+            description = "Utilize para definir uma localização de spawn de NPC de certa posição.",
+            permission = "nextcash.command.npc.add",
             target = CommandTarget.PLAYER,
             async = true
     )
@@ -235,7 +316,10 @@ public final class CashCommand {
 
     @Command(
             name = "cash.npc.remove",
-            permission = "nextcash.command.npc",
+            aliases = {"cash.npc.remover"},
+            usage = "/cash npc remove {posição}",
+            description = "Utilize para remover uma localização de spawn de NPC de certa posição.",
+            permission = "nextcash.command.npc.remove",
             target = CommandTarget.PLAYER,
             async = true
     )

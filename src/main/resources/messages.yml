@@ -1,6 +1,13 @@
 messages:
   requests:
     invalid-target: '&cO jogador solicitado não encontra-se online ou é inexistente.'
+  convert:
+    start: '&aA conversão de dados começou.'
+    kick:
+      - '&c&lNEXT CASH'
+      - ''
+      - '&cA conversão começou, você foi expulso por não estar na whitelist.'
+    end: '&aA conversão de dados acabou!'
   operations:
     see: '&aVocê possui&f $amount&a de cash.'
     see-other: '&f$player&a possui&f $amount&a de cash.'
@@ -8,9 +15,46 @@ messages:
     add: '&aVocê adicionou&f $amount&a ao saldo de&f $player'
     remove: '&aVocê removeu&f $amount&a do saldo de&f $player'
     reset: '&aVocê zerou o saldo de&f $player'
+  transactions:
+    paid: '&aVocê acaba de realizar uma transação.&7 ($amount&2 ➡&f $player&7)'
+    received: '&aVocê acaba de receber uma transação.&7 (&f$player&2 ➡&f $amount&7)'
+    is-yourself: '&cVocê não pode fazer uma transação para si mesmo.'
+    insufficient-amount: '&cVocê não tem dinheiro suficiente para completar esta transação.'
   npc-ranking:
     wrong-position: '&cInsira uma posição acima de 0!'
     position-already-defined: '&cEste posição já está definida!'
     position-successful-created: '&aPosição do NPC&f #$position&a foi definida com sucesso.'
     position-not-yet-defined: '&cEsta posição não existe.'
     position-successful-removed: '&aPosição do NPC&f #$position&a foi removida com sucesso.'
+    npc-help:
+      - ''
+      - '&a&lNextCash &8&l➡&f NPC Ranking'
+      - ''
+      - '&a/cash npc add (posição)&8 -&7 Adicione uma localização para spawn de um NPC da posição desejada.'
+      - '&a/cash npc remove (posição)&8 -&7 Remova a localização do NPC da posição desejada.'
+      - ''
+  commands:
+    incorrect-target: '&cEste comando é destinado apenas à jogadores.'
+    incorrect-usage: '&cUso incorreto! Utilize: {usage}'
+    error: '&cOcorreu um erro durante a execução deste comando.'
+    no-permission: '&cVocê não tem permissão para utilizar este comando.'
+    help-command:
+      - ''
+      - '&a&lNextCash &8&l➡&f Ajuda'
+      - ''
+      - '&a/cash (jogador)&8 -&7 Veja a sua, ou a quantia de cash de outra pessoa.'
+      - '&a/cash enviar (jogador) (quantia)&8 -&7 Envie uma quantia de cash para outra pessoa.'
+      - '&a/cash top&8 -&7 Veja os jogadores com as maiores fortunas de cash do servidor.'
+      - ''
+    help-command-staff: # mensagem que será enviada se o player tiver a permissão: 'nextcash.command.help.staff'
+      - ''
+      - '&a&lNextCash &8&l➡&f Ajuda'
+      - ''
+      - '&a/cash (jogador)&8 -&7 Veja a sua, ou a quantia de cash de outra pessoa.'
+      - '&a/cash pay (jogador) (quantia)&8 -&7 Envie uma quantia de cash para outra pessoa.'
+      - '&a/cash top&8 -&7 Veja os jogadores com as maiores fortunas de cash do servidor.'
+      - '&a/cash add (jogador) (quantia)&8 -&7 Adicione uma quantia de cash para alguém.'
+      - '&a/cash remove (jogador) (quantia)&8 -&7 Remova uma quantia de cash de alguém.'
+      - '&a/cash reset (jogador) (quantia)&8 -&7 Zere a quantia de cash de alguém.'
+      - '&a/cash npc&8 -&7 Veja a ajuda para o sistema de NPC.'
+      - ''

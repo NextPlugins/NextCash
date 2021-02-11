@@ -24,8 +24,8 @@ public final class NPCRankingRegistry {
         scheduler.runTaskTimer(
                 plugin,
                 new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage()),
-                0,
-                10 * 20L
+                15,
+                updateDelay * 20L
         );
     }
 

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NextCashAPI {
 
-    @Getter public static final NextCashAPI instance = new NextCashAPI();
+    @Getter private static final NextCashAPI instance = new NextCashAPI();
 
     private final AccountStorage accountStorage = NextCash.getInstance().getAccountStorage();
 

@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Getter
@@ -35,6 +36,19 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("operations.see") private String seeBalance;
     @ConfigField("operations.see-other") private String seeOtherBalance;
 
+    // transactions
+
+    @ConfigField("transactions.paid") private String paid;
+    @ConfigField("transactions.received") private String received;
+    @ConfigField("transactions.is-yourself") private String isYourself;
+    @ConfigField("transactions.insufficient-amount") private String insufficientAmount;
+
+    // convert
+
+    @ConfigField("covert.start") private String convertStart;
+    @ConfigField("convert.kick") private List<String> convertWhitelistKick;
+    @ConfigField("convert.end") private String convertEnd;
+
     // npc ranking
 
     @ConfigField("npc-ranking.wrong-position") private String wrongPosition;
@@ -42,6 +56,16 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("npc-ranking.position-successful-created") private String positionSuccessfulCreated;
     @ConfigField("npc-ranking.position-not-yet-defined") private String positionNotYetDefined;
     @ConfigField("npc-ranking.position-successful-removed") private String positionSuccessfulRemoved;
+    @ConfigField("npc-ranking.npc-help") private List<String> npcHelp;
+
+    // commands
+
+    @ConfigField("commands.incorrect-target") private String incorrectTarget;
+    @ConfigField("commands.incorrect-usage") private String incorrectUsage;
+    @ConfigField("commands.error") private String error;
+    @ConfigField("commands.no-permission") private String noPermission;
+    @ConfigField("commands.help-command") private List<String> helpCommand;
+    @ConfigField("commands.help-command-staff") private List<String> helpCommandStaff;
 
     public static <T> T get(Function<MessageValue, T> function) {
         return function.apply(instance);
