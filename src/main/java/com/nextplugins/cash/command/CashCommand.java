@@ -65,7 +65,7 @@ public final class CashCommand {
 
     @Command(
             name = "cash.pay",
-            aliases = {"cash.enviar"},
+            aliases = {"enviar"},
             usage = "/cash enviar {jogador} {quantia}",
             description = "Utilize para enviar uma quantia da sua conta para outra.",
             permission = "nextcash.command.pay",
@@ -109,7 +109,7 @@ public final class CashCommand {
 
     @Command(
             name = "cash.help",
-            aliases = {"cash.ajuda", "cash.comandos"},
+            aliases = {"ajuda", "comandos"},
             description = "Utilize para receber ajuda com os comandos do plugin.",
             permission = "nextcash.command.help",
             async = true
@@ -126,7 +126,7 @@ public final class CashCommand {
 
     @Command(
             name = "cash.set",
-            aliases = {"cash.alterar"},
+            aliases = {"alterar"},
             usage = "/cash set {jogador} {quantia}",
             description = "Utilize para alterar a quantia de cash de alguém.",
             permission = "nextcash.command.set",
@@ -154,7 +154,7 @@ public final class CashCommand {
 
     @Command(
             name = "cash.add",
-            aliases = {"cash.adicionar", "cash.deposit", "cash.depositar"},
+            aliases = {"adicionar", "deposit", "depositar"},
             usage = "/cash adicionar {jogador} {quantia} ",
             description = "Utilize para adicionar uma quantia de cash para alguém.",
             permission = "nextcash.command.add",
@@ -182,7 +182,7 @@ public final class CashCommand {
 
     @Command(
             name = "cash.remove",
-            aliases = {"cash.remover", "cash.withdraw", "cash.retirar"},
+            aliases = {"remover", "withdraw", "retirar"},
             usage = "/cash remover {jogador} {quantia}",
             description = "Utilize para remover uma quantia de cash de alguém.",
             permission = "nextcash.command.add",
@@ -210,7 +210,7 @@ public final class CashCommand {
 
     @Command(
             name = "cash.reset",
-            aliases = {"cash.zerar"},
+            aliases = {"zerar"},
             usage = "/cash zerar {jogador}",
             description = "Utilize para zerar a quantia de cash de alguém.",
             permission = "nextcash.command.reset",
@@ -235,7 +235,7 @@ public final class CashCommand {
 
     @Command(
             name = "cash.top",
-            aliases = {"cash.ranking", "cash.podio"},
+            aliases = {"ranking", "podio"},
             description = "Utilize para ver os jogadores com mais cash do servidor.",
             permission = "nextcash.command.top",
             async = true
@@ -288,7 +288,7 @@ public final class CashCommand {
 
     @Command(
             name = "cash.npc.add",
-            aliases = {"cash.npc.adicionar"},
+            aliases = {"npc.adicionar"},
             usage = "/cash npc add {posição}",
             description = "Utilize para definir uma localização de spawn de NPC de certa posição.",
             permission = "nextcash.command.npc.add",
@@ -314,12 +314,12 @@ public final class CashCommand {
         plugin.getNpcConfiguration().set("npc.locations", locations);
         plugin.getNpcConfiguration().save(plugin.getNpcFile());
 
-        player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulCreated));
+        player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulCreated).replace("$position", String.valueOf(position)));
     }
 
     @Command(
             name = "cash.npc.remove",
-            aliases = {"cash.npc.remover"},
+            aliases = {"npc.remover"},
             usage = "/cash npc remove {posição}",
             description = "Utilize para remover uma localização de spawn de NPC de certa posição.",
             permission = "nextcash.command.npc.remove",
@@ -343,7 +343,7 @@ public final class CashCommand {
         plugin.getNpcConfiguration().set("npc.locations", locations);
         plugin.getNpcConfiguration().save(plugin.getNpcFile());
 
-        player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved));
+        player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
     }
 
 }
