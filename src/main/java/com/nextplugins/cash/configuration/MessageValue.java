@@ -56,6 +56,7 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("npc-ranking.position-successful-created") private String positionSuccessfulCreated;
     @ConfigField("npc-ranking.position-not-yet-defined") private String positionNotYetDefined;
     @ConfigField("npc-ranking.position-successful-removed") private String positionSuccessfulRemoved;
+    @ConfigField("npc-ranking.position-reached-limit") private String positionReachedLimit;
     @ConfigField("npc-ranking.npc-help") private List<String> npcHelp;
 
     // commands

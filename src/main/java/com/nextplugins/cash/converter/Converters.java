@@ -12,10 +12,6 @@ public final class Converters {
 
     @Getter private static final Map<String, PluginConverter> converters = new HashMap<>();
 
-    static {
-
-    }
-
     public static PluginConverter of(String key) {
         return converters.getOrDefault(key, null);
     }
