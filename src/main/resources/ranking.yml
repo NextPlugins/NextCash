@@ -26,5 +26,5 @@ ranking:
       height: 3
       lines:
         - '&f$positionº'
-        - '&b$player'
-        - '&7(&2$&7 $amount)'
+        - '&6$player'
+        - '&7(&6✪&f $amount&7)'

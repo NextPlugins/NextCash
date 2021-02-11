@@ -302,6 +302,14 @@ public final class CashCommand {
             player.sendMessage(MessageValue.get(MessageValue::wrongPosition));
         }
 
+        int limit = RankingConfiguration.get(RankingConfiguration::rankingLimit);
+
+        if (position > limit) {
+            player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
+                    .replace("$limit", String.valueOf(limit))
+            );
+        }
+
         if (locationManager.getLocationMap().containsKey(position)) {
             player.sendMessage(MessageValue.get(MessageValue::positionAlreadyDefined));
         }
@@ -331,6 +339,14 @@ public final class CashCommand {
 
         if (position <= 0) {
             player.sendMessage(MessageValue.get(MessageValue::wrongPosition));
+        }
+
+        int limit = RankingConfiguration.get(RankingConfiguration::rankingLimit);
+
+        if (position > limit) {
+            player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
+                    .replace("$limit", String.valueOf(limit))
+            );
         }
 
         if (!locationManager.getLocationMap().containsKey(position)) {

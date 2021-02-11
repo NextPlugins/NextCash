@@ -26,6 +26,7 @@ messages:
     position-successful-created: '&aPosição do NPC&f #$position&a foi definida com sucesso.'
     position-not-yet-defined: '&cEsta posição não existe.'
     position-successful-removed: '&aPosição do NPC&f #$position&a foi removida com sucesso.'
+    position-reached-limit: '&cEsta posição não pode ser definida pois ela passa do limite do ranking. ($limit)'
     npc-help:
       - ''
       - '&a&lNextCash &8&l➡&f NPC Ranking'
