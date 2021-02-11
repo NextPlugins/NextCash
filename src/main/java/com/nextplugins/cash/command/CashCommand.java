@@ -308,6 +308,7 @@ public final class CashCommand {
             player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
                     .replace("$limit", String.valueOf(limit))
             );
+            return;
         }
 
         if (locationManager.getLocationMap().containsKey(position)) {
@@ -347,6 +348,7 @@ public final class CashCommand {
             player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
                     .replace("$limit", String.valueOf(limit))
             );
+            return;
         }
 
         if (!locationManager.getLocationMap().containsKey(position)) {
