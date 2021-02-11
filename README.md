@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e514adb7e1414702b539e5c46018dc12)](https://app.codacy.com/gh/NextPlugins/NextCash?utm_source=github.com&utm_medium=referral&utm_content=NextPlugins/NextCash&utm_campaign=Badge_Grade)
 
-Um sistema simples e completo de uma economia secundária ("cash") para servidores de Minecraft, quase que 100% configurável, com pódio em chat/menu e NPCs, suporte ao PlaceholderAPI, informações salvas em banco de dados SQL e com uma robusta [API](https://github.com/NextPlugins/NextCash/tree/main/src/main/java/com/nextplugins/cash/api) (em breve uma Wiki) para desenvolvedores. Prints in-game (em breve).
+Um sistema simples e completo de uma economia secundária ("cash") para servidores de Minecraft, quase que 100% configurável, com pódio em chat/menu e NPCs, suporte ao PlaceholderAPI, informações salvas em banco de dados SQL e com uma robusta [API](https://github.com/NextPlugins/NextCash/tree/main/src/main/java/com/nextplugins/cash/api) (em breve uma Wiki) para desenvolvedores. [Prints in-game](https://imgur.com/gallery/QAf28xj).
 
 ## Comandos
 |Comando         |Descrição                      |Permissão                    |
