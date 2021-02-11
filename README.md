@@ -27,6 +27,8 @@ Você pode encontrar o plugin pronto para baixar [**aqui**](https://github.com/N
 
 O plugin conta com vários arquivos de configuração, em que se pode configurar quase tudo que você quiser.
 
+Placeholder: "{placeholderapi_nextcash_amount}"
+
 ## Dependências
 O NextCash necessita do [Citizens](https://dev.bukkit.org/projects/citizens) para o sistema de NPCs, [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) para suporte a placeholders, [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) para hologramas (utilizado no sistema de ranking por NPC). As dependências de desenvolvimento serão baixadas automáticamente quando o plugin for habilitado pela primeira vez.
 
