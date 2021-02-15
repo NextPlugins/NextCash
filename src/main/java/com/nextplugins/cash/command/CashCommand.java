@@ -4,7 +4,7 @@ import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.event.operations.CashDepositEvent;
 import com.nextplugins.cash.api.event.operations.CashSetEvent;
 import com.nextplugins.cash.api.event.operations.CashWithdrawEvent;
-import com.nextplugins.cash.api.event.transactions.TransactionCompletedEvent;
+import com.nextplugins.cash.api.event.transactions.TransactionRequestEvent;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.configuration.RankingConfiguration;
@@ -80,27 +80,9 @@ public final class CashCommand {
                 return;
             }
 
-            Account account = accountStorage.getByName(player.getName());
-            Account targetAccount = accountStorage.getByName(target.getName());
+            TransactionRequestEvent requestEvent = new TransactionRequestEvent(player, target, amount);
+            Bukkit.getPluginManager().callEvent(requestEvent);
 
-            if (account.hasAmount(amount)) {
-                targetAccount.depositAmount(amount);
-                account.withdrawAmount(amount);
-
-                player.sendMessage(
-                        MessageValue.get(MessageValue::paid).replace("$player", target.getName())
-                                .replace("$amount", NumberFormat.format(amount))
-                );
-
-                target.sendMessage(
-                        MessageValue.get(MessageValue::received).replace("$player", player.getName())
-                                .replace("$amount", NumberFormat.format(amount))
-                );
-
-                Bukkit.getPluginManager().callEvent(new TransactionCompletedEvent(player, target, amount));
-            } else {
-                player.sendMessage(MessageValue.get(MessageValue::insufficientAmount));
-            }
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -136,16 +118,8 @@ public final class CashCommand {
         Player player = context.getSender();
 
         if (target != null) {
-            Account targetAccount = accountStorage.getByName(target.getName());
-
-            targetAccount.setBalance(amount);
-
-            player.sendMessage(MessageValue.get(MessageValue::setAmount)
-                    .replace("$player", targetAccount.getOwner().getName())
-                    .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
-            );
-
-            Bukkit.getPluginManager().callEvent(new CashSetEvent(player, target, amount));
+            CashSetEvent cashSetEvent = new CashSetEvent(player, target, amount);
+            Bukkit.getPluginManager().callEvent(cashSetEvent);
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -164,16 +138,8 @@ public final class CashCommand {
         Player player = context.getSender();
 
         if (target != null) {
-            Account targetAccount = accountStorage.getByName(target.getName());
-
-            targetAccount.depositAmount(amount);
-
-            player.sendMessage(MessageValue.get(MessageValue::addAmount)
-                    .replace("$player", targetAccount.getOwner().getName())
-                    .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
-            );
-
-            Bukkit.getPluginManager().callEvent(new CashDepositEvent(player, target, amount));
+            CashDepositEvent cashDepositEvent = new CashDepositEvent(player, target, amount);
+            Bukkit.getPluginManager().callEvent(cashDepositEvent);
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -192,16 +158,8 @@ public final class CashCommand {
         Player player = context.getSender();
 
         if (target != null) {
-            Account targetAccount = accountStorage.getByName(target.getName());
-
-            targetAccount.withdrawAmount(amount);
-
-            player.sendMessage(MessageValue.get(MessageValue::removeAmount)
-                    .replace("$player", targetAccount.getOwner().getName())
-                    .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
-            );
-
-            Bukkit.getPluginManager().callEvent(new CashWithdrawEvent(player, target, amount));
+            CashWithdrawEvent cashWithdrawEvent = new CashWithdrawEvent(player, target, amount);
+            Bukkit.getPluginManager().callEvent(cashWithdrawEvent);
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
