@@ -1,4 +1,4 @@
-package com.nextplugins.cash.api.event.operations;
+package com.nextplugins.cash.api.event.transactions;
 
 import com.nextplugins.cash.api.event.CustomEvent;
 import lombok.Data;
@@ -8,7 +8,7 @@ import org.bukkit.event.Cancellable;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public final class CashWithdrawEvent extends CustomEvent implements Cancellable {
+public final class TransactionRequestEvent extends CustomEvent implements Cancellable {
 
     private final Player player;
     private final Player target;

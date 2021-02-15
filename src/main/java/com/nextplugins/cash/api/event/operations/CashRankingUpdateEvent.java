@@ -5,6 +5,7 @@ import com.nextplugins.cash.api.model.account.Account;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.Instant;
 import java.util.Set;
 
 @Data
@@ -12,5 +13,6 @@ import java.util.Set;
 public final class CashRankingUpdateEvent extends CustomEvent {
 
     private final Set<Account> accountList;
+    private final Instant updateInstant;
 
 }
