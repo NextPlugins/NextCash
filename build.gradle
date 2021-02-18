@@ -51,7 +51,8 @@ bukkit {
     main = 'com.nextplugins.cash.NextCash'
     authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
     website = 'https://github.com/NextPlugins'
-    depend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
+    version = "${project.version}"
+    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
 }
 
 shadowJar {
