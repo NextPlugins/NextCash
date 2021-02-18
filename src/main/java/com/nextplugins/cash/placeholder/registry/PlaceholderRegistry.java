@@ -1,5 +1,6 @@
 package com.nextplugins.cash.placeholder.registry;
 
+import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.placeholder.CashPlaceholderHook;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -11,6 +12,8 @@ public class PlaceholderRegistry {
 
     public static void register() {
         if (!MANAGER.isPluginEnabled(PLACEHOLDERS_API)) {
+            NextCash.getInstance().getLogger().warning(PLACEHOLDERS_API + " não foi encontrado no servidor! " +
+                    "Portanto, o ranking em NPC não será utilizado.");
             return;
         }
 
