@@ -9,8 +9,8 @@ Um sistema simples e completo de uma economia secundária ("cash") para servidor
 |----------------|-------------------------------|-----------------------------|
 |/cash           |Veja a sua, ou a quantia de cash de outra pessoa.|Nenhuma    |
 |/cash enviar    |Envie uma quantia de cash para outra pessoa.|`nextcash.command.pay`|
-|/cash top       |Envie uma quantia de cash para outra pessoa.|`nextcash.command.top`|
-|/cash ajuda     |Envie uma quantia de cash para outra pessoa.|`nextcash.command.help`|
+|/cash top       |Veja os jogadores com as maiores fortunas do servidor.|`nextcash.command.top`|
+|/cash ajuda     |Veja os comandos disponíveis do sistema.|`nextcash.command.help`|
 |/cash add       |Adicione uma quantia de cash para alguém.|`nextcash.command.add`|
 |/cash set       |Altere a quantia de cash de alguém.|`nextcash.command.set`|
 |/cash remove    |Remova uma quantia de cash de alguém.|`nextcash.command.remove`|
@@ -30,11 +30,11 @@ O plugin conta com vários arquivos de configuração, em que se pode configurar
 Placeholder: "{placeholderapi_nextcash_amount}"
 
 ## Dependências
-O NextCash necessita do [Citizens](https://dev.bukkit.org/projects/citizens) para o sistema de NPCs, [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) para suporte a placeholders, [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) para hologramas (utilizado no sistema de ranking por NPC). As dependências de desenvolvimento serão baixadas automáticamente quando o plugin for habilitado pela primeira vez.
+O NextCash necessita do [Citizens](https://dev.bukkit.org/projects/citizens) para o sistema de NPCs, [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) para suporte a placeholders, [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) para hologramas (utilizado no sistema de ranking por NPC). As dependências de desenvolvimento serão baixadas automaticamente quando o plugin for habilitado pela primeira vez.
 
 ### Tecnologias usadas
 - [PDM](https://github.com/knightzmc/pdm) - Faz o download de dependências de desenvolvimento durante o carregamento do servidor.
-- [Lombok](https://projectlombok.org/) - Gera getters, setters e outros métodos útils durante a compilação por meio de anotações.
+- [Lombok](https://projectlombok.org/) - Gera “getters”, “setters” e outros métodos uteis durante a compilação através de anotações.
 
 **APIs e Frameworks**
 
