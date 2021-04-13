@@ -73,8 +73,11 @@ public final class NextCash extends JavaPlugin {
                 ListenerRegistry.of(this).register();
                 CommandRegistry.of(this).register();
                 TaskRegistry.of(this).register();
-                PlaceholderRegistry.register();
-                NPCRankingRegistry.of(this).register();
+
+                Bukkit.getScheduler().runTaskLater(this, () -> {
+                    PlaceholderRegistry.register();
+                    NPCRankingRegistry.of(this).register();
+                }, 3 * 20L);
 
                 MetricsProvider.of(this).setup();
 
