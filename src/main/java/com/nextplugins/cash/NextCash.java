@@ -1,6 +1,7 @@
 package com.nextplugins.cash;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.google.common.base.Stopwatch;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
@@ -18,6 +19,7 @@ import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.task.registry.TaskRegistry;
 import lombok.Getter;
+import lombok.val;
 import me.bristermitten.pdm.PluginDependencyManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
@@ -26,6 +28,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.logging.Level;
 
 @Getter
 public final class NextCash extends JavaPlugin {
@@ -47,47 +50,70 @@ public final class NextCash extends JavaPlugin {
     }
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
+
         saveDefaultConfig();
+
         npcFile = new File(getDataFolder(), "npcs.yml");
-        if (!npcFile.exists()) {
-            saveResource("npcs.yml", false);
-        }
+        if (!npcFile.exists()) saveResource("npcs.yml", false);
+
         npcConfiguration = YamlConfiguration.loadConfiguration(npcFile);
 
-        PluginDependencyManager.of(this).loadAllDependencies().thenRun(() -> {
-            try {
-                sqlConnector = SQLProvider.of(this).setup();
-                sqlExecutor = new SQLExecutor(sqlConnector);
+    }
 
-                accountDAO = new AccountDAO(sqlExecutor);
-                accountStorage = new AccountStorage(accountDAO);
-                rankingStorage = new RankingStorage();
+    @Override
+    public void onEnable() {
 
-                locationManager = new LocationManager();
+        getLogger().info("Baixando e carregando dependências necessárias...");
 
-                accountStorage.init();
-                InventoryManager.enable(this);
+        val downloadTime = Stopwatch.createStarted();
 
-                ConfigurationRegistry.of(this).register();
-                ListenerRegistry.of(this).register();
-                CommandRegistry.of(this).register();
-                TaskRegistry.of(this).register();
+        PluginDependencyManager.of(this)
+                .loadAllDependencies()
+                .exceptionally(throwable -> {
 
-                Bukkit.getScheduler().runTaskLater(this, () -> {
-                    PlaceholderRegistry.register();
-                    NPCRankingRegistry.of(this).register();
-                }, 3 * 20L);
+                    throwable.printStackTrace();
 
-                MetricsProvider.of(this).setup();
+                    getLogger().severe("Ocorreu um erro durante a inicialização do plugin!");
+                    Bukkit.getPluginManager().disablePlugin(this);
 
-                getLogger().info("Plugin inicializado com sucesso.");
-            } catch (Throwable t) {
-                t.printStackTrace();
-                getLogger().severe("Ocorreu um erro durante a inicialização do plugin.");
-                Bukkit.getPluginManager().disablePlugin(this);
-            }
-        });
+                    return null;
+
+                })
+                .join();
+
+        downloadTime.stop();
+
+        getLogger().log(Level.INFO, "Dependências carregadas com sucesso! ({0})", downloadTime);
+        getLogger().info("Iniciando carregamento do plugin.");
+
+        val loadTime = Stopwatch.createStarted();
+        sqlConnector = SQLProvider.of(this).setup();
+        sqlExecutor = new SQLExecutor(sqlConnector);
+
+        accountDAO = new AccountDAO(sqlExecutor);
+        accountStorage = new AccountStorage(accountDAO);
+        rankingStorage = new RankingStorage();
+
+        locationManager = new LocationManager();
+
+        accountStorage.init();
+        InventoryManager.enable(this);
+
+        ConfigurationRegistry.of(this).register();
+        ListenerRegistry.of(this).register();
+        CommandRegistry.of(this).register();
+        TaskRegistry.of(this).register();
+
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            PlaceholderRegistry.register();
+            NPCRankingRegistry.of(this).register();
+        }, 3 * 20L);
+
+        MetricsProvider.of(this).setup();
+
+        loadTime.stop();
+        getLogger().log(Level.INFO, "Plugin inicializado com sucesso. ({0})", loadTime);
     }
 
     @Override
