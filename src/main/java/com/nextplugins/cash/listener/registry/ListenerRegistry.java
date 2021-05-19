@@ -50,10 +50,10 @@ public final class ListenerRegistry {
                     plugin
             );
 
-            plugin.getLogger().info("Listeners registrados com sucesso.");
+            plugin.getTextLogger().info("Listeners registrados com sucesso.");
         } catch (Throwable t) {
             t.printStackTrace();
-            plugin.getLogger().severe("Não foi possível registrar os listeners!");
+            plugin.getTextLogger().error("Não foi possível registrar os listeners!");
         }
     }
 

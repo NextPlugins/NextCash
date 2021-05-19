@@ -1,9 +1,11 @@
 package com.nextplugins.cash;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.google.common.base.Stopwatch;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.command.registry.CommandRegistry;
 import com.nextplugins.cash.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.cash.dao.AccountDAO;
@@ -17,7 +19,9 @@ import com.nextplugins.cash.stats.MetricsProvider;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.task.registry.TaskRegistry;
+import com.nextplugins.cash.util.text.TextLogger;
 import lombok.Getter;
+import lombok.val;
 import me.bristermitten.pdm.PluginDependencyManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
@@ -39,65 +43,108 @@ public final class NextCash extends JavaPlugin {
 
     private LocationManager locationManager;
 
+    private final TextLogger textLogger = new TextLogger();
+
+    private final PluginDependencyManager dependencyManager = PluginDependencyManager.of(this);
+
+    private final boolean DEBUG = getConfig().getBoolean("plugin.debug");
+
     private File npcFile;
     private FileConfiguration npcConfiguration;
 
-    public static NextCash getInstance() {
-        return getPlugin(NextCash.class);
+    @Override
+    public void onLoad() {
+        saveDefaultConfig();
+
+        npcFile = new File(getDataFolder(), "npcs.yml");
+        if (!npcFile.exists()) saveResource("npcs.yml", false);
+
+        npcConfiguration = YamlConfiguration.loadConfiguration(npcFile);
     }
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
-        npcFile = new File(getDataFolder(), "npcs.yml");
-        if (!npcFile.exists()) {
-            saveResource("npcs.yml", false);
-        }
-        npcConfiguration = YamlConfiguration.loadConfiguration(npcFile);
+        textLogger.info("Baixando e carregando dependências necessárias...");
 
-        PluginDependencyManager.of(this).loadAllDependencies().thenRun(() -> {
-            try {
-                sqlConnector = SQLProvider.of(this).setup();
-                sqlExecutor = new SQLExecutor(sqlConnector);
+        val loadTiming = Stopwatch.createStarted();
 
-                accountDAO = new AccountDAO(sqlExecutor);
-                accountStorage = new AccountStorage(accountDAO);
-                rankingStorage = new RankingStorage();
+        dependencyManager.loadAllDependencies()
+                .exceptionally(throwable -> {
+                    throwable.printStackTrace();
+                    textLogger.error("Ocorreu um erro durante a inicialização do plugin.");
+                    Bukkit.getPluginManager().disablePlugin(this);
 
-                locationManager = new LocationManager();
+                    return null;
+                })
+                .thenRun(() -> {
+                    loadTiming.stop();
 
-                accountStorage.init();
-                InventoryManager.enable(this);
+                    val initTiming = Stopwatch.createStarted();
 
-                ConfigurationRegistry.of(this).register();
-                ListenerRegistry.of(this).register();
-                CommandRegistry.of(this).register();
-                TaskRegistry.of(this).register();
+                    textLogger.info(String.format("Dependências carregadas com sucesso. (%s)", loadTiming));
 
-                Bukkit.getScheduler().runTaskLater(this, () -> {
-                    PlaceholderRegistry.register();
-                    NPCRankingRegistry.of(this).register();
-                }, 3 * 20L);
+                    sqlConnector = SQLProvider.of(this).setup();
+                    sqlExecutor = new SQLExecutor(sqlConnector);
 
-                MetricsProvider.of(this).setup();
+                    accountDAO = new AccountDAO(sqlExecutor);
+                    accountStorage = new AccountStorage(accountDAO);
+                    rankingStorage = new RankingStorage();
 
-                getLogger().info("Plugin inicializado com sucesso.");
-            } catch (Throwable t) {
-                t.printStackTrace();
-                getLogger().severe("Ocorreu um erro durante a inicialização do plugin.");
-                Bukkit.getPluginManager().disablePlugin(this);
-            }
-        });
+                    locationManager = new LocationManager();
+
+                    accountStorage.init();
+                    InventoryManager.enable(this);
+
+                    ConfigurationRegistry.of(this).register();
+                    ListenerRegistry.of(this).register();
+                    CommandRegistry.of(this).register();
+                    TaskRegistry.of(this).register();
+
+                    Bukkit.getScheduler().runTaskLater(this, () -> {
+                        PlaceholderRegistry.register();
+                        NPCRankingRegistry.of(this).register();
+                    }, 3 * 20L);
+
+                    MetricsProvider.of(this).setup();
+
+                    initTiming.stop();
+
+                    textLogger.info(String.format("O plugin foi carregado totalmente com sucesso. (%s)", initTiming));
+                }).join();
     }
 
     @Override
     public void onDisable() {
+        val unloadTiming = Stopwatch.createStarted();
+
+        textLogger.info("Descarregando módulos do plugin... (0/2)");
+
         for (NPC npc : NPCRunnable.NPC) {
             npc.destroy();
         }
         for (Hologram hologram : NPCRunnable.HOLOGRAM) {
             hologram.delete();
         }
+
+        textLogger.info("NPCs e hologramas foram salvos e descarregados. (1/2)");
+
+        val accounts = accountStorage.getAccounts().values();
+
+        if (!accounts.isEmpty()) {
+            for (Account account : accountStorage.getAccounts().values()) {
+                accountDAO.saveOne(account);
+            }
+        }
+
+        textLogger.info("Informações das contas foram salvas. (2/2)");
+
+        unloadTiming.stop();
+
+        textLogger.info(String.format("O plugin foi encerrado com sucesso. (%s)", unloadTiming));
+    }
+
+    public static NextCash getInstance() {
+        return getPlugin(NextCash.class);
     }
 
 }

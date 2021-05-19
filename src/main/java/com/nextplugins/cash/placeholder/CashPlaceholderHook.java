@@ -3,7 +3,7 @@ package com.nextplugins.cash.placeholder;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.NextCashAPI;
 import com.nextplugins.cash.api.model.account.Account;
-import com.nextplugins.cash.util.NumberFormat;
+import com.nextplugins.cash.util.text.NumberFormat;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

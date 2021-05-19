@@ -5,7 +5,7 @@ import com.nextplugins.cash.api.event.transactions.TransactionRequestEvent;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.storage.AccountStorage;
-import com.nextplugins.cash.util.NumberFormat;
+import com.nextplugins.cash.util.text.NumberFormat;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -23,8 +23,16 @@ public final class TransactionRequestListener implements Listener {
         final Player target = event.getTarget();
         final double amount = event.getAmount();
 
-        Account account = accountStorage.getByName(player.getName());
-        Account targetAccount = accountStorage.getByName(target.getName());
+        final Account account = accountStorage.getByName(player.getName());
+        final Account targetAccount = accountStorage.getByName(target.getName());
+
+        if (!targetAccount.isReceiveCash()) {
+            event.setCancelled(true);
+
+            player.sendMessage(MessageValue.get(MessageValue::toggledOff));
+
+            return;
+        }
 
         if (account.hasAmount(amount)) {
             targetAccount.depositAmount(amount);

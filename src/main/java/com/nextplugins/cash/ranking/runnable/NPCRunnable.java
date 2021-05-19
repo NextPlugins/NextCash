@@ -7,7 +7,7 @@ import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.ranking.manager.LocationManager;
 import com.nextplugins.cash.storage.RankingStorage;
-import com.nextplugins.cash.util.NumberFormat;
+import com.nextplugins.cash.util.text.NumberFormat;
 import lombok.RequiredArgsConstructor;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;

@@ -11,7 +11,7 @@ import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.util.ItemBuilder;
-import com.nextplugins.cash.util.NumberFormat;
+import com.nextplugins.cash.util.text.NumberFormat;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;

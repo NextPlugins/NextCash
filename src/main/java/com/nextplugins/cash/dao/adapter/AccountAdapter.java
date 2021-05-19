@@ -9,15 +9,15 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
 
     @Override
     public Account adaptResult(SimpleResultSet resultSet) {
-
         String accountOwner = resultSet.get("owner");
         double accountBalance = resultSet.get("balance");
+        boolean receiveCash = resultSet.get("receive_cash") == "1";
 
         return Account.builder()
                 .owner(Bukkit.getOfflinePlayer(accountOwner))
                 .balance(accountBalance)
+                .receiveCash(receiveCash)
                 .build();
-
     }
 
 }

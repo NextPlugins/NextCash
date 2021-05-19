@@ -16,8 +16,9 @@ public final class AccountDAO {
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
-                "owner VARCHAR(24) NOT NULL PRIMARY KEY," +
-                "balance DOUBLE NOT NULL" +
+                "owner CHAR(16) NOT NULL PRIMARY KEY," +
+                "balance DOUBLE NOT NULL," +
+                "receive_cash INTEGER(1) NOT NULL DEFAULT 1" +
                 ");"
         );
     }
@@ -33,7 +34,7 @@ public final class AccountDAO {
     public Set<Account> selectAll() {
         return sqlExecutor.resultManyQuery(
                 "SELECT * FROM " + TABLE,
-                k -> {
+                $ -> {
                 },
                 AccountAdapter.class
         );
@@ -42,7 +43,7 @@ public final class AccountDAO {
     public Set<Account> selectAll(String query) {
         return sqlExecutor.resultManyQuery(
                 "SELECT * FROM " + TABLE + " " + query,
-                k -> {
+                $ -> {
                 },
                 AccountAdapter.class
         );
@@ -50,20 +51,22 @@ public final class AccountDAO {
 
     public void insertOne(Account account) {
         sqlExecutor.updateQuery(
-                "INSERT INTO " + TABLE + " VALUES(?,?);",
+                "INSERT INTO " + TABLE + " VALUES(?,?,?);",
                 statement -> {
                     statement.set(1, account.getOwner().getName());
                     statement.set(2, account.getBalance());
+                    statement.set(3, account.isReceiveCash() ? 1 : 0);
                 }
         );
     }
 
     public void saveOne(Account account) {
         sqlExecutor.updateQuery(
-                "UPDATE " + TABLE + " SET balance = ? WHERE owner = ?",
+                "UPDATE " + TABLE + " SET balance = ?, receive_cash = ? WHERE owner = ?",
                 statement -> {
                     statement.set(1, account.getBalance());
-                    statement.set(2, account.getOwner().getName());
+                    statement.set(2, account.isReceiveCash() ? 1 : 0);
+                    statement.set(3, account.getOwner().getName());
                 }
         );
     }

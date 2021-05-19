@@ -35,6 +35,8 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("operations.reset") private String resetBalance;
     @ConfigField("operations.see") private String seeBalance;
     @ConfigField("operations.see-other") private String seeOtherBalance;
+    @ConfigField("operations.toggle-on") private String toggleOn;
+    @ConfigField("operations.toggle-off") private String toggleOff;
 
     // transactions
 
@@ -42,6 +44,7 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("transactions.received") private String received;
     @ConfigField("transactions.is-yourself") private String isYourself;
     @ConfigField("transactions.insufficient-amount") private String insufficientAmount;
+    @ConfigField("transactions.toggled-off") private String toggledOff;
 
     // convert
 

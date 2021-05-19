@@ -1,6 +1,7 @@
 package com.nextplugins.cash.storage;
 
 import com.nextplugins.cash.api.model.account.Account;
+import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.dao.AccountDAO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,29 +22,25 @@ public final class AccountStorage {
     }
 
     public Account getByName(String owner) {
-
         Account account = accounts.getOrDefault(owner, null);
-        if (account == null) {
 
+        if (account == null) {
             account = accountDAO.selectOne(owner);
 
             if (account == null) {
-
                 account = Account.builder()
                         .owner(Bukkit.getOfflinePlayer(owner))
-                        .balance(0)
+                        .balance(GeneralConfiguration.get(GeneralConfiguration::initialBalance))
+                        .receiveCash(true)
                         .build();
 
                 accountDAO.insertOne(account);
-
             }
 
             accounts.put(owner, account);
-
         }
 
         return account;
-
     }
 
     public void insertOne(Account account) {

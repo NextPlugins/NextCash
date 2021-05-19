@@ -1,4 +1,4 @@
-package com.nextplugins.cash.util;
+package com.nextplugins.cash.util.text;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -23,11 +23,9 @@ public final class ColorUtil {
     }
 
     public static List<String> colored(List<String> description) {
-
         return description.stream()
                 .map(ColorUtil::colored)
                 .collect(Collectors.toList());
-
     }
 
 }

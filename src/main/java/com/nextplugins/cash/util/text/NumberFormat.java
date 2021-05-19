@@ -1,4 +1,4 @@
-package com.nextplugins.cash.util;
+package com.nextplugins.cash.util.text;
 
 import com.nextplugins.cash.configuration.GeneralConfiguration;
 

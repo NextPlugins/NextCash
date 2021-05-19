@@ -7,14 +7,13 @@ plugins {
     id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
 }
 
-group = 'com.nextplugins'
-version = '1.0.0'
+group 'com.nextplugins'
+version '1.1.0'
 
 tasks.build.dependsOn('pdm', 'shadowJar')
 
 repositories {
     mavenCentral()
-    jcenter()
 
     // spigot
 
@@ -31,20 +30,25 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
     compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
 
-    implementation 'com.github.HenryFabio:inventory-api:2.0.3'
-    implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
     implementation 'com.github.HenryFabio:configuration-injector:main-SNAPSHOT'
     implementation 'org.bstats:bstats-bukkit:1.8'
 
     pdm 'com.github.NextPlugins:data-converter:experimental-0.0.1'
-    pdm 'com.github.SaiintBrisson:command-framework:1.1.0'
 
-    compileOnly 'org.projectlombok:lombok:1.18.16'
-    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    pdm 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
+    pdm 'com.github.SaiintBrisson.command-framework:shared:1.2.0'
+
+    pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
+    pdm 'com.github.HenryFabio:inventory-api:2.0.3'
+
+    def lombok = 'org.projectlombok:lombok:1.18.16'
+    compileOnly lombok
+    annotationProcessor lombok
 }
 
 bukkit {
@@ -56,9 +60,7 @@ bukkit {
 }
 
 shadowJar {
-    archiveName("${project.name}-${project.version}.jar")
-    relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.cash.libs.inventoryapi'
-    relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.cash.libs.sqlprovider'
+    archiveName("${project.name}.jar")
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.cash.libs.configinjector'
     relocate 'org.bstats', 'com.nextplugins.cash.libs.bstats'
 }

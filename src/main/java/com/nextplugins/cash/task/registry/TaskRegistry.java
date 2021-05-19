@@ -23,7 +23,7 @@ public final class TaskRegistry {
 
         scheduler.runTaskTimerAsynchronously(
                 plugin,
-                new AccountSaveTask(plugin.getAccountStorage(), plugin.getAccountDAO()),
+                new AccountSaveTask(plugin),
                 0,
                 accountSaveDelay * 20L
         );
@@ -34,7 +34,7 @@ public final class TaskRegistry {
 
         scheduler.runTaskTimerAsynchronously(
                 plugin,
-                new AccountRankingTask(plugin.getAccountDAO(), plugin.getRankingStorage()),
+                new AccountRankingTask(plugin),
                 0,
                 accountRankingUpdateDelay * 20L
         );

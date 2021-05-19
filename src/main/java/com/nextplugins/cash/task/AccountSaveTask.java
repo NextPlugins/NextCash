@@ -1,20 +1,22 @@
 package com.nextplugins.cash.task;
 
+import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.model.account.Account;
-import com.nextplugins.cash.dao.AccountDAO;
-import com.nextplugins.cash.storage.AccountStorage;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 import java.util.Collection;
 
 @RequiredArgsConstructor
 public final class AccountSaveTask implements Runnable {
 
-    private final AccountStorage accountStorage;
-    private final AccountDAO accountDAO;
+    private final NextCash plugin;
 
     @Override
     public void run() {
+        val accountStorage = plugin.getAccountStorage();
+        val accountDAO = plugin.getAccountDAO();
+
         Collection<Account> accounts = accountStorage.getAccounts().values();
 
         if (!accounts.isEmpty()) {
@@ -23,6 +25,9 @@ public final class AccountSaveTask implements Runnable {
             }
         }
 
+        if (plugin.isDEBUG()) {
+            plugin.getTextLogger().debug(String.format("Todas as contas que estão em uso atualmente foram salvas. (%s contas)", accounts.size()));
+        }
     }
 
 }

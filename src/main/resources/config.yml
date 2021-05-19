@@ -20,15 +20,24 @@ database:
     file: 'database/database.db'
 
 plugin:
+  # Ative ou desative o envio de algumas informações do 'back-end' do plugin no console.
+  debug: true
+
   configuration:
     # opções válidas: 'DECIMAL' e 'LETTER'
     format-type: 'DECIMAL' # letter = 1K, 1M etc... decimal = 1.000,00, 1.000.000,00 etc...
+
     # delay de salvamento das contas online (em segundos)
     save-delay: 300
-    # Ative ou desative o uso do bStats (apenas serve para coletar algumas informações sobre o uso do plugin,
+
+    # ative ou desative o uso do bStats (apenas serve para coletar algumas informações sobre o uso do plugin,
     # como quantidade de pessoas usando, servidores e etc...)
     use-bStats: true
 
+    # saldo inicial do jogador
+    initial-cash: 0
+
+# EM BREVE...
 converters:
   playerpoints:
     mysql:

@@ -28,6 +28,8 @@ public final class GeneralConfiguration implements ConfigurationInjectable {
     @ConfigField("configuration.save-delay") private int saveDelay;
     @ConfigField("configuration.use-bStats") private boolean useBStats;
 
+    @ConfigField("configuration.initial-cash") private double initialBalance;
+
     public static <T> T get(Function<GeneralConfiguration, T> function) {
         return function.apply(instance);
     }

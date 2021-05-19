@@ -17,7 +17,7 @@ public final class LocationLoader {
     public void loadLocations() {
         List<String> locations = plugin.getNpcConfiguration().getStringList("npc.locations");
         if (locations == null || locations.isEmpty()) {
-            plugin.getLogger().info("Não foi encontrado nenhuma localização para gerar os NPCs!");
+            plugin.getTextLogger().info("Não foi encontrado nenhuma localização para gerar os NPCs!");
             return;
         }
 
@@ -27,7 +27,7 @@ public final class LocationLoader {
 
             locationManager.getLocationMap().put(position, location);
         }
-        plugin.getLogger().info(
+        plugin.getTextLogger().info(
                 "Foram carregados " + locationManager.getLocationMap().size() + " posições no ranking de npc!"
         );
     }

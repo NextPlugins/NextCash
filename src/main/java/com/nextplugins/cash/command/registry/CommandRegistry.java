@@ -32,9 +32,11 @@ public final class CommandRegistry {
             messageHolder.setMessage(MessageType.INCORRECT_TARGET, MessageValue.get(MessageValue::incorrectTarget));
             messageHolder.setMessage(MessageType.INCORRECT_USAGE, MessageValue.get(MessageValue::incorrectUsage));
             messageHolder.setMessage(MessageType.NO_PERMISSION, MessageValue.get(MessageValue::noPermission));
+
+            plugin.getTextLogger().info("Comandos registrados com sucesso.");
         } catch (Throwable t) {
             t.printStackTrace();
-            plugin.getLogger().severe("Não foi possível registrar os comandos.");
+            plugin.getTextLogger().error("Não foi possível registrar os comandos.");
         }
     }
 

@@ -1,5 +1,6 @@
 package com.nextplugins.cash.util;
 
+import com.nextplugins.cash.util.text.ColorUtil;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

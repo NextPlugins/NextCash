@@ -4,8 +4,9 @@ import com.nextplugins.cash.api.event.operations.CashDepositEvent;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.storage.AccountStorage;
-import com.nextplugins.cash.util.NumberFormat;
+import com.nextplugins.cash.util.text.NumberFormat;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +18,7 @@ public final class CashDepositListener implements Listener {
 
     @EventHandler
     public void onCashDeposit(CashDepositEvent event) {
-        Player player = event.getPlayer();
+        CommandSender sender = event.getSender();
         Player target = event.getTarget();
         double amount = event.getAmount();
 
@@ -25,7 +26,7 @@ public final class CashDepositListener implements Listener {
 
         targetAccount.depositAmount(amount);
 
-        player.sendMessage(MessageValue.get(MessageValue::addAmount)
+        sender.sendMessage(MessageValue.get(MessageValue::addAmount)
                 .replace("$player", targetAccount.getOwner().getName())
                 .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
         );

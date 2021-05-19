@@ -9,7 +9,10 @@ import org.bukkit.OfflinePlayer;
 public class Account {
 
     private OfflinePlayer owner;
+
     private double balance;
+
+    private boolean receiveCash;
 
     public synchronized void depositAmount(double amount) {
         this.balance = balance + amount;
