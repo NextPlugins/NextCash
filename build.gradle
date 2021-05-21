@@ -46,6 +46,8 @@ dependencies {
     pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'
 
+    pdm 'de.tr7zw:item-nbt-api:2.7.1'
+
     def lombok = 'org.projectlombok:lombok:1.18.16'
     compileOnly lombok
     annotationProcessor lombok

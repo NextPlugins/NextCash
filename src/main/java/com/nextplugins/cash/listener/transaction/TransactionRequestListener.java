@@ -29,7 +29,9 @@ public final class TransactionRequestListener implements Listener {
         if (!targetAccount.isReceiveCash()) {
             event.setCancelled(true);
 
-            player.sendMessage(MessageValue.get(MessageValue::toggledOff));
+            player.sendMessage(MessageValue.get(MessageValue::toggledOff)
+                    .replace("$player", target.getName())
+            );
 
             return;
         }

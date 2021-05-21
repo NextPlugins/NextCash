@@ -37,6 +37,26 @@ plugin:
     # saldo inicial do jogador
     initial-cash: 0
 
+    # sistema de cheque
+    check:
+
+      # ative ou desative o sistema de cheque
+      enable: true
+
+      # valor mínimo para criar um cheque
+      min-value: 1000
+
+      # item que irá simbolizar um cheque
+      item:
+        display-name: '&aCheque de cash'
+        material: PAPER
+        data: 0
+        lore:
+          - ''
+          - '&7Quantia armazenada:&f $amount'
+          - ''
+          - '&aClique esquerdo para resgatar.'
+
 # EM BREVE...
 converters:
   playerpoints:

@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.function.Function;
 
@@ -29,6 +30,12 @@ public final class GeneralConfiguration implements ConfigurationInjectable {
     @ConfigField("configuration.use-bStats") private boolean useBStats;
 
     @ConfigField("configuration.initial-cash") private double initialBalance;
+
+    // check
+
+    @ConfigField("check.enable") private boolean checkSystemEnabled;
+    @ConfigField("check.min-value") private double checkMinimumValue;
+    @ConfigField("check.item") private ConfigurationSection checkItem;
 
     public static <T> T get(Function<GeneralConfiguration, T> function) {
         return function.apply(instance);
