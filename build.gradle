@@ -40,8 +40,8 @@ dependencies {
 
     pdm 'com.github.NextPlugins:data-converter:experimental-0.0.1'
 
-    pdm 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
-    pdm 'com.github.SaiintBrisson.command-framework:shared:1.2.0'
+    implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
+    implementation 'com.github.SaiintBrisson.command-framework:shared:1.2.0'
 
     pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'

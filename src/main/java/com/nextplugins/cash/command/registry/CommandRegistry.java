@@ -2,7 +2,6 @@ package com.nextplugins.cash.command.registry;
 
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.command.CashCommand;
-import com.nextplugins.cash.command.CheckCommand;
 import com.nextplugins.cash.configuration.MessageValue;
 import lombok.Data;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
@@ -24,8 +23,7 @@ public final class CommandRegistry {
                             plugin.getAccountStorage(),
                             plugin.getRankingStorage(),
                             plugin.getLocationManager()
-                    ),
-                    new CheckCommand(plugin.getAccountStorage())
+                    )
             );
 
             MessageHolder messageHolder = bukkitFrame.getMessageHolder();

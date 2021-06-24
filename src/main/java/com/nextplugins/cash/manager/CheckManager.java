@@ -32,7 +32,7 @@ public final class CheckManager {
                 .wrap();
 
         val nbtItem = new NBTItem(checkItem);
-        nbtItem.setDouble("value", checkValue);
+        nbtItem.setDouble("NextCash_VALUE", checkValue);
 
         return nbtItem.getItem();
     }

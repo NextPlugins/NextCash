@@ -37,6 +37,13 @@ messages:
       - '&a/cash npc add (posição)&8 -&7 Adicione uma localização para spawn de um NPC da posição desejada.'
       - '&a/cash npc remove (posição)&8 -&7 Remova a localização do NPC da posição desejada.'
       - ''
+  checks:
+    created: '&aVocê criou um cheque no valor de &f$checkValue'
+    used: '&aVocê resgatou&f x$checkAmount&a cheque(s), o valor total é de &f$checkTotalValue'
+    tip: '&aVocê pode &lAGACHAR &apara usar todos os cheque de uma vez!'
+    received: '&aVocê recebeu um cheque de &f$sender&a com o valor de &f$checkValue'
+    insufficient-value: '&cVocê não tem cash suficiente para criar este cheque.'
+    min-value: '&cO valor mínimo necessário para realizar uma operação é de $amount.'
   commands:
     incorrect-target: '&cEste comando é destinado apenas à jogadores.'
     incorrect-usage: '&cUso incorreto! Utilize: {usage}'
@@ -86,4 +93,14 @@ messages:
       - ''
       - '&6/cash&7 npc'
       - ' &8&l➥&f Veja a ajuda para o sistema de NPC.'
+      - ''
+    check-help-command:
+      - ''
+      - '&6&lNextCash &8&l➡&f Sistema de cheque'
+      - ''
+      - '&6/cash cheque'
+      - ' &8&l➥&f Veja esta mensagem.'
+      - ''
+      - '&6/cash cheque&7 criar (valor) [jogador]'
+      - ' &8&l➥&f Crie um cheque com uma certa quantia em dinheiro.'
       - ''

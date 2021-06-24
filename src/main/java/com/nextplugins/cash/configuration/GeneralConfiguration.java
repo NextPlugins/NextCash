@@ -33,9 +33,9 @@ public final class GeneralConfiguration implements ConfigurationInjectable {
 
     // check
 
-    @ConfigField("check.enable") private boolean checkSystemEnabled;
-    @ConfigField("check.min-value") private double checkMinimumValue;
-    @ConfigField("check.item") private ConfigurationSection checkItem;
+    @ConfigField("configuration.check.enable") private boolean checkSystemEnabled;
+    @ConfigField("configuration.check.min-value") private double checkMinimumValue;
+    @ConfigField("configuration.check.item") private ConfigurationSection checkItem;
 
     public static <T> T get(Function<GeneralConfiguration, T> function) {
         return function.apply(instance);

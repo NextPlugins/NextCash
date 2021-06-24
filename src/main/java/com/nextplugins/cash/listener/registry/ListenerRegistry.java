@@ -3,11 +3,13 @@ package com.nextplugins.cash.listener.registry;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.listener.UserConnectListener;
 import com.nextplugins.cash.listener.UserDisconnectListener;
+import com.nextplugins.cash.listener.check.CheckInteractListener;
 import com.nextplugins.cash.listener.operation.CashDepositListener;
 import com.nextplugins.cash.listener.operation.CashSetListener;
 import com.nextplugins.cash.listener.operation.CashWithdrawListener;
 import com.nextplugins.cash.listener.transaction.TransactionRequestListener;
 import lombok.Data;
+import lombok.val;
 import org.bukkit.Bukkit;
 
 @Data(staticConstructor = "of")
@@ -17,36 +19,45 @@ public final class ListenerRegistry {
 
     public void register() {
         try {
+            val pluginManager = Bukkit.getPluginManager();
+
             // system
 
-            Bukkit.getPluginManager().registerEvents(
+            pluginManager.registerEvents(
                     new UserConnectListener(plugin.getAccountStorage()),
                     plugin
             );
-            Bukkit.getPluginManager().registerEvents(
+            pluginManager.registerEvents(
                     new UserDisconnectListener(plugin.getAccountStorage()),
                     plugin
             );
 
             // operations
 
-            Bukkit.getPluginManager().registerEvents(
+            pluginManager.registerEvents(
                     new CashDepositListener(plugin.getAccountStorage()),
                     plugin
             );
-            Bukkit.getPluginManager().registerEvents(
+            pluginManager.registerEvents(
                     new CashSetListener(plugin.getAccountStorage()),
                     plugin
             );
-            Bukkit.getPluginManager().registerEvents(
+            pluginManager.registerEvents(
                     new CashWithdrawListener(plugin.getAccountStorage()),
                     plugin
             );
 
             // transactions
 
-            Bukkit.getPluginManager().registerEvents(
+            pluginManager.registerEvents(
                     new TransactionRequestListener(plugin.getAccountStorage()),
+                    plugin
+            );
+
+            // check
+
+            pluginManager.registerEvents(
+                    new CheckInteractListener(plugin.getAccountStorage()),
                     plugin
             );
 
