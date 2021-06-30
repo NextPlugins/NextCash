@@ -4,7 +4,6 @@ import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.task.AccountRankingTask;
-import com.nextplugins.cash.task.AccountSaveTask;
 import lombok.Data;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -16,17 +15,6 @@ public final class TaskRegistry {
     public void register() {
 
         BukkitScheduler scheduler = plugin.getServer().getScheduler();
-
-        // account save
-
-        int accountSaveDelay = GeneralConfiguration.get(GeneralConfiguration::saveDelay);
-
-        scheduler.runTaskTimerAsynchronously(
-                plugin,
-                new AccountSaveTask(plugin),
-                0,
-                accountSaveDelay * 20L
-        );
 
         // ranking update
 

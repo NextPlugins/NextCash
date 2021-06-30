@@ -14,9 +14,9 @@ public final class UserDisconnectListener implements Listener {
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
 
-        accountStorage.purge(player.getName());
+        Player player = event.getPlayer();
+        accountStorage.getCache().synchronous().invalidate(player.getName());
 
     }
 

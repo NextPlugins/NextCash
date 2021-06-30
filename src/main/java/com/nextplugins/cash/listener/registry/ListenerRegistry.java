@@ -1,7 +1,6 @@
 package com.nextplugins.cash.listener.registry;
 
 import com.nextplugins.cash.NextCash;
-import com.nextplugins.cash.listener.UserConnectListener;
 import com.nextplugins.cash.listener.UserDisconnectListener;
 import com.nextplugins.cash.listener.check.CheckInteractListener;
 import com.nextplugins.cash.listener.operation.CashDepositListener;
@@ -23,10 +22,6 @@ public final class ListenerRegistry {
 
             // system
 
-            pluginManager.registerEvents(
-                    new UserConnectListener(plugin.getAccountStorage()),
-                    plugin
-            );
             pluginManager.registerEvents(
                     new UserDisconnectListener(plugin.getAccountStorage()),
                     plugin
