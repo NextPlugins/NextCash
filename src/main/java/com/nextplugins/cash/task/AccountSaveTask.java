@@ -25,7 +25,7 @@ public final class AccountSaveTask implements Runnable {
             }
         }
 
-        if (plugin.isDEBUG()) {
+        if (plugin.isDebug()) {
             plugin.getTextLogger().debug(String.format("Todas as contas que estão em uso atualmente foram salvas. (%s contas)", accounts.size()));
         }
     }

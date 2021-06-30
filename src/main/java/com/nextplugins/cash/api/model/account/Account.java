@@ -8,7 +8,7 @@ import org.bukkit.OfflinePlayer;
 @Builder
 public class Account {
 
-    private OfflinePlayer owner;
+    private String owner;
 
     private double balance;
 

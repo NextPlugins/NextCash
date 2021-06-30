@@ -50,7 +50,7 @@ public final class CheckInteractListener implements Listener {
             player.getInventory().setContents(contents);
         }
 
-        val account = accountStorage.getByName(player.getName());
+        val account = accountStorage.findAccount(player);
 
         account.depositAmount(value);
 

@@ -5,7 +5,6 @@ import com.google.common.base.Stopwatch;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
-import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.command.registry.CommandRegistry;
 import com.nextplugins.cash.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.cash.dao.AccountDAO;
@@ -30,6 +29,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.logging.Level;
 
 @Getter
 public final class NextCash extends JavaPlugin {
@@ -47,7 +47,7 @@ public final class NextCash extends JavaPlugin {
 
     private final PluginDependencyManager dependencyManager = PluginDependencyManager.of(this);
 
-    private final boolean DEBUG = getConfig().getBoolean("plugin.debug");
+    private final boolean debug = getConfig().getBoolean("plugin.debug");
 
     private File npcFile;
     private FileConfiguration npcConfiguration;
@@ -64,53 +64,58 @@ public final class NextCash extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        textLogger.info("Baixando e carregando dependências necessárias...");
+        getLogger().info("Baixando e carregando dependências necessárias...");
 
-        val loadTiming = Stopwatch.createStarted();
+        val downloadTime = Stopwatch.createStarted();
 
-        dependencyManager.loadAllDependencies()
+        PluginDependencyManager.of(this)
+                .loadAllDependencies()
                 .exceptionally(throwable -> {
+
                     throwable.printStackTrace();
-                    textLogger.error("Ocorreu um erro durante a inicialização do plugin.");
+
+                    getLogger().severe("Ocorreu um erro durante a inicialização do plugin!");
                     Bukkit.getPluginManager().disablePlugin(this);
 
                     return null;
+
                 })
-                .thenRun(() -> {
-                    loadTiming.stop();
+                .join();
 
-                    val initTiming = Stopwatch.createStarted();
+        downloadTime.stop();
 
-                    textLogger.info(String.format("Dependências carregadas com sucesso. (%s)", loadTiming));
+        getLogger().log(Level.INFO, "Dependências carregadas com sucesso! ({0})", downloadTime);
+        getLogger().info("Iniciando carregamento do plugin.");
 
-                    sqlConnector = SQLProvider.of(this).setup();
-                    sqlExecutor = new SQLExecutor(sqlConnector);
+        val loadTime = Stopwatch.createStarted();
 
-                    accountDAO = new AccountDAO(sqlExecutor);
-                    accountStorage = new AccountStorage(accountDAO);
-                    rankingStorage = new RankingStorage();
+        sqlConnector = SQLProvider.of(this).setup();
+        sqlExecutor = new SQLExecutor(sqlConnector);
 
-                    locationManager = new LocationManager();
+        accountDAO = new AccountDAO(sqlExecutor);
+        accountStorage = new AccountStorage(accountDAO);
+        rankingStorage = new RankingStorage();
 
-                    accountStorage.init();
-                    InventoryManager.enable(this);
+        locationManager = new LocationManager();
 
-                    ConfigurationRegistry.of(this).register();
-                    ListenerRegistry.of(this).register();
-                    CommandRegistry.of(this).register();
-                    TaskRegistry.of(this).register();
+        accountStorage.init();
+        InventoryManager.enable(this);
 
-                    Bukkit.getScheduler().runTaskLater(this, () -> {
-                        PlaceholderRegistry.register();
-                        NPCRankingRegistry.of(this).register();
-                    }, 3 * 20L);
+        ConfigurationRegistry.of(this).register();
+        ListenerRegistry.of(this).register();
+        CommandRegistry.of(this).register();
+        TaskRegistry.of(this).register();
 
-                    MetricsProvider.of(this).setup();
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            PlaceholderRegistry.register();
+            NPCRankingRegistry.of(this).register();
+        }, 3 * 20L);
 
-                    initTiming.stop();
+        MetricsProvider.of(this).setup();
 
-                    textLogger.info(String.format("O plugin foi carregado totalmente com sucesso. (%s)", initTiming));
-                }).join();
+        loadTime.stop();
+        getLogger().log(Level.INFO, "Plugin inicializado com sucesso. ({0})", loadTime);
+
     }
 
     @Override
@@ -128,19 +133,13 @@ public final class NextCash extends JavaPlugin {
 
         textLogger.info("NPCs e hologramas foram salvos e descarregados. (1/2)");
 
-        val accounts = accountStorage.getAccounts().values();
-
-        if (!accounts.isEmpty()) {
-            for (Account account : accountStorage.getAccounts().values()) {
-                accountDAO.saveOne(account);
-            }
-        }
-
+        accountStorage.getCache().synchronous().invalidateAll();
         textLogger.info("Informações das contas foram salvas. (2/2)");
 
         unloadTiming.stop();
 
         textLogger.info(String.format("O plugin foi encerrado com sucesso. (%s)", unloadTiming));
+
     }
 
     public static NextCash getInstance() {

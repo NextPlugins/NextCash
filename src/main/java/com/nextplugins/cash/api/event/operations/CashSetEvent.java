@@ -3,6 +3,7 @@ package com.nextplugins.cash.api.event.operations;
 import com.nextplugins.cash.api.event.CustomEvent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -12,7 +13,7 @@ import org.bukkit.event.Cancellable;
 public final class CashSetEvent extends CustomEvent implements Cancellable {
 
     private final CommandSender sender;
-    private final Player target;
+    private final OfflinePlayer target;
     private final double amount;
     private boolean cancelled;
 

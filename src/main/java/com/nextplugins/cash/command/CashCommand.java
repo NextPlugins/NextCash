@@ -5,7 +5,6 @@ import com.nextplugins.cash.api.event.operations.CashDepositEvent;
 import com.nextplugins.cash.api.event.operations.CashSetEvent;
 import com.nextplugins.cash.api.event.operations.CashWithdrawEvent;
 import com.nextplugins.cash.api.event.transactions.TransactionRequestEvent;
-import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.configuration.RankingConfiguration;
@@ -24,6 +23,7 @@ import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -46,10 +46,9 @@ public final class CashCommand {
             name = "cash",
             usage = "/cash <jogador>",
             description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
-            target = CommandTarget.PLAYER,
             async = true
     )
-    public void cashCommand(Context<CommandSender> context, @Optional Player target) {
+    public void cashCommand(Context<CommandSender> context, @Optional OfflinePlayer target) {
         CommandSender sender = context.getSender();
 
         if (!(context.getSender() instanceof Player)) {
@@ -60,13 +59,26 @@ public final class CashCommand {
         Player player = (Player) sender;
 
         if (target == null) {
-            double balance = accountStorage.getByName(player.getName()).getBalance();
+            double balance = accountStorage.findAccount(player).getBalance();
 
             player.sendMessage(MessageValue.get(MessageValue::seeBalance)
                     .replace("$amount", NumberFormat.format(balance))
             );
         } else {
-            double targetBalance = accountStorage.getByName(target.getName()).getBalance();
+
+            val account = accountStorage.findAccount(target);
+            if (account == null) {
+
+                val balance = accountStorage.findAccount(player).getBalance();
+
+                player.sendMessage(MessageValue.get(MessageValue::seeBalance)
+                        .replace("$amount", NumberFormat.format(balance))
+                );
+                return;
+
+            }
+
+            val targetBalance = account.getBalance();
 
             player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
                     .replace("$player", target.getName())
@@ -82,17 +94,11 @@ public final class CashCommand {
             usage = "/cash enviar {jogador} {quantia}",
             description = "Utilize para enviar uma quantia da sua conta para outra.",
             permission = "nextcash.command.pay",
+            target = CommandTarget.PLAYER,
             async = true
     )
-    public void cashPayCommand(Context<CommandSender> context, Player target, double amount) {
-        CommandSender sender = context.getSender();
-
-        if (!(context.getSender() instanceof Player)) {
-            sender.sendMessage(MessageValue.get(MessageValue::incorrectTarget));
-            return;
-        }
-
-        Player player = (Player) sender;
+    public void cashPayCommand(Context<Player> context, OfflinePlayer target, double amount) {
+        val player = context.getSender();
 
         if (target != null) {
             if (target.equals(player)) {
@@ -115,19 +121,13 @@ public final class CashCommand {
             usage = "/cash enviar {jogador} {quantia}",
             description = "Utilize para enviar uma quantia da sua conta para outra.",
             permission = "nextcash.command.pay",
+            target = CommandTarget.PLAYER,
             async = true
     )
-    public void cashToggleCommand(Context<CommandSender> context) {
-        CommandSender sender = context.getSender();
+    public void cashToggleCommand(Context<Player> context) {
 
-        if (!(context.getSender() instanceof Player)) {
-            sender.sendMessage(MessageValue.get(MessageValue::incorrectTarget));
-            return;
-        }
-
-        Player player = (Player) sender;
-
-        Account account = accountStorage.getByName(player.getName());
+        val player = context.getSender();
+        val account = accountStorage.findAccount(player);
 
         account.setReceiveCash(!account.isReceiveCash());
 
@@ -187,7 +187,7 @@ public final class CashCommand {
             permission = "nextcash.command.add",
             async = true
     )
-    public void cashAddCommand(Context<CommandSender> context, Player target, double amount) {
+    public void cashAddCommand(Context<CommandSender> context, OfflinePlayer target, double amount) {
         CommandSender sender = context.getSender();
 
         if (target != null) {
@@ -227,16 +227,23 @@ public final class CashCommand {
             permission = "nextcash.command.reset",
             async = true
     )
-    public void cashResetCommand(Context<CommandSender> context, Player target) {
+    public void cashResetCommand(Context<CommandSender> context, OfflinePlayer target) {
         CommandSender sender = context.getSender();
 
         if (target != null) {
-            Account targetAccount = accountStorage.getByName(target.getName());
+
+            val targetAccount = accountStorage.findAccount(target);
+            if (targetAccount == null) {
+
+                sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+                return;
+
+            }
 
             targetAccount.setBalance(0);
 
             sender.sendMessage(MessageValue.get(MessageValue::resetBalance)
-                    .replace("$player", targetAccount.getOwner().getName())
+                    .replace("$player", targetAccount.getOwner())
             );
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -424,7 +431,7 @@ public final class CashCommand {
             return;
         }
 
-        val account = accountStorage.getByName(player.getName());
+        val account = accountStorage.findAccount(player);
         if (!account.hasAmount(amount)) {
             player.sendMessage(MessageValue.get(MessageValue::checkInsufficientValue));
             return;

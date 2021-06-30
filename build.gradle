@@ -35,13 +35,12 @@ dependencies {
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
     compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
 
-    implementation 'com.github.HenryFabio:configuration-injector:main-SNAPSHOT'
+    implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
+    implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
+    implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'org.bstats:bstats-bukkit:1.8'
 
     pdm 'com.github.NextPlugins:data-converter:experimental-0.0.1'
-
-    implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
-    implementation 'com.github.SaiintBrisson.command-framework:shared:1.2.0'
 
     pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'
@@ -59,11 +58,14 @@ bukkit {
     website = 'https://github.com/NextPlugins'
     version = "${project.version}"
     softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
+    loadBefore = ['NextUpdater']
 }
 
 shadowJar {
     archiveName("${project.name}.jar")
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.cash.libs.configinjector'
+    relocate 'com.github.benmanes.caffeine', 'com.nextplugins.economy.libs.caffeine'
+    relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command'
     relocate 'org.bstats', 'com.nextplugins.cash.libs.bstats'
 }
 

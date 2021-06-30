@@ -12,7 +12,7 @@ public final class RankingStorage {
     private final LinkedHashMap<String, Double> rankingAccounts = Maps.newLinkedHashMap();
 
     public void addAccount(Account account) {
-        rankingAccounts.put(account.getOwner().getName(), account.getBalance());
+        rankingAccounts.put(account.getOwner(), account.getBalance());
     }
 
 }

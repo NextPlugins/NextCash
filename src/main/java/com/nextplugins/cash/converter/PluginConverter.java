@@ -44,13 +44,13 @@ public interface PluginConverter {
         final AccountStorage storage = NextCash.getInstance().getAccountStorage();
 
         CompletableFuture.supplyAsync(() -> {
-            storage.addAccount(account);
+            storage.put(account);
 
             return account;
         }, executors).whenComplete((value, $) ->
             Bukkit.broadcast(
                     "nextcash.convert",
-                    ChatColor.YELLOW + value.getOwner().getName() + " account was converted to NextCash."));
+                    ChatColor.YELLOW + value.getOwner() + " account was converted to NextCash."));
     }
 
     SQLConnector originConnector();

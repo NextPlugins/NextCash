@@ -52,19 +52,15 @@ public class SQLiteConverter implements PluginConverter {
         final SQLConnector connector = originConnector();
         final ExecutorService executors = executors();
 
-        connector.consumeConnection(connection -> {
-            Converter.<Account>builder()
-                    .connection(connection)
-                    .create()
-                    .request(sql)
-                    .convert(resultSet -> Account.builder()
-                            .owner(Bukkit.getPlayer(String.valueOf(resultSet.get(nameField()))))
-                            .balance(resultSet.get(balanceField()))
-                            .build())
-                    .responseEach(value -> {
-                        save(value, executors);
-                    });
-        });
+        connector.consumeConnection(connection -> Converter.<Account>builder()
+                .connection(connection)
+                .create()
+                .request(sql)
+                .convert(resultSet -> Account.builder()
+                        .owner(String.valueOf(resultSet.get(nameField())))
+                        .balance(resultSet.get(balanceField()))
+                        .build())
+                .responseEach(value -> save(value, executors)));
     }
 
 }

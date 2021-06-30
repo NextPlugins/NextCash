@@ -3,8 +3,6 @@ package com.nextplugins.cash.task;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.event.operations.CashRankingUpdateEvent;
 import com.nextplugins.cash.api.model.account.Account;
-import com.nextplugins.cash.dao.AccountDAO;
-import com.nextplugins.cash.storage.RankingStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -29,7 +27,7 @@ public final class AccountRankingTask implements Runnable {
             CashRankingUpdateEvent cashRankingUpdateEvent = new CashRankingUpdateEvent(accounts, Instant.now());
             Bukkit.getPluginManager().callEvent(cashRankingUpdateEvent);
 
-            if (plugin.isDEBUG()) {
+            if (plugin.isDebug()) {
                 plugin.getTextLogger().debug(String.format("As contas do ranking foram atualizadas. (%s contas)", accounts.size()));
             }
         }

@@ -1,12 +1,12 @@
 package com.nextplugins.cash.api;
 
-import com.google.common.collect.Sets;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.storage.AccountStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -22,25 +22,14 @@ public final class NextCashAPI {
     private final AccountStorage accountStorage = NextCash.getInstance().getAccountStorage();
 
     /**
-     * Search all accounts to look for one with the entered custom filter.
-     *
-     * @param filter custom filter to search
-     * @return {@link Optional} with the account found
-     */
-    public Optional<Account> findAccountByFilter(Predicate<Account> filter) {
-        return allAccounts().stream()
-                .filter(filter)
-                .findFirst();
-    }
-
-    /**
      * Search all accounts to look for every with the entered custom filter.
      *
      * @param filter custom filter to search
      * @return {@link Set} with all accounts found
      */
     public Set<Account> findAccountsByFilter(Predicate<Account> filter) {
-        return allAccounts().stream()
+        return accountStorage.getCache().synchronous().asMap().values()
+                .stream()
                 .filter(filter)
                 .collect(Collectors.toSet());
     }
@@ -52,9 +41,7 @@ public final class NextCashAPI {
      * @return {@link Optional} with the account found
      */
     public Optional<Account> findAccountByOwner(String owner) {
-        return allAccounts().stream()
-                .filter(account -> account.getOwner().getName().equals(owner))
-                .findFirst();
+        return Optional.ofNullable(accountStorage.findAccount(Bukkit.getOfflinePlayer(owner)));
     }
 
     /**
@@ -64,18 +51,7 @@ public final class NextCashAPI {
      * @return {@link Optional} with the account found
      */
     public Optional<Account> findAccountByPlayer(Player player) {
-        return allAccounts().stream()
-                .filter(account -> account.getOwner().getName().equals(player.getName()))
-                .findFirst();
-    }
-
-    /**
-     * Retrieve all accounts loaded so far.
-     *
-     * @return {@link Set} with accounts
-     */
-    public Set<Account> allAccounts() {
-        return Sets.newLinkedHashSet(accountStorage.getAccounts().values());
+        return Optional.of(accountStorage.findAccount(player));
     }
 
 }
