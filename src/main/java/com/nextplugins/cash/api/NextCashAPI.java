@@ -2,7 +2,6 @@ package com.nextplugins.cash.api;
 
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.model.account.Account;
-import com.nextplugins.cash.storage.AccountStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,17 +18,17 @@ public final class NextCashAPI {
 
     @Getter private static final NextCashAPI instance = new NextCashAPI();
 
-    private final AccountStorage accountStorage = NextCash.getInstance().getAccountStorage();
-
     /**
      * Search all accounts to look for every with the entered custom filter.
      *
      * @param filter custom filter to search
      * @return {@link Set} with all accounts found
      */
+    @Deprecated
     public Set<Account> findAccountsByFilter(Predicate<Account> filter) {
-        return accountStorage.getCache().synchronous().asMap().values()
-                .stream()
+        return NextCash.getInstance().getAccountStorage()
+                .getCache().synchronous()
+                .asMap().values().stream()
                 .filter(filter)
                 .collect(Collectors.toSet());
     }
@@ -41,7 +40,7 @@ public final class NextCashAPI {
      * @return {@link Optional} with the account found
      */
     public Optional<Account> findAccountByOwner(String owner) {
-        return Optional.ofNullable(accountStorage.findAccount(Bukkit.getOfflinePlayer(owner)));
+        return Optional.ofNullable(NextCash.getInstance().getAccountStorage().findAccount(Bukkit.getOfflinePlayer(owner)));
     }
 
     /**
@@ -51,7 +50,7 @@ public final class NextCashAPI {
      * @return {@link Optional} with the account found
      */
     public Optional<Account> findAccountByPlayer(Player player) {
-        return Optional.of(accountStorage.findAccount(player));
+        return Optional.of(NextCash.getInstance().getAccountStorage().findAccount(player));
     }
 
 }

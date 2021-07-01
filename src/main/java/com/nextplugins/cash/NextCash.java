@@ -95,10 +95,10 @@ public final class NextCash extends JavaPlugin {
         accountDAO = new AccountDAO(sqlExecutor);
         accountStorage = new AccountStorage(accountDAO);
         rankingStorage = new RankingStorage();
-
         locationManager = new LocationManager();
 
         accountStorage.init();
+
         InventoryManager.enable(this);
 
         ConfigurationRegistry.of(this).register();

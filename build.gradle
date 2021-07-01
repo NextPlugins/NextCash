@@ -62,10 +62,11 @@ bukkit {
 }
 
 shadowJar {
-    archiveName("${project.name}.jar")
+    archiveName("${project.name}-${project.version}.jar")
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.cash.libs.configinjector'
-    relocate 'com.github.benmanes.caffeine', 'com.nextplugins.economy.libs.caffeine'
-    relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command'
+    relocate 'com.github.benmanes.caffeine', 'com.nextplugins.cash.libs.caffeine'
+    relocate 'me.saiintbrisson.minecraft.command', 'com.nextplugins.cash.libs.command.common'
+    relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.cash.libs.command.bukkit'
     relocate 'org.bstats', 'com.nextplugins.cash.libs.bstats'
 }
 

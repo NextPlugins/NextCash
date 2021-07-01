@@ -3,11 +3,13 @@ package com.nextplugins.cash.storage;
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
+import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.dao.AccountDAO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import lombok.var;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -24,14 +26,16 @@ public final class AccountStorage {
     private final AccountDAO accountDAO;
 
     @Getter private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
-            .ticker(System::nanoTime)
             .maximumSize(10000)
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .removalListener((RemovalListener<String, Account>) (key, value, cause) -> saveOne(value))
             .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
 
     public void init() {
+
         accountDAO.createTable();
+        NextCash.getInstance().getTextLogger().info("DAO do plugin iniciado com sucesso.");
+
     }
 
     private void saveOne(Account account) {
@@ -70,7 +74,13 @@ public final class AccountStorage {
     @Nullable
     public Account findAccount(@NotNull OfflinePlayer offlinePlayer) {
 
-        if (offlinePlayer.isOnline()) return findAccount(offlinePlayer.getPlayer());
+        if (offlinePlayer.isOnline()) {
+
+            val player = offlinePlayer.getPlayer();
+            if (player != null) return findAccount(player);
+
+        }
+
         return findAccountByName(offlinePlayer.getName());
 
     }
