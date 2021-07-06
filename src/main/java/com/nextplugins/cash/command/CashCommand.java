@@ -412,7 +412,8 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.cheque.criar",
+            name = "cash.check.give",
+            aliases = {"criar", "create"},
             description = "Crie um cheque com um certo valor em cash.",
             permission = "nextcash.command.check.create",
             usage = "/cash cheque criar (valor) [jogador]",

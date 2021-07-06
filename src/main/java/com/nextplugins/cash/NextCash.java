@@ -18,6 +18,7 @@ import com.nextplugins.cash.stats.MetricsProvider;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.task.registry.TaskRegistry;
+import com.nextplugins.cash.util.PlayerPointsFakeDownloader;
 import com.nextplugins.cash.util.text.TextLogger;
 import lombok.Getter;
 import lombok.val;
@@ -112,6 +113,8 @@ public final class NextCash extends JavaPlugin {
         }, 3 * 20L);
 
         MetricsProvider.of(this).setup();
+
+        if (getConfig().getBoolean("plugin.use-playerpoints-fake")) PlayerPointsFakeDownloader.of(this).download();
 
         loadTime.stop();
         getLogger().log(Level.INFO, "Plugin inicializado com sucesso. ({0})", loadTime);

@@ -40,12 +40,11 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'org.bstats:bstats-bukkit:1.8'
 
+    pdm 'commons-io:commons-io:2.10.0'
+    pdm 'de.tr7zw:item-nbt-api:2.8.0'
     pdm 'com.github.NextPlugins:data-converter:experimental-0.0.1'
-
     pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'
-
-    pdm 'de.tr7zw:item-nbt-api:2.7.1'
 
     def lombok = 'org.projectlombok:lombok:1.18.16'
     compileOnly lombok
@@ -62,7 +61,7 @@ bukkit {
 }
 
 shadowJar {
-    archiveName("${project.name}-${project.version}.jar")
+    archiveName("${project.name}.jar")
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.cash.libs.configinjector'
     relocate 'com.github.benmanes.caffeine', 'com.nextplugins.cash.libs.caffeine'
     relocate 'me.saiintbrisson.minecraft.command', 'com.nextplugins.cash.libs.command.common'
