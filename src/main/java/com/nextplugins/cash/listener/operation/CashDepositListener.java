@@ -37,7 +37,7 @@ public final class CashDepositListener implements Listener {
 
         sender.sendMessage(MessageValue.get(MessageValue::addAmount)
                 .replace("$player", targetAccount.getOwner())
-                .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
+                .replace("$amount", NumberFormat.format(amount))
         );
     }
 

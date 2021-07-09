@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'com.nextplugins'
-version '1.1.0'
+version '1.1.1-SNAPSHOT'
 
 tasks.build.dependsOn('pdm', 'shadowJar')
 
@@ -53,7 +53,7 @@ dependencies {
 
 bukkit {
     main = 'com.nextplugins.cash.NextCash'
-    authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
+    authors = ['NextPlugins']
     website = 'https://github.com/NextPlugins'
     version = "${project.version}"
     softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']

@@ -37,7 +37,7 @@ public final class CashSetListener implements Listener {
 
         sender.sendMessage(MessageValue.get(MessageValue::setAmount)
                 .replace("$player", targetAccount.getOwner())
-                .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
+                .replace("$amount", NumberFormat.format(amount))
         );
     }
 
