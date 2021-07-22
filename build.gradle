@@ -1,16 +1,15 @@
 plugins {
     id 'java'
 
-    id 'me.bristermitten.pdm' version '0.0.30'
     id 'com.github.johnrengelman.shadow' version '5.0.0'
 
     id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
 }
 
 group 'com.nextplugins'
-version '1.1.1-SNAPSHOT'
+version '1.1.2'
 
-tasks.build.dependsOn('pdm', 'shadowJar')
+tasks.build.dependsOn('shadowJar')
 
 repositories {
     mavenCentral()
@@ -40,11 +39,11 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'org.bstats:bstats-bukkit:1.8'
 
-    pdm 'commons-io:commons-io:2.10.0'
-    pdm 'de.tr7zw:item-nbt-api:2.8.0'
-    pdm 'com.github.NextPlugins:data-converter:experimental-0.0.1'
-    pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
-    pdm 'com.github.HenryFabio:inventory-api:2.0.3'
+    implementation 'commons-io:commons-io:2.10.0'
+    implementation 'de.tr7zw:item-nbt-api:2.8.0'
+    implementation 'com.github.NextPlugins:data-converter:experimental-0.0.1'
+    implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
+    implementation 'com.github.HenryFabio:inventory-api:2.0.3'
 
     def lombok = 'org.projectlombok:lombok:1.18.16'
     compileOnly lombok

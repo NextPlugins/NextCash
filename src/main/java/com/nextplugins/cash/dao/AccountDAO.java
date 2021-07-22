@@ -49,24 +49,13 @@ public final class AccountDAO {
         );
     }
 
-    public void insertOne(Account account) {
+    public void saveOne(Account account) {
         sqlExecutor.updateQuery(
-                "INSERT INTO " + TABLE + " VALUES(?,?,?);",
+                "REPLACE INTO " + TABLE + " VALUES(?,?,?)",
                 statement -> {
                     statement.set(1, account.getOwner());
                     statement.set(2, account.getBalance());
                     statement.set(3, account.isReceiveCash() ? 1 : 0);
-                }
-        );
-    }
-
-    public void saveOne(Account account) {
-        sqlExecutor.updateQuery(
-                "UPDATE " + TABLE + " SET balance = ?, receive_cash = ? WHERE owner = ?",
-                statement -> {
-                    statement.set(1, account.getBalance());
-                    statement.set(2, account.isReceiveCash() ? 1 : 0);
-                    statement.set(3, account.getOwner());
                 }
         );
     }
