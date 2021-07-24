@@ -5,6 +5,7 @@ import com.google.common.base.Stopwatch;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.nextplugins.cash.api.metric.MetricProvider;
 import com.nextplugins.cash.command.registry.CommandRegistry;
 import com.nextplugins.cash.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.cash.dao.AccountDAO;
@@ -14,7 +15,6 @@ import com.nextplugins.cash.ranking.NPCRankingRegistry;
 import com.nextplugins.cash.ranking.manager.LocationManager;
 import com.nextplugins.cash.ranking.runnable.NPCRunnable;
 import com.nextplugins.cash.sql.SQLProvider;
-import com.nextplugins.cash.stats.MetricsProvider;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.task.registry.TaskRegistry;
@@ -22,7 +22,6 @@ import com.nextplugins.cash.util.PlayerPointsFakeDownloader;
 import com.nextplugins.cash.util.text.TextLogger;
 import lombok.Getter;
 import lombok.val;
-import me.bristermitten.pdm.PluginDependencyManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -46,8 +45,6 @@ public final class NextCash extends JavaPlugin {
 
     private final TextLogger textLogger = new TextLogger();
 
-    private final PluginDependencyManager dependencyManager = PluginDependencyManager.of(this);
-
     private final boolean debug = getConfig().getBoolean("plugin.debug");
 
     private File npcFile;
@@ -65,27 +62,6 @@ public final class NextCash extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getLogger().info("Baixando e carregando dependências necessárias...");
-
-        val downloadTime = Stopwatch.createStarted();
-
-        PluginDependencyManager.of(this)
-                .loadAllDependencies()
-                .exceptionally(throwable -> {
-
-                    throwable.printStackTrace();
-
-                    getLogger().severe("Ocorreu um erro durante a inicialização do plugin!");
-                    Bukkit.getPluginManager().disablePlugin(this);
-
-                    return null;
-
-                })
-                .join();
-
-        downloadTime.stop();
-
-        getLogger().log(Level.INFO, "Dependências carregadas com sucesso! ({0})", downloadTime);
         getLogger().info("Iniciando carregamento do plugin.");
 
         val loadTime = Stopwatch.createStarted();
@@ -106,13 +82,13 @@ public final class NextCash extends JavaPlugin {
         ListenerRegistry.of(this).register();
         CommandRegistry.of(this).register();
         TaskRegistry.of(this).register();
+        MetricProvider.of(this).register();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
             PlaceholderRegistry.register();
             NPCRankingRegistry.of(this).register();
         }, 3 * 20L);
 
-        MetricsProvider.of(this).setup();
 
         if (getConfig().getBoolean("plugin.use-playerpoints-fake")) PlayerPointsFakeDownloader.of(this).download();
 

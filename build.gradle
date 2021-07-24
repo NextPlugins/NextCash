@@ -1,7 +1,6 @@
 plugins {
     id 'java'
 
-    id 'me.bristermitten.pdm' version '0.0.30'
     id 'com.github.johnrengelman.shadow' version '5.0.0'
 
     id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
@@ -38,7 +37,6 @@ dependencies {
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
-    implementation 'org.bstats:bstats-bukkit:1.8'
 
     implementation 'commons-io:commons-io:2.10.0'
     implementation 'de.tr7zw:item-nbt-api:2.8.0'
@@ -61,12 +59,26 @@ bukkit {
 }
 
 shadowJar {
-    archiveName("${project.name}.jar")
+    archiveName("${project.name}-${project.version}.jar")
+
+    relocate 'com.nextplugins.libs.data.converter', 'com.nextplugins.cash.libs.dataconverter'
+
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.cash.libs.configinjector'
+    relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.cash.libs.inventoryapi'
+
+    relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.cash.libs.sqlprovider'
+    relocate 'com.zaxxer.hikari', 'com.nextplugins.cash.libs.hikari'
+
     relocate 'com.github.benmanes.caffeine', 'com.nextplugins.cash.libs.caffeine'
+
     relocate 'me.saiintbrisson.minecraft.command', 'com.nextplugins.cash.libs.command.common'
     relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.cash.libs.command.bukkit'
-    relocate 'org.bstats', 'com.nextplugins.cash.libs.bstats'
+
+    relocate 'de.tr7zw.changeme.nbtapi', 'com.nextplugins.cash.libs.nbtapi'
+    relocate 'de.tr7zw.annotations', 'com.nextplugins.cash.libs.annotations'
+
+    relocate 'com.google.errorprone.annotations', 'com.nextplugins.cash.libs.annotations'
+
 }
 
 compileJava {
