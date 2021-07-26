@@ -33,11 +33,11 @@ Placeholder: "{placeholderapi_nextcash_amount}"
 O NextCash necessita do [Citizens](https://dev.bukkit.org/projects/citizens) para o sistema de NPCs, [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) para suporte a placeholders, [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) para hologramas (utilizado no sistema de ranking por NPC). As dependências de desenvolvimento serão baixadas automaticamente quando o plugin for habilitado pela primeira vez.
 
 ### Tecnologias usadas
-- [PDM](https://github.com/knightzmc/pdm) - Faz o download de dependências de desenvolvimento durante o carregamento do servidor.
-- [Lombok](https://projectlombok.org/) - Gera “getters”, “setters” e outros métodos uteis durante a compilação através de anotações.
+-  [PDM](https://github.com/knightzmc/pdm) - Faz o download de dependências de desenvolvimento durante o carregamento do servidor.
+-  [Lombok](https://projectlombok.org/) - Gera “getters”, “setters” e outros métodos uteis durante a compilação através de anotações.
 
 **APIs e Frameworks**
 
-- [command-framework](https://github.com/SaiintBrisson/command-framework) - Framework para criação e gerenciamento de comandos.
-- [inventory-api](https://github.com/HenryFabio/inventory-api) - API para criação e o gerenciamento de inventários customizados.
-- [sql-provider](https://github.com/henryfabio/sql-provider) - Provê a conexão com o banco de dados.
+-  [command-framework](https://github.com/SaiintBrisson/command-framework) - Framework para criação e gerenciamento de comandos.
+-  [inventory-api](https://github.com/HenryFabio/inventory-api) - API para criação e o gerenciamento de inventários customizados.
+-  [sql-provider](https://github.com/henryfabio/sql-provider) - Provê a conexão com o banco de dados.
