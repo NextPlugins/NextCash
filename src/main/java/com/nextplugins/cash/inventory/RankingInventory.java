@@ -11,7 +11,7 @@ import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.util.ItemBuilder;
-import com.nextplugins.cash.util.text.NumberFormat;
+import com.nextplugins.cash.util.text.NumberUtil;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,7 +47,7 @@ public final class RankingInventory extends PagedInventory {
 
         rankingStorage.getRankingAccounts().forEach((owner, balance) -> {
             String replacedDisplayName = headDisplayName.replace("$player", owner)
-                    .replace("$amount", NumberFormat.format(balance))
+                    .replace("$amount", NumberUtil.format(balance))
                     .replace("$position", String.valueOf(position.getAndIncrement()));
 
             List<String> replacedLore = Lists.newArrayList();
@@ -55,7 +55,7 @@ public final class RankingInventory extends PagedInventory {
             for (String lore : headLore) {
                 replacedLore.add(
                         lore.replace("$player", owner)
-                                .replace("$amount", NumberFormat.format(balance))
+                                .replace("$amount", NumberUtil.format(balance))
                                 .replace("$position", String.valueOf(position.getAndIncrement()))
                 );
             }

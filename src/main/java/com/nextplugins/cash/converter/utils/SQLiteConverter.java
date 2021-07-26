@@ -6,7 +6,6 @@ import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.converter.PluginConverter;
 import com.nextplugins.libs.data.converter.Converter;
 import lombok.AllArgsConstructor;
-import org.bukkit.Bukkit;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

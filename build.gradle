@@ -56,7 +56,7 @@ bukkit {
     version = "${project.version}"
     softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
     loadBefore = ['NextUpdater']
-    apiVersion = '1.17'
+    apiVersion = '1.13'
 }
 
 shadowJar {

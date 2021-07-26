@@ -1,7 +1,6 @@
 package com.nextplugins.cash.task.registry;
 
 import com.nextplugins.cash.NextCash;
-import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.task.AccountRankingTask;
 import lombok.Data;

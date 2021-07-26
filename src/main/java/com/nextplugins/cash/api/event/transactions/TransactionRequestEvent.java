@@ -1,8 +1,6 @@
 package com.nextplugins.cash.api.event.transactions;
 
 import com.nextplugins.cash.api.event.CustomEvent;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.OfflinePlayer;

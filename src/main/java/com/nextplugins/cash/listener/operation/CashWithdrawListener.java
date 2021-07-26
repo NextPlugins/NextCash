@@ -3,7 +3,7 @@ package com.nextplugins.cash.listener.operation;
 import com.nextplugins.cash.api.event.operations.CashWithdrawEvent;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.storage.AccountStorage;
-import com.nextplugins.cash.util.text.NumberFormat;
+import com.nextplugins.cash.util.text.NumberUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.event.EventHandler;
@@ -37,7 +37,7 @@ public final class CashWithdrawListener implements Listener {
 
         sender.sendMessage(MessageValue.get(MessageValue::removeAmount)
                 .replace("$player", targetAccount.getOwner())
-                .replace("$amount", NumberFormat.format(amount))
+                .replace("$amount", NumberUtil.format(amount))
         );
     }
 

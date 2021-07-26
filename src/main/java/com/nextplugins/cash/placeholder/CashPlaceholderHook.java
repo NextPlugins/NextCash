@@ -2,7 +2,7 @@ package com.nextplugins.cash.placeholder;
 
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.NextCashAPI;
-import com.nextplugins.cash.util.text.NumberFormat;
+import com.nextplugins.cash.util.text.NumberUtil;
 import lombok.val;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -39,7 +39,7 @@ public final class CashPlaceholderHook extends PlaceholderExpansion {
             val account = NextCashAPI.getInstance().findAccountByPlayer(player).orElse(null);
             val amount = account != null ? account.getBalance() : 0.0;
 
-            return NumberFormat.format(amount);
+            return NumberUtil.format(amount);
 
         }
 

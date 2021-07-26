@@ -8,12 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Converters {
+public final class ConvertersHelper {
 
-    @Getter private static final Map<String, PluginConverter> converters = new HashMap<>();
+    @Getter private static final Map<String, PluginConverter> CACHE = new HashMap<>();
 
     public static PluginConverter of(String key) {
-        return converters.getOrDefault(key, null);
+        return CACHE.getOrDefault(key, null);
     }
 
 }

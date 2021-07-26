@@ -7,7 +7,7 @@ import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.ranking.manager.LocationManager;
 import com.nextplugins.cash.storage.RankingStorage;
-import com.nextplugins.cash.util.text.NumberFormat;
+import com.nextplugins.cash.util.text.NumberUtil;
 import lombok.RequiredArgsConstructor;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -22,12 +22,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public final class NPCRunnable implements Runnable {
 
-    public static List<NPC> NPC;
-    public static List<Hologram> HOLOGRAM;
+    public static List<NPC> npcList;
+    public static List<Hologram> hologramList;
 
     static {
-        NPC = Lists.newLinkedList();
-        HOLOGRAM = Lists.newLinkedList();
+        npcList = Lists.newLinkedList();
+        hologramList = Lists.newLinkedList();
     }
 
     private final NextCash plugin;
@@ -40,11 +40,11 @@ public final class NPCRunnable implements Runnable {
 
         if (rankingAccounts.size() <= 0) return;
 
-        for (NPC npc : NPC) {
+        for (NPC npc : npcList) {
             npc.destroy();
         }
 
-        for (Hologram hologram : HOLOGRAM) {
+        for (Hologram hologram : hologramList) {
             hologram.delete();
         }
 
@@ -69,12 +69,12 @@ public final class NPCRunnable implements Runnable {
 
                     replacedLine = replacedLine.replace("$position", String.valueOf(position.get()));
                     replacedLine = replacedLine.replace("$player", owner);
-                    replacedLine = replacedLine.replace("$amount", NumberFormat.format(balance));
+                    replacedLine = replacedLine.replace("$amount", NumberUtil.format(balance));
 
                     hologram.insertTextLine(i, replacedLine);
                 }
 
-                HOLOGRAM.add(hologram);
+                hologramList.add(hologram);
             }
 
             NPC npc = npcRegistry.createNPC(EntityType.PLAYER, "");
@@ -82,7 +82,7 @@ public final class NPCRunnable implements Runnable {
             npc.setProtected(true);
             npc.spawn(location);
 
-            NPC.add(npc);
+            npcList.add(npc);
             position.getAndIncrement();
 
         });

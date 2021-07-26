@@ -2,11 +2,10 @@ package com.nextplugins.cash.listener.check;
 
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.storage.AccountStorage;
-import com.nextplugins.cash.util.text.NumberFormat;
+import com.nextplugins.cash.util.text.NumberUtil;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import lombok.var;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,7 +30,7 @@ public final class CheckInteractListener implements Listener {
 
         player.setItemInHand(null);
 
-        var value = nbtItem.getDouble(checkField) * item.getAmount();
+        double value = nbtItem.getDouble(checkField) * item.getAmount();
 
         if (player.isSneaking()) {
             val contents = player.getInventory().getContents();
@@ -56,8 +55,8 @@ public final class CheckInteractListener implements Listener {
 
         player.sendMessage(
                 MessageValue.get(MessageValue::checkUsed)
-                        .replace("$checkAmount", NumberFormat.format(item.getAmount()))
-                        .replace("$checkTotalValue", NumberFormat.format(value))
+                        .replace("$checkAmount", NumberUtil.format(item.getAmount()))
+                        .replace("$checkTotalValue", NumberUtil.format(value))
         );
     }
 

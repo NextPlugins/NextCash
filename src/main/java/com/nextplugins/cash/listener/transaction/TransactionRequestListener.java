@@ -4,7 +4,7 @@ import com.nextplugins.cash.api.event.transactions.TransactionCompletedEvent;
 import com.nextplugins.cash.api.event.transactions.TransactionRequestEvent;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.storage.AccountStorage;
-import com.nextplugins.cash.util.text.NumberFormat;
+import com.nextplugins.cash.util.text.NumberUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -52,12 +52,12 @@ public final class TransactionRequestListener implements Listener {
 
             player.sendMessage(
                     MessageValue.get(MessageValue::paid).replace("$player", target.getName())
-                            .replace("$amount", NumberFormat.format(amount))
+                            .replace("$amount", NumberUtil.format(amount))
             );
 
             if (target.isOnline()) target.getPlayer().sendMessage(
                     MessageValue.get(MessageValue::received).replace("$player", player.getName())
-                            .replace("$amount", NumberFormat.format(amount))
+                            .replace("$amount", NumberUtil.format(amount))
             );
 
             Bukkit.getPluginManager().callEvent(new TransactionCompletedEvent(player, target, amount));

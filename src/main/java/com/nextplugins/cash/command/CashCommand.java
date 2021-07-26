@@ -9,13 +9,13 @@ import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.inventory.RankingInventory;
-import com.nextplugins.cash.manager.CheckManager;
+import com.nextplugins.cash.util.CheckUtils;
 import com.nextplugins.cash.ranking.manager.LocationManager;
 import com.nextplugins.cash.ranking.util.LocationUtil;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.util.text.ColorUtil;
-import com.nextplugins.cash.util.text.NumberFormat;
+import com.nextplugins.cash.util.text.NumberUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
@@ -62,7 +62,7 @@ public final class CashCommand {
             double balance = accountStorage.findAccount(player).getBalance();
 
             player.sendMessage(MessageValue.get(MessageValue::seeBalance)
-                    .replace("$amount", NumberFormat.format(balance))
+                    .replace("$amount", NumberUtil.format(balance))
             );
         } else {
 
@@ -72,7 +72,7 @@ public final class CashCommand {
                 val balance = accountStorage.findAccount(player).getBalance();
 
                 player.sendMessage(MessageValue.get(MessageValue::seeBalance)
-                        .replace("$amount", NumberFormat.format(balance))
+                        .replace("$amount", NumberUtil.format(balance))
                 );
                 return;
 
@@ -82,7 +82,7 @@ public final class CashCommand {
 
             player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
                     .replace("$player", target.getName())
-                    .replace("$amount", NumberFormat.format(targetBalance))
+                    .replace("$amount", NumberUtil.format(targetBalance))
             );
         }
 
@@ -286,7 +286,7 @@ public final class CashCommand {
                 player.sendMessage(
                         body.replace("$position", String.valueOf(position.getAndIncrement()))
                                 .replace("$player", accountEntry.getKey())
-                                .replace("$amount", NumberFormat.format(accountEntry.getValue()))
+                                .replace("$amount", NumberUtil.format(accountEntry.getValue()))
                 );
             }
 
@@ -427,7 +427,7 @@ public final class CashCommand {
         if (amount < minValue) {
             player.sendMessage(
                     MessageValue.get(MessageValue::checkMinimumValue)
-                            .replace("$amount", NumberFormat.format(minValue))
+                            .replace("$amount", NumberUtil.format(minValue))
             );
             return;
         }
@@ -442,15 +442,15 @@ public final class CashCommand {
 
         player.sendMessage(
                 MessageValue.get(MessageValue::checkCreated)
-                        .replace("$checkValue", NumberFormat.format(amount))
+                        .replace("$checkValue", NumberUtil.format(amount))
         );
 
-        val checkItem = CheckManager.createCheck(amount);
+        val checkItem = CheckUtils.createCheck(amount);
         if (target != null) {
 
             target.sendMessage(
                     MessageValue.get(MessageValue::checkReceived)
-                            .replace("$checkValue", NumberFormat.format(amount))
+                            .replace("$checkValue", NumberUtil.format(amount))
                             .replace("$sender", player.getName())
             );
 

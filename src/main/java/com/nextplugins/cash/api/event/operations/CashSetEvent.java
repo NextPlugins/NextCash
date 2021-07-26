@@ -1,13 +1,10 @@
 package com.nextplugins.cash.api.event.operations;
 
 import com.nextplugins.cash.api.event.CustomEvent;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 
 @Getter

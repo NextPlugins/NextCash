@@ -3,7 +3,6 @@ package com.nextplugins.cash.dao.adapter;
 import com.henryfabio.sqlprovider.executor.adapter.SQLResultAdapter;
 import com.henryfabio.sqlprovider.executor.result.SimpleResultSet;
 import com.nextplugins.cash.api.model.account.Account;
-import org.bukkit.Bukkit;
 
 public final class AccountAdapter implements SQLResultAdapter<Account> {
 

@@ -24,7 +24,6 @@ import lombok.Getter;
 import lombok.val;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -86,7 +85,7 @@ public final class NextCash extends JavaPlugin {
         MetricProvider.of(this).register();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
-            PlaceholderRegistry.register();
+            PlaceholderRegistry.of(this).register();
             NPCRankingRegistry.of(this).register();
         }, 3 * 20L);
 
@@ -104,10 +103,10 @@ public final class NextCash extends JavaPlugin {
 
         textLogger.info("Descarregando módulos do plugin... (0/2)");
 
-        for (NPC npc : NPCRunnable.NPC) {
+        for (NPC npc : NPCRunnable.npcList) {
             npc.destroy();
         }
-        for (Hologram hologram : NPCRunnable.HOLOGRAM) {
+        for (Hologram hologram : NPCRunnable.hologramList) {
             hologram.delete();
         }
 

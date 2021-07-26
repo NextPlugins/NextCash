@@ -8,7 +8,7 @@ public abstract class CustomEvent extends Event {
 
     @Getter private static final HandlerList handlerList = new HandlerList();
 
-    public CustomEvent(boolean isAsync) {
+    protected CustomEvent(boolean isAsync) {
         super(isAsync);
     }
 

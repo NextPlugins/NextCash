@@ -2,8 +2,6 @@ package com.nextplugins.cash.api.event.operations;
 
 import com.nextplugins.cash.api.event.CustomEvent;
 import com.nextplugins.cash.api.model.account.Account;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.Instant;
