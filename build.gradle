@@ -28,13 +28,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
     compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
 
-    implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
+    implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
 
@@ -56,6 +56,7 @@ bukkit {
     version = "${project.version}"
     softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
     loadBefore = ['NextUpdater']
+    apiVersion = '1.17'
 }
 
 shadowJar {
