@@ -49,42 +49,36 @@ public final class CashCommand {
             async = true
     )
     public void cashCommand(Context<CommandSender> context, @Optional OfflinePlayer target) {
-        CommandSender sender = context.getSender();
-
-        if (!(context.getSender() instanceof Player)) {
-            sender.sendMessage(MessageValue.get(MessageValue::incorrectTarget));
-            return;
-        }
-
-        Player player = (Player) sender;
+        val sender = context.getSender();
 
         if (target == null) {
-            double balance = accountStorage.findAccount(player).getBalance();
 
-            player.sendMessage(MessageValue.get(MessageValue::seeBalance)
+            if (!(context.getSender() instanceof Player)) {
+                sender.sendMessage(MessageValue.get(MessageValue::incorrectTarget));
+                return;
+            }
+
+            val balance = accountStorage.findAccount(((Player) sender)).getBalance();
+
+            sender.sendMessage(MessageValue.get(MessageValue::seeBalance)
                     .replace("$amount", NumberUtil.format(balance))
             );
-        } else {
+        } else if (target.hasPlayedBefore()) {
 
             val account = accountStorage.findAccount(target);
-            if (account == null) {
+            if (account != null) {
 
-                val balance = accountStorage.findAccount(player).getBalance();
-
-                player.sendMessage(MessageValue.get(MessageValue::seeBalance)
-                        .replace("$amount", NumberUtil.format(balance))
+                val targetBalance = account.getBalance();
+                sender.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
+                        .replace("$player", target.getName())
+                        .replace("$amount", NumberUtil.format(targetBalance))
                 );
-                return;
 
             }
 
-            val targetBalance = account.getBalance();
-
-            player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
-                    .replace("$player", target.getName())
-                    .replace("$amount", NumberUtil.format(targetBalance))
-            );
         }
+
+        sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
 
     }
 
@@ -106,7 +100,7 @@ public final class CashCommand {
                 return;
             }
 
-            TransactionRequestEvent requestEvent = new TransactionRequestEvent(player, target, amount);
+            val requestEvent = new TransactionRequestEvent(player, target, amount);
             Bukkit.getPluginManager().callEvent(requestEvent);
 
         } else {
@@ -146,14 +140,14 @@ public final class CashCommand {
             async = true
     )
     public void cashHelpCommand(Context<CommandSender> context) {
-        CommandSender sender = context.getSender();
+        val sender = context.getSender();
 
         if (sender.hasPermission("nextcash.command.help.staff")) {
-            for (String message : MessageValue.get(MessageValue::helpCommandStaff)) {
+            for (val message : MessageValue.get(MessageValue::helpCommandStaff)) {
                 sender.sendMessage(ColorUtil.colored(message));
             }
         } else {
-            for (String message : MessageValue.get(MessageValue::helpCommand)) {
+            for (val message : MessageValue.get(MessageValue::helpCommand)) {
                 sender.sendMessage(ColorUtil.colored(message));
             }
         }
@@ -168,7 +162,7 @@ public final class CashCommand {
             async = true
     )
     public void cashSetCommand(Context<CommandSender> context, Player target, double amount) {
-        CommandSender sender = context.getSender();
+        val sender = context.getSender();
 
         if (target != null) {
             CashSetEvent cashSetEvent = new CashSetEvent(sender, target, amount);
@@ -188,7 +182,7 @@ public final class CashCommand {
             async = true
     )
     public void cashAddCommand(Context<CommandSender> context, OfflinePlayer target, double amount) {
-        CommandSender sender = context.getSender();
+        val sender = context.getSender();
 
         if (target != null) {
             CashDepositEvent cashDepositEvent = new CashDepositEvent(sender, target, amount);
@@ -208,10 +202,10 @@ public final class CashCommand {
             async = true
     )
     public void cashRemoveCommand(Context<CommandSender> context, Player target, double amount) {
-        CommandSender sender = context.getSender();
+        val sender = context.getSender();
 
         if (target != null) {
-            CashWithdrawEvent cashWithdrawEvent = new CashWithdrawEvent(sender, target, amount);
+            val cashWithdrawEvent = new CashWithdrawEvent(sender, target, amount);
             Bukkit.getPluginManager().callEvent(cashWithdrawEvent);
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -228,7 +222,7 @@ public final class CashCommand {
             async = true
     )
     public void cashResetCommand(Context<CommandSender> context, OfflinePlayer target) {
-        CommandSender sender = context.getSender();
+        val sender = context.getSender();
 
         if (target != null) {
 
@@ -259,30 +253,28 @@ public final class CashCommand {
             async = true
     )
     public void cashTopCommand(Context<CommandSender> context) {
-        CommandSender sender = context.getSender();
+        val sender = context.getSender();
 
         if (!(context.getSender() instanceof Player)) {
             sender.sendMessage(MessageValue.get(MessageValue::incorrectTarget));
             return;
         }
 
-        Player player = (Player) sender;
-
-        String rankingType = RankingConfiguration.get(RankingConfiguration::rankingType);
-
-        LinkedHashMap<String, Double> rankingAccounts = rankingStorage.getRankingAccounts();
+        val player = (Player) sender;
+        val rankingType = RankingConfiguration.get(RankingConfiguration::rankingType);
+        val rankingAccounts = rankingStorage.getRankingAccounts();
 
         if (rankingType.equalsIgnoreCase("CHAT")) {
-            List<String> header = RankingConfiguration.get(RankingConfiguration::chatModelHeader);
-            String body = RankingConfiguration.get(RankingConfiguration::chatModelBody);
-            List<String> footer = RankingConfiguration.get(RankingConfiguration::chatModelFooter);
+            val header = RankingConfiguration.get(RankingConfiguration::chatModelHeader);
+            val body = RankingConfiguration.get(RankingConfiguration::chatModelBody);
+            val footer = RankingConfiguration.get(RankingConfiguration::chatModelFooter);
 
-            for (String message : header) {
+            for (val message : header) {
                 player.sendMessage(message);
             }
 
-            AtomicInteger position = new AtomicInteger(1);
-            for (Map.Entry<String, Double> accountEntry : rankingAccounts.entrySet()) {
+            val position = new AtomicInteger(1);
+            for (val accountEntry : rankingAccounts.entrySet()) {
                 player.sendMessage(
                         body.replace("$position", String.valueOf(position.getAndIncrement()))
                                 .replace("$player", accountEntry.getKey())
@@ -290,12 +282,18 @@ public final class CashCommand {
                 );
             }
 
-            for (String message : footer) {
+            for (val message : footer) {
                 player.sendMessage(message);
             }
         } else if (rankingType.equalsIgnoreCase("INVENTORY")) {
-            RankingInventory rankingInventory = new RankingInventory().init();
-            rankingInventory.openInventory(player);
+            try {
+                val rankingInventory = new RankingInventory().init();
+                rankingInventory.openInventory(player);
+            } catch (NoSuchFieldError exception) {
+                player.sendMessage(ColorUtil.colored("&cNenhum jogador está no ranking"));
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         } else {
             throw new IllegalArgumentException("Tipo de ranking inválido: + " + rankingType + ". (ranking.yml)");
         }
