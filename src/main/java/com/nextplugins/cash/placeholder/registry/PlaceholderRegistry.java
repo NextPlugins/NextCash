@@ -12,12 +12,14 @@ public class PlaceholderRegistry {
 
     public void register() {
         if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            plugin.getLogger().warning("PlaceholderAPI não foi encontrado no servidor! " +
-                    "Portanto, o ranking em NPC não será utilizado.");
+            plugin.getLogger().warning(
+                "Dependência não encontrada (PlaceholderAPI). A placeholder não poderá ser usada."
+            );
             return;
         }
 
-        new CashPlaceholderHook().register();
+        new CashPlaceholderHook(plugin).register();
+        plugin.getLogger().info("Placeholder registrada com sucesso!");
     }
 
 }

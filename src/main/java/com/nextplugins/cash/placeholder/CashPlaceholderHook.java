@@ -1,25 +1,22 @@
 package com.nextplugins.cash.placeholder;
 
-import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.NextCashAPI;
 import com.nextplugins.cash.util.text.NumberUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class CashPlaceholderHook extends PlaceholderExpansion {
 
-    private final NextCash plugin = NextCash.getInstance();
-
-    @Override
-    public @NotNull String getName() {
-        return plugin.getName();
-    }
+    private final JavaPlugin plugin;
 
     @Override
     public @NotNull String getIdentifier() {
-        return "nextcash";
+        return plugin.getName();
     }
 
     @Override
@@ -34,16 +31,15 @@ public final class CashPlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
-        if (player != null && params.equalsIgnoreCase("amount")) {
-
+        if (params.equalsIgnoreCase("amount")) {
             val account = NextCashAPI.getInstance().findAccountByPlayer(player).orElse(null);
-            val amount = account != null ? account.getBalance() : 0.0;
 
-            return NumberUtil.format(amount);
+            if (account == null) return "";
 
+            return NumberUtil.format(account.getBalance());
         }
 
-        return "";
+        return "Placeholder inválida";
     }
 
 }

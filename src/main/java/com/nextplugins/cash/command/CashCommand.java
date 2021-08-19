@@ -9,11 +9,11 @@ import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.inventory.RankingInventory;
-import com.nextplugins.cash.util.CheckUtils;
 import com.nextplugins.cash.ranking.manager.LocationManager;
 import com.nextplugins.cash.ranking.util.LocationUtil;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
+import com.nextplugins.cash.util.CheckUtils;
 import com.nextplugins.cash.util.text.ColorUtil;
 import com.nextplugins.cash.util.text.NumberUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -43,10 +42,10 @@ public final class CashCommand {
     private final LocationManager locationManager;
 
     @Command(
-            name = "cash",
-            usage = "/cash <jogador>",
-            description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
-            async = true
+        name = "cash",
+        usage = "/cash <jogador>",
+        description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
+        async = true
     )
     public void cashCommand(Context<CommandSender> context, @Optional OfflinePlayer target) {
         val sender = context.getSender();
@@ -61,7 +60,7 @@ public final class CashCommand {
             val balance = accountStorage.findAccount(((Player) sender)).getBalance();
 
             sender.sendMessage(MessageValue.get(MessageValue::seeBalance)
-                    .replace("$amount", NumberUtil.format(balance))
+                .replace("$amount", NumberUtil.format(balance))
             );
         } else if (target.hasPlayedBefore()) {
 
@@ -70,9 +69,10 @@ public final class CashCommand {
 
                 val targetBalance = account.getBalance();
                 sender.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
-                        .replace("$player", target.getName())
-                        .replace("$amount", NumberUtil.format(targetBalance))
+                    .replace("$player", target.getName())
+                    .replace("$amount", NumberUtil.format(targetBalance))
                 );
+                return;
 
             }
 
@@ -83,13 +83,13 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.pay",
-            aliases = {"enviar"},
-            usage = "/cash enviar {jogador} {quantia}",
-            description = "Utilize para enviar uma quantia da sua conta para outra.",
-            permission = "nextcash.command.pay",
-            target = CommandTarget.PLAYER,
-            async = true
+        name = "cash.pay",
+        aliases = {"enviar"},
+        usage = "/cash enviar {jogador} {quantia}",
+        description = "Utilize para enviar uma quantia da sua conta para outra.",
+        permission = "nextcash.command.pay",
+        target = CommandTarget.PLAYER,
+        async = true
     )
     public void cashPayCommand(Context<Player> context, OfflinePlayer target, double amount) {
         val player = context.getSender();
@@ -110,13 +110,13 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.toggle",
-            aliases = {"recebimento"},
-            usage = "/cash enviar {jogador} {quantia}",
-            description = "Utilize para enviar uma quantia da sua conta para outra.",
-            permission = "nextcash.command.pay",
-            target = CommandTarget.PLAYER,
-            async = true
+        name = "cash.toggle",
+        aliases = {"recebimento"},
+        usage = "/cash enviar {jogador} {quantia}",
+        description = "Utilize para enviar uma quantia da sua conta para outra.",
+        permission = "nextcash.command.pay",
+        target = CommandTarget.PLAYER,
+        async = true
     )
     public void cashToggleCommand(Context<Player> context) {
 
@@ -133,11 +133,11 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.help",
-            aliases = {"ajuda", "comandos"},
-            description = "Utilize para receber ajuda com os comandos do plugin.",
-            permission = "nextcash.command.help",
-            async = true
+        name = "cash.help",
+        aliases = {"ajuda", "comandos"},
+        description = "Utilize para receber ajuda com os comandos do plugin.",
+        permission = "nextcash.command.help",
+        async = true
     )
     public void cashHelpCommand(Context<CommandSender> context) {
         val sender = context.getSender();
@@ -154,12 +154,12 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.set",
-            aliases = {"alterar"},
-            usage = "/cash set {jogador} {quantia}",
-            description = "Utilize para alterar a quantia de cash de alguém.",
-            permission = "nextcash.command.set",
-            async = true
+        name = "cash.set",
+        aliases = {"alterar"},
+        usage = "/cash set {jogador} {quantia}",
+        description = "Utilize para alterar a quantia de cash de alguém.",
+        permission = "nextcash.command.set",
+        async = true
     )
     public void cashSetCommand(Context<CommandSender> context, Player target, double amount) {
         val sender = context.getSender();
@@ -174,12 +174,12 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.add",
-            aliases = {"adicionar", "deposit", "depositar"},
-            usage = "/cash adicionar {jogador} {quantia} ",
-            description = "Utilize para adicionar uma quantia de cash para alguém.",
-            permission = "nextcash.command.add",
-            async = true
+        name = "cash.add",
+        aliases = {"adicionar", "deposit", "depositar"},
+        usage = "/cash adicionar {jogador} {quantia} ",
+        description = "Utilize para adicionar uma quantia de cash para alguém.",
+        permission = "nextcash.command.add",
+        async = true
     )
     public void cashAddCommand(Context<CommandSender> context, OfflinePlayer target, double amount) {
         val sender = context.getSender();
@@ -194,12 +194,12 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.remove",
-            aliases = {"remover", "withdraw", "retirar"},
-            usage = "/cash remover {jogador} {quantia}",
-            description = "Utilize para remover uma quantia de cash de alguém.",
-            permission = "nextcash.command.add",
-            async = true
+        name = "cash.remove",
+        aliases = {"remover", "withdraw", "retirar"},
+        usage = "/cash remover {jogador} {quantia}",
+        description = "Utilize para remover uma quantia de cash de alguém.",
+        permission = "nextcash.command.add",
+        async = true
     )
     public void cashRemoveCommand(Context<CommandSender> context, Player target, double amount) {
         val sender = context.getSender();
@@ -214,12 +214,12 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.reset",
-            aliases = {"zerar"},
-            usage = "/cash zerar {jogador}",
-            description = "Utilize para zerar a quantia de cash de alguém.",
-            permission = "nextcash.command.reset",
-            async = true
+        name = "cash.reset",
+        aliases = {"zerar"},
+        usage = "/cash zerar {jogador}",
+        description = "Utilize para zerar a quantia de cash de alguém.",
+        permission = "nextcash.command.reset",
+        async = true
     )
     public void cashResetCommand(Context<CommandSender> context, OfflinePlayer target) {
         val sender = context.getSender();
@@ -237,7 +237,7 @@ public final class CashCommand {
             targetAccount.setBalance(0);
 
             sender.sendMessage(MessageValue.get(MessageValue::resetBalance)
-                    .replace("$player", targetAccount.getOwner())
+                .replace("$player", targetAccount.getOwner())
             );
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -246,11 +246,11 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.top",
-            aliases = {"ranking", "podio"},
-            description = "Utilize para ver os jogadores com mais cash do servidor.",
-            permission = "nextcash.command.top",
-            async = true
+        name = "cash.top",
+        aliases = {"ranking", "podio"},
+        description = "Utilize para ver os jogadores com mais cash do servidor.",
+        permission = "nextcash.command.top",
+        async = true
     )
     public void cashTopCommand(Context<CommandSender> context) {
         val sender = context.getSender();
@@ -276,9 +276,9 @@ public final class CashCommand {
             val position = new AtomicInteger(1);
             for (val accountEntry : rankingAccounts.entrySet()) {
                 player.sendMessage(
-                        body.replace("$position", String.valueOf(position.getAndIncrement()))
-                                .replace("$player", accountEntry.getKey())
-                                .replace("$amount", NumberUtil.format(accountEntry.getValue()))
+                    body.replace("$position", String.valueOf(position.getAndIncrement()))
+                        .replace("$player", accountEntry.getKey())
+                        .replace("$amount", NumberUtil.format(accountEntry.getValue()))
                 );
             }
 
@@ -301,12 +301,12 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.npc",
-            usage = "/cash npc",
-            description = "Utilize para ver a ajuda para os comandos do sistema de NPC.",
-            permission = "nextcash.command.npc.help",
-            target = CommandTarget.PLAYER,
-            async = true
+        name = "cash.npc",
+        usage = "/cash npc",
+        description = "Utilize para ver a ajuda para os comandos do sistema de NPC.",
+        permission = "nextcash.command.npc.help",
+        target = CommandTarget.PLAYER,
+        async = true
     )
     public void npcCommand(Context<Player> context) {
         Player player = context.getSender();
@@ -317,13 +317,13 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.npc.add",
-            aliases = {"npc.adicionar"},
-            usage = "/cash npc add {posição}",
-            description = "Utilize para definir uma localização de spawn de NPC de certa posição.",
-            permission = "nextcash.command.npc.add",
-            target = CommandTarget.PLAYER,
-            async = true
+        name = "cash.npc.add",
+        aliases = {"npc.adicionar"},
+        usage = "/cash npc add {posição}",
+        description = "Utilize para definir uma localização de spawn de NPC de certa posição.",
+        permission = "nextcash.command.npc.add",
+        target = CommandTarget.PLAYER,
+        async = true
     )
     public void npcAddCommand(Context<Player> context, int position) throws IOException {
         Player player = context.getSender();
@@ -336,7 +336,7 @@ public final class CashCommand {
 
         if (position > limit) {
             player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
-                    .replace("$limit", String.valueOf(limit))
+                .replace("$limit", String.valueOf(limit))
             );
             return;
         }
@@ -357,13 +357,13 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.npc.remove",
-            aliases = {"npc.remover"},
-            usage = "/cash npc remove {posição}",
-            description = "Utilize para remover uma localização de spawn de NPC de certa posição.",
-            permission = "nextcash.command.npc.remove",
-            target = CommandTarget.PLAYER,
-            async = true
+        name = "cash.npc.remove",
+        aliases = {"npc.remover"},
+        usage = "/cash npc remove {posição}",
+        description = "Utilize para remover uma localização de spawn de NPC de certa posição.",
+        permission = "nextcash.command.npc.remove",
+        target = CommandTarget.PLAYER,
+        async = true
     )
     public void npcRemoveCommand(Context<Player> context, int position) throws IOException {
         Player player = context.getSender();
@@ -376,7 +376,7 @@ public final class CashCommand {
 
         if (position > limit) {
             player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
-                    .replace("$limit", String.valueOf(limit))
+                .replace("$limit", String.valueOf(limit))
             );
             return;
         }
@@ -395,11 +395,11 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.check",
-            aliases = {"cheque"},
-            description = "Sistema de cheque.",
-            permission = "nextcash.command.check",
-            async = true
+        name = "cash.check",
+        aliases = {"cheque"},
+        description = "Sistema de cheque.",
+        permission = "nextcash.command.check",
+        async = true
     )
     public void checkCommand(Context<CommandSender> context) {
         val helpMessage = MessageValue.get(MessageValue::checkHelpCommand);
@@ -410,13 +410,13 @@ public final class CashCommand {
     }
 
     @Command(
-            name = "cash.check.give",
-            aliases = {"criar", "create"},
-            description = "Crie um cheque com um certo valor em cash.",
-            permission = "nextcash.command.check.create",
-            usage = "/cash cheque criar (valor) [jogador]",
-            target = CommandTarget.PLAYER,
-            async = true
+        name = "cash.check.give",
+        aliases = {"criar", "create"},
+        description = "Crie um cheque com um certo valor em cash.",
+        permission = "nextcash.command.check.create",
+        usage = "/cash cheque criar (valor) [jogador]",
+        target = CommandTarget.PLAYER,
+        async = true
     )
     public void createCheckCommand(Context<Player> context, double amount, @Optional Player target) {
         val player = context.getSender();
@@ -424,8 +424,8 @@ public final class CashCommand {
         val minValue = GeneralConfiguration.get(GeneralConfiguration::checkMinimumValue);
         if (amount < minValue) {
             player.sendMessage(
-                    MessageValue.get(MessageValue::checkMinimumValue)
-                            .replace("$amount", NumberUtil.format(minValue))
+                MessageValue.get(MessageValue::checkMinimumValue)
+                    .replace("$amount", NumberUtil.format(minValue))
             );
             return;
         }
@@ -439,17 +439,17 @@ public final class CashCommand {
         account.withdrawAmount(amount);
 
         player.sendMessage(
-                MessageValue.get(MessageValue::checkCreated)
-                        .replace("$checkValue", NumberUtil.format(amount))
+            MessageValue.get(MessageValue::checkCreated)
+                .replace("$checkValue", NumberUtil.format(amount))
         );
 
         val checkItem = CheckUtils.createCheck(amount);
         if (target != null) {
 
             target.sendMessage(
-                    MessageValue.get(MessageValue::checkReceived)
-                            .replace("$checkValue", NumberUtil.format(amount))
-                            .replace("$sender", player.getName())
+                MessageValue.get(MessageValue::checkReceived)
+                    .replace("$checkValue", NumberUtil.format(amount))
+                    .replace("$sender", player.getName())
             );
 
             dropItem(target, target.getInventory().addItem(checkItem));
