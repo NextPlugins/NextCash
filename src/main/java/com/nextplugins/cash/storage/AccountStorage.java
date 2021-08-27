@@ -10,6 +10,7 @@ import com.nextplugins.cash.dao.AccountDAO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -52,9 +53,11 @@ public final class AccountStorage {
      * @return {@link Account} found
      */
     @Nullable
-    public Account findAccountByName(String name) {
+    public Account findAccountCache(String name) {
 
-        try { return cache.get(name).get(); } catch (InterruptedException | ExecutionException exception) {
+        try {
+            return cache.get(name).get();
+        } catch (InterruptedException | ExecutionException exception) {
             Thread.currentThread().interrupt();
             exception.printStackTrace();
             return null;
@@ -80,7 +83,7 @@ public final class AccountStorage {
 
         }
 
-        return findAccountByName(offlinePlayer.getName());
+        return findAccountCache(offlinePlayer.getName());
 
     }
 
@@ -93,7 +96,7 @@ public final class AccountStorage {
     @NotNull
     public Account findAccount(@NotNull Player player) {
 
-        Account account = findAccountByName(player.getName());
+        Account account = findAccountCache(player.getName());
         if (account == null) {
 
             account = Account.builder()
@@ -107,6 +110,18 @@ public final class AccountStorage {
 
         return account;
 
+    }
+
+    /**
+     * Used to get accounts
+     *
+     * @param name player to search
+     * @return {@link Account} found
+     */
+    @Nullable
+    public Account findAccountByName(@NotNull String name) {
+        val playerExact = Bukkit.getPlayerExact(name);
+        return playerExact == null ? findAccountCache(name) : findAccount(playerExact);
     }
 
     /**

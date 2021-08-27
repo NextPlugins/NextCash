@@ -5,7 +5,6 @@ import com.nextplugins.cash.api.model.account.Account;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -40,7 +39,8 @@ public final class NextCashAPI {
      * @return {@link Optional} with the account found
      */
     public Optional<Account> findAccountByOwner(String owner) {
-        return Optional.ofNullable(NextCash.getInstance().getAccountStorage().findAccount(Bukkit.getOfflinePlayer(owner)));
+        if (owner == null) return Optional.empty();
+        return Optional.ofNullable(NextCash.getInstance().getAccountStorage().findAccountByName(owner));
     }
 
     /**
