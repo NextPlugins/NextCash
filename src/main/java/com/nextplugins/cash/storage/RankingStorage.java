@@ -38,7 +38,7 @@ public final class RankingStorage {
             accounts.forEach(rankingStorage::addAccount);
 
             val cashRankingUpdateEvent = new CashRankingUpdateEvent(accounts, Instant.now());
-            Bukkit.getPluginManager().callEvent(cashRankingUpdateEvent);
+            Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getPluginManager().callEvent(cashRankingUpdateEvent));
 
             if (plugin.isDebug()) {
                 plugin.getTextLogger().debug(String.format("As contas do ranking foram atualizadas. (%s contas)", accounts.size()));

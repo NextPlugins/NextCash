@@ -1,6 +1,7 @@
 package com.nextplugins.cash;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
@@ -21,7 +22,7 @@ import com.nextplugins.cash.util.PlayerPointsFakeDownloader;
 import com.nextplugins.cash.util.text.TextLogger;
 import lombok.Getter;
 import lombok.val;
-import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -101,14 +102,19 @@ public final class NextCash extends JavaPlugin {
 
         textLogger.info("Descarregando módulos do plugin... (0/2)");
 
-        for (NPC npc : NPCRunnable.npcList) {
-            npc.destroy();
-        }
-        for (Hologram hologram : NPCRunnable.hologramList) {
-            hologram.delete();
-        }
+        if (NPCRankingRegistry.getInstance().isEnabled()) {
+            HologramsAPI.getHolograms(this).forEach(Hologram::delete);
 
-        textLogger.info("NPCs e hologramas foram salvos e descarregados. (1/2)");
+            for (val id : NPCRunnable.NPCS) {
+                val npc = CitizensAPI.getNPCRegistry().getById(id);
+                if (npc == null) continue;
+
+                npc.despawn();
+                npc.destroy();
+            }
+
+            textLogger.info("NPCs e hologramas foram salvos e descarregados. (1/2)");
+        }
 
         accountStorage.getCache().synchronous().invalidateAll();
         textLogger.info("Informações das contas foram salvas. (2/2)");
