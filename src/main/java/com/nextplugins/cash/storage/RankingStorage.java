@@ -3,7 +3,6 @@ package com.nextplugins.cash.storage;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Maps;
 import com.nextplugins.cash.NextCash;
-import com.nextplugins.cash.api.event.operations.CashRankingUpdateEvent;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.ranking.NPCRankingRegistry;
@@ -11,7 +10,6 @@ import lombok.Data;
 import lombok.val;
 import org.bukkit.Bukkit;
 
-import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -36,9 +34,6 @@ public final class RankingStorage {
 
             rankingStorage.getRankingAccounts().clear();
             accounts.forEach(rankingStorage::addAccount);
-
-            val cashRankingUpdateEvent = new CashRankingUpdateEvent(accounts, Instant.now());
-            Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getPluginManager().callEvent(cashRankingUpdateEvent));
 
             if (plugin.isDebug()) {
                 plugin.getTextLogger().debug(String.format("As contas do ranking foram atualizadas. (%s contas)", accounts.size()));
