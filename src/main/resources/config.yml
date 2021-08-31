@@ -23,11 +23,6 @@ plugin:
   # Ative ou desative o envio de algumas informações do 'back-end' do plugin no console.
   debug: true
 
-  # Ative ou desative o uso de uma instância falsa do PlayerPoints para
-  # refletir as operações em que plugins fazem com ele, no NextCash
-  # obs: ao ativar, ele será baixado ao iniciar!
-  use-playerpoints-fake: true
-
   configuration:
 
     # Opções válidas: 'DECIMAL' e 'LETTER'

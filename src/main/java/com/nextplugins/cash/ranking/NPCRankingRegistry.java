@@ -1,46 +1,52 @@
 package com.nextplugins.cash.ranking;
 
 import com.nextplugins.cash.NextCash;
-import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.ranking.loader.LocationLoader;
 import com.nextplugins.cash.ranking.runnable.NPCRunnable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.val;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.scheduler.BukkitScheduler;
 
-@Data(staticConstructor = "of")
-public final class NPCRankingRegistry {
+@Data
+public class NPCRankingRegistry {
 
-    private final NextCash plugin;
+    @Getter private static final NPCRankingRegistry instance = new NPCRankingRegistry();
 
-    protected final PluginManager pluginManager = Bukkit.getPluginManager();
-    protected final String citizens = "Citizens";
-    protected final String holographicDisplays = "HolographicDisplays";
+    private NextCash plugin;
+
+    private boolean enabled;
+    private Runnable runnable;
+
+    public static NPCRankingRegistry of(NextCash plugin) {
+
+        instance.setPlugin(plugin);
+        return instance;
+
+    }
 
     public void register() {
-        if (!pluginManager.isPluginEnabled(citizens)) {
-            plugin.getLogger().warning(citizens + " não foi encontrado no servidor! Portanto, não" +
-                    "o ranking em NPC não será utilizado.");
-            return;
-        } else if (!pluginManager.isPluginEnabled(holographicDisplays)) {
-            plugin.getLogger().warning(holographicDisplays + " não foi encontrado no servidor! Portanto, não" +
+        val pluginManager = Bukkit.getPluginManager();
+
+        if (!pluginManager.isPluginEnabled("Citizens")) {
+            plugin.getLogger().warning("Citizens não foi encontrado no servidor! Portanto, não" +
                     "o ranking em NPC não será utilizado.");
             return;
         }
 
-        new LocationLoader(plugin, plugin.getLocationManager()).loadLocations();
+        if (!pluginManager.isPluginEnabled("HolographicDisplays")) {
+            plugin.getLogger().warning("HolographicDisplays não foi encontrado no servidor! Portanto, não" +
+                    "o ranking em NPC não será utilizado.");
+            return;
+        }
 
-        int updateDelay = RankingConfiguration.get(RankingConfiguration::updateDelay);
+        val locationLoader = new LocationLoader(plugin, plugin.getLocationManager());
+        locationLoader.loadLocations();
 
-        BukkitScheduler scheduler = Bukkit.getScheduler();
+        runnable = new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
+        enabled = true;
 
-        scheduler.runTaskTimer(
-                plugin,
-                new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage()),
-                15,
-                updateDelay * 20L
-        );
+        plugin.getLogger().info("Sistema de NPC registrado com sucesso.");
     }
 
 }

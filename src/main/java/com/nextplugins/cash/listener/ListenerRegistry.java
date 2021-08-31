@@ -1,7 +1,7 @@
-package com.nextplugins.cash.listener.registry;
+package com.nextplugins.cash.listener;
 
 import com.nextplugins.cash.NextCash;
-import com.nextplugins.cash.listener.UserDisconnectListener;
+import com.nextplugins.cash.listener.operation.UserDisconnectListener;
 import com.nextplugins.cash.listener.check.CheckInteractListener;
 import com.nextplugins.cash.listener.operation.CashDepositListener;
 import com.nextplugins.cash.listener.operation.CashSetListener;

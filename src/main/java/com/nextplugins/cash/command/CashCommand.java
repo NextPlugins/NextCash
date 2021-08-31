@@ -62,6 +62,7 @@ public final class CashCommand {
             sender.sendMessage(MessageValue.get(MessageValue::seeBalance)
                 .replace("$amount", NumberUtil.format(balance))
             );
+            return;
         } else if (target.hasPlayedBefore()) {
 
             val account = accountStorage.findAccount(target);
@@ -260,6 +261,12 @@ public final class CashCommand {
             return;
         }
 
+        if (rankingStorage.checkUpdate(false)) {
+            // TODO pass to messages.yml
+            sender.sendMessage("&cAguarde o ranking está atualizando.");
+            return;
+        }
+
         val player = (Player) sender;
         val rankingType = RankingConfiguration.get(RankingConfiguration::rankingType);
         val rankingAccounts = rankingStorage.getRankingAccounts();
@@ -343,6 +350,7 @@ public final class CashCommand {
 
         if (locationManager.getLocationMap().containsKey(position)) {
             player.sendMessage(MessageValue.get(MessageValue::positionAlreadyDefined));
+            return;
         }
 
         locationManager.getLocationMap().put(position, player.getLocation());
@@ -352,6 +360,8 @@ public final class CashCommand {
 
         plugin.getNpcConfiguration().set("npc.locations", locations);
         plugin.getNpcConfiguration().save(plugin.getNpcFile());
+
+        rankingStorage.checkUpdate(true);
 
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulCreated).replace("$position", String.valueOf(position)));
     }
@@ -383,14 +393,18 @@ public final class CashCommand {
 
         if (!locationManager.getLocationMap().containsKey(position)) {
             player.sendMessage(MessageValue.get(MessageValue::positionNotYetDefined));
+            return;
         }
 
         List<String> locations = plugin.getNpcConfiguration().getStringList("npc.locations");
         locations.remove(position + " " + LocationUtil.byLocationNoBlock(locationManager.getLocation(position)));
 
+        locationManager.getLocationMap().remove(position);
+
         plugin.getNpcConfiguration().set("npc.locations", locations);
         plugin.getNpcConfiguration().save(plugin.getNpcFile());
 
+        rankingStorage.checkUpdate(true);
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
     }
 

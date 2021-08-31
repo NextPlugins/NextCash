@@ -9,7 +9,7 @@ import com.nextplugins.cash.api.metric.MetricProvider;
 import com.nextplugins.cash.command.registry.CommandRegistry;
 import com.nextplugins.cash.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.cash.dao.AccountDAO;
-import com.nextplugins.cash.listener.registry.ListenerRegistry;
+import com.nextplugins.cash.listener.ListenerRegistry;
 import com.nextplugins.cash.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.cash.ranking.NPCRankingRegistry;
 import com.nextplugins.cash.ranking.manager.LocationManager;
@@ -17,7 +17,6 @@ import com.nextplugins.cash.ranking.runnable.NPCRunnable;
 import com.nextplugins.cash.sql.SQLProvider;
 import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
-import com.nextplugins.cash.task.registry.TaskRegistry;
 import com.nextplugins.cash.util.PlayerPointsFakeDownloader;
 import com.nextplugins.cash.util.text.TextLogger;
 import lombok.Getter;
@@ -81,16 +80,15 @@ public final class NextCash extends JavaPlugin {
         ConfigurationRegistry.of(this).register();
         ListenerRegistry.of(this).register();
         CommandRegistry.of(this).register();
-        TaskRegistry.of(this).register();
         MetricProvider.of(this).register();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
             PlaceholderRegistry.of(this).register();
             NPCRankingRegistry.of(this).register();
+            rankingStorage.checkUpdate(true);
         }, 3 * 20L);
 
-
-        if (getConfig().getBoolean("plugin.use-playerpoints-fake")) PlayerPointsFakeDownloader.of(this).download();
+        PlayerPointsFakeDownloader.of(this).download();
 
         loadTime.stop();
         getLogger().log(Level.INFO, "Plugin inicializado com sucesso. ({0})", loadTime);
