@@ -116,7 +116,7 @@ public final class NextCash extends JavaPlugin {
             textLogger.info("NPCs e hologramas foram salvos e descarregados. (1/2)");
         }
 
-        accountStorage.getCache().synchronous().invalidateAll();
+        accountStorage.getCache().values().forEach(accountStorage.getAccountDAO()::saveOne);
         textLogger.info("Informações das contas foram salvas. (2/2)");
 
         unloadTiming.stop();

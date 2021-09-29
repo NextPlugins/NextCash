@@ -26,8 +26,9 @@ public final class NextCashAPI {
     @Deprecated
     public Set<Account> findAccountsByFilter(Predicate<Account> filter) {
         return NextCash.getInstance().getAccountStorage()
-                .getCache().synchronous()
-                .asMap().values().stream()
+                .getCache()
+                .values()
+                .stream()
                 .filter(filter)
                 .collect(Collectors.toSet());
     }

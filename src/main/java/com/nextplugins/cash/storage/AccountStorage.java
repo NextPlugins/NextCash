@@ -1,8 +1,5 @@
 package com.nextplugins.cash.storage;
 
-import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.api.model.account.Account;
 import com.nextplugins.cash.configuration.GeneralConfiguration;
@@ -16,29 +13,24 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
 
 @RequiredArgsConstructor
 public final class AccountStorage {
 
-    private final AccountDAO accountDAO;
+    @Getter private final AccountDAO accountDAO;
 
-    @Getter private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
-            .maximumSize(10000)
-            .expireAfterWrite(5, TimeUnit.MINUTES)
-            .removalListener((RemovalListener<String, Account>) (key, value, cause) -> saveOne(value))
-            .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
+    @Getter private final HashMap<String, Account> cache = new HashMap<>();
 
     public void init() {
-
         accountDAO.createTable();
         NextCash.getInstance().getTextLogger().info("DAO do plugin iniciado com sucesso.");
-
     }
 
-    private void saveOne(Account account) {
+    public void saveOne(String name) {
+        val account = findAccountCache(name);
+        if (account == null) return;
+
         accountDAO.saveOne(account);
     }
 
@@ -54,15 +46,8 @@ public final class AccountStorage {
      */
     @Nullable
     public Account findAccountCache(String name) {
-
-        try {
-            return cache.get(name).get();
-        } catch (InterruptedException | ExecutionException exception) {
-            Thread.currentThread().interrupt();
-            exception.printStackTrace();
-            return null;
-        }
-
+        if (cache.containsKey(name)) return cache.get(name);
+        return selectOne(name);
     }
 
     /**
@@ -75,16 +60,12 @@ public final class AccountStorage {
      */
     @Nullable
     public Account findAccount(@NotNull OfflinePlayer offlinePlayer) {
-
         if (offlinePlayer.isOnline()) {
-
             val player = offlinePlayer.getPlayer();
             if (player != null) return findAccount(player);
-
         }
 
         return findAccountCache(offlinePlayer.getName());
-
     }
 
     /**
@@ -95,21 +76,17 @@ public final class AccountStorage {
      */
     @NotNull
     public Account findAccount(@NotNull Player player) {
-
         Account account = findAccountCache(player.getName());
         if (account == null) {
-
             account = Account.builder()
                     .owner(player.getName())
                     .balance(GeneralConfiguration.get(GeneralConfiguration::initialBalance))
                     .receiveCash(true)
                     .build();
             put(account);
-
         }
 
         return account;
-
     }
 
     /**
@@ -130,7 +107,7 @@ public final class AccountStorage {
      * @param account of player
      */
     public void put(@NotNull Account account) {
-        cache.put(account.getOwner(), CompletableFuture.completedFuture(account));
+        cache.put(account.getOwner(), account);
     }
 
 }

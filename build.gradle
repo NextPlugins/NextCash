@@ -36,11 +36,9 @@ dependencies {
 
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
-    implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
 
     implementation 'commons-io:commons-io:20030203.000550'
     implementation 'de.tr7zw:item-nbt-api:2.8.0'
-    implementation 'com.github.NextPlugins:data-converter:experimental-0.0.1'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
     implementation 'com.github.HenryFabio:inventory-api:2.0.3'
 
@@ -70,16 +68,11 @@ shadowJar {
     relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.cash.libs.sqlprovider'
     relocate 'com.zaxxer.hikari', 'com.nextplugins.cash.libs.hikari'
 
-    relocate 'com.github.benmanes.caffeine', 'com.nextplugins.cash.libs.caffeine'
-
     relocate 'me.saiintbrisson.minecraft.command', 'com.nextplugins.cash.libs.command.common'
     relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.cash.libs.command.bukkit'
 
     relocate 'de.tr7zw.changeme.nbtapi', 'com.nextplugins.cash.libs.nbtapi'
     relocate 'de.tr7zw.annotations', 'com.nextplugins.cash.libs.annotations'
-
-    relocate 'com.google.errorprone.annotations', 'com.nextplugins.cash.libs.annotations'
-
 }
 
 compileJava {
