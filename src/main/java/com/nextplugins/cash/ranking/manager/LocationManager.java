@@ -8,7 +8,8 @@ import java.util.Map;
 
 public final class LocationManager {
 
-    @Getter private final Map<Integer, Location> locationMap;
+    @Getter
+    private final Map<Integer, Location> locationMap;
 
     public LocationManager() {
         locationMap = new HashMap<>();

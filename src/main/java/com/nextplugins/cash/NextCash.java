@@ -1,11 +1,14 @@
 package com.nextplugins.cash;
 
+import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.nextplugins.cash.api.group.GroupWrapperManager;
 import com.nextplugins.cash.api.metric.MetricProvider;
 import com.nextplugins.cash.command.registry.CommandRegistry;
 import com.nextplugins.cash.configuration.registry.ConfigurationRegistry;
@@ -29,10 +32,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 @Getter
 public final class NextCash extends JavaPlugin {
+
+    private final TextLogger textLogger = new TextLogger();
+    private final boolean debug = getConfig().getBoolean("plugin.debug");
 
     private SQLConnector sqlConnector;
     private SQLExecutor sqlExecutor;
@@ -42,13 +49,14 @@ public final class NextCash extends JavaPlugin {
     private RankingStorage rankingStorage;
 
     private LocationManager locationManager;
-
-    private final TextLogger textLogger = new TextLogger();
-
-    private final boolean debug = getConfig().getBoolean("plugin.debug");
+    private GroupWrapperManager groupWrapperManager;
 
     private File npcFile;
     private FileConfiguration npcConfiguration;
+
+    public static NextCash getInstance() {
+        return getPlugin(NextCash.class);
+    }
 
     @Override
     public void onLoad() {
@@ -71,8 +79,9 @@ public final class NextCash extends JavaPlugin {
 
         accountDAO = new AccountDAO(sqlExecutor);
         accountStorage = new AccountStorage(accountDAO);
-        rankingStorage = new RankingStorage();
         locationManager = new LocationManager();
+        groupWrapperManager = new GroupWrapperManager();
+        rankingStorage = new RankingStorage(groupWrapperManager);
 
         accountStorage.init();
 
@@ -82,14 +91,14 @@ public final class NextCash extends JavaPlugin {
         ListenerRegistry.of(this).register();
         CommandRegistry.of(this).register();
         MetricProvider.of(this).register();
+        PlayerPointsFakeDownloader.of(this).download();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
             PlaceholderRegistry.of(this).register();
             NPCRankingRegistry.of(this).register();
+            groupWrapperManager.init();
             rankingStorage.checkUpdate(true);
         }, 3 * 20L);
-
-        PlayerPointsFakeDownloader.of(this).download();
 
         loadTime.stop();
         getLogger().log(Level.INFO, "Plugin inicializado com sucesso. ({0})", loadTime);
@@ -102,19 +111,7 @@ public final class NextCash extends JavaPlugin {
 
         textLogger.info("Descarregando módulos do plugin... (0/2)");
 
-        if (NPCRankingRegistry.getInstance().isEnabled()) {
-            HologramsAPI.getHolograms(this).forEach(Hologram::delete);
-
-            for (val id : NPCRunnable.NPCS) {
-                val npc = CitizensAPI.getNPCRegistry().getById(id);
-                if (npc == null) continue;
-
-                npc.despawn();
-                npc.destroy();
-            }
-
-            textLogger.info("NPCs e hologramas foram salvos e descarregados. (1/2)");
-        }
+        unloadRanking();
 
         accountStorage.getCache().values().forEach(accountStorage.getAccountDAO()::saveOne);
         textLogger.info("Informações das contas foram salvas. (2/2)");
@@ -125,8 +122,31 @@ public final class NextCash extends JavaPlugin {
 
     }
 
-    public static NextCash getInstance() {
-        return getPlugin(NextCash.class);
+    private void unloadRanking() {
+        if (NPCRankingRegistry.getInstance().isEnabled()) {
+
+            if (NPCRankingRegistry.getInstance().isHolographicDisplays()) {
+                HologramsAPI.getHolograms(this).forEach(Hologram::delete);
+            } else {
+                // jump concurrentmodificationexception
+                val holograms = new ArrayList<CMIHologram>();
+                val hologramManager = CMI.getInstance().getHologramManager();
+                for (val entry : hologramManager.getHolograms().entrySet()) {
+                    if (entry.getKey().startsWith("NextCash")) holograms.add(entry.getValue());
+                }
+
+                holograms.forEach(hologramManager::removeHolo);
+            }
+
+            for (val id : NPCRunnable.NPCS) {
+                val npc = CitizensAPI.getNPCRegistry().getById(id);
+                if (npc == null) continue;
+
+                CitizensAPI.getNPCRegistry().deregister(npc);
+            }
+
+            textLogger.info("NPCs e hologramas foram salvos e descarregados. (1/2)");
+        }
     }
 
 }

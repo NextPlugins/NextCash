@@ -6,7 +6,8 @@ import org.bukkit.event.HandlerList;
 
 public abstract class CustomEvent extends Event {
 
-    @Getter private static final HandlerList handlerList = new HandlerList();
+    @Getter
+    private static final HandlerList handlerList = new HandlerList();
 
     protected CustomEvent(boolean isAsync) {
         super(isAsync);

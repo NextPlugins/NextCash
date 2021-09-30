@@ -1,5 +1,4 @@
 ranking:
-  update-delay: 900 # delay de update do ranking (em segundos)
   limit: 10 # limite de contas que serão mostradas no ranking
   model:
     type: 'INVENTORY' # tipo do ranking, tipos válidos: 'CHAT' e 'INVENTORY'
@@ -8,14 +7,14 @@ ranking:
         - ''
         - ' &6&lCASH TOP &8&l➡ &fJogadores com mais cash'
         - ''
-      body: ' &f$positionº&8 -&6 $player &7(&6✪ &f$amount&7)'
+      body: ' &f$positionº &8- &6$prefix$player$suffix &7(&6✪ &f$amount&7)'
       footer:
         - ''
         - ' &7Atualiza automaticamente.'
         - ''
     inventory:
       title: 'Ranking - Cash'
-      head-display-name: '&f$positionº&8 - &e$player '
+      head-display-name: '&f$positionº &8- &e$prefix$player$suffix'
       head-lore:
         - ''
         - ' &7Quantia: &7(&6✪ &f$amount&7)'
@@ -23,8 +22,11 @@ ranking:
   npc:
     hologram:
       # altura do holograma, em blocos (começando do chão)
-      height: 3
       lines:
         - '&f$positionº'
-        - '&6$player'
+        - '&6$prefix$player$suffix'
         - '&7(&6✪&f $amount&7)'
+      nobody:
+        - '&f$positionº'
+        - '&cNenhum jogador elegível'
+        - ''

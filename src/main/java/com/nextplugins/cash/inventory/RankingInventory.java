@@ -14,7 +14,7 @@ import com.nextplugins.cash.configuration.RankingConfiguration;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.util.ItemBuilder;
 import com.nextplugins.cash.util.TimeUtils;
-import com.nextplugins.cash.util.text.NumberUtil;
+import lombok.val;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -48,39 +48,43 @@ public final class RankingInventory extends PagedInventory {
     protected List<InventoryItemSupplier> createPageItems(PagedViewer viewer) {
         List<InventoryItemSupplier> items = Lists.newLinkedList();
 
-        String headDisplayName = RankingConfiguration.get(RankingConfiguration::inventoryModelHeadDisplayName);
-        List<String> headLore = RankingConfiguration.get(RankingConfiguration::inventoryModelHeadLore);
+        val headDisplayName = RankingConfiguration.get(RankingConfiguration::inventoryModelHeadDisplayName);
+        val headLore = RankingConfiguration.get(RankingConfiguration::inventoryModelHeadLore);
 
-        AtomicInteger position = new AtomicInteger(1);
+        val position = new AtomicInteger(1);
 
         rankingStorage.getRankingAccounts().forEach((owner, balance) -> {
-            String replacedDisplayName = headDisplayName.replace("$player", owner)
-                    .replace("$amount", NumberUtil.format(balance))
-                    .replace("$position", String.valueOf(position.getAndIncrement()));
+            items.add(() -> {
+                val group = rankingStorage.getGroupManager().getGroup(owner);
+                val replacedDisplayName = headDisplayName
+                        .replace("$player", owner)
+                        .replace("$amount", balance)
+                        .replace("$prefix", group.getPrefix())
+                        .replace("$suffix", group.getSuffix())
+                        .replace("$position", String.valueOf(position.getAndIncrement()));
 
-            List<String> replacedLore = Lists.newArrayList();
+                List<String> replacedLore = Lists.newArrayList();
+                for (val lore : headLore) {
+                    replacedLore.add(lore
+                            .replace("$player", owner)
+                            .replace("$amount", balance)
+                            .replace("$position", String.valueOf(position.getAndIncrement()))
+                    );
+                }
 
-            for (String lore : headLore) {
-                replacedLore.add(
-                        lore.replace("$player", owner)
-                                .replace("$amount", NumberUtil.format(balance))
-                                .replace("$position", String.valueOf(position.getAndIncrement()))
+                return InventoryItem.of(
+                        new ItemBuilder(owner)
+                                .name(replacedDisplayName)
+                                .setLore(replacedLore)
+                                .wrap()
                 );
-            }
-
-            items.add(() -> InventoryItem.of(
-                    new ItemBuilder(owner)
-                            .name(replacedDisplayName)
-                            .setLore(replacedLore)
-                            .wrap()
-            ));
+            });
         });
 
         return items;
     }
 
     private InventoryItem restTimeUpdate() {
-
         return InventoryItem.of(new ItemBuilder("MHF_QUESTION")
                 .name("&6Próxima atualização")
                 .setLore(
@@ -89,6 +93,5 @@ public final class RankingInventory extends PagedInventory {
                 )
                 .wrap()
         );
-
     }
 }

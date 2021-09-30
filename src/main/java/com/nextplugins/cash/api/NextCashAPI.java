@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NextCashAPI {
 
-    @Getter private static final NextCashAPI instance = new NextCashAPI();
+    @Getter
+    private static final NextCashAPI instance = new NextCashAPI();
 
     /**
      * Search all accounts to look for every with the entered custom filter.

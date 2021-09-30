@@ -6,8 +6,8 @@ import org.bukkit.command.ConsoleCommandSender;
 
 public final class TextLogger {
 
-    private final ConsoleCommandSender consoleSender = Bukkit.getConsoleSender();
     private static final String PLUGIN_NAME = "[NextCash]";
+    private final ConsoleCommandSender consoleSender = Bukkit.getConsoleSender();
 
     public void debug(String message) {
         consoleSender.sendMessage(ChatColor.GREEN + PLUGIN_NAME + " (DEBUG) " + ChatColor.WHITE + message);

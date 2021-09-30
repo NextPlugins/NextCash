@@ -14,22 +14,13 @@ public enum TimeUtils {
     MINUTE(60000, "minutes", "minute", "m", "minuto", "minutos"),
     SECOND(1000, "seconds", "second", "s", "segundo", "segundos");
 
+    private static final Pattern PATTERN = Pattern.compile("(\\d+)(\\s+)?([a-zA-Z]+)");
     private final long millis;
     private final List<String> formats;
-
-    private static final Pattern PATTERN = Pattern.compile("(\\d+)(\\s+)?([a-zA-Z]+)");
 
     TimeUtils(long millis, String... formats) {
         this.millis = millis;
         this.formats = Arrays.asList(formats);
-    }
-
-    public long getMillis() {
-        return millis;
-    }
-
-    public List<String> getFormats() {
-        return formats;
     }
 
     public static long unformat(String string) {
@@ -82,5 +73,13 @@ public enum TimeUtils {
                 .filter(type -> type.getFormats().contains(format.toLowerCase()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public long getMillis() {
+        return millis;
+    }
+
+    public List<String> getFormats() {
+        return formats;
     }
 }

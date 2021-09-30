@@ -21,7 +21,7 @@ database:
 
 plugin:
   # Ative ou desative o envio de algumas informações do 'back-end' do plugin no console.
-  debug: true
+  debug: false
 
   configuration:
 

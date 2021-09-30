@@ -19,7 +19,6 @@ import java.util.HashMap;
 public final class AccountStorage {
 
     @Getter private final AccountDAO accountDAO;
-
     @Getter private final HashMap<String, Account> cache = new HashMap<>();
 
     public void init() {

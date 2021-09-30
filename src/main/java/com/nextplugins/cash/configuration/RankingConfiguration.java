@@ -21,7 +21,8 @@ import java.util.function.Function;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RankingConfiguration implements ConfigurationInjectable {
 
-    @Getter private static final RankingConfiguration instance = new RankingConfiguration();
+    @Getter
+    private static final RankingConfiguration instance = new RankingConfiguration();
 
     // ranking
 
@@ -46,7 +47,7 @@ public final class RankingConfiguration implements ConfigurationInjectable {
 
     // npc
 
-    @ConfigField("npc.hologram.height") private int hologramHeight;
+    @ConfigField("npc.hologram.nobody") private List<String> nobodyHologramLines;
     @ConfigField("npc.hologram.lines") private List<String> hologramLines;
     @ConfigField("npc.locations") private List<String> npcLocations;
 
