@@ -46,7 +46,11 @@ public final class AccountStorage {
     @Nullable
     public Account findAccountCache(String name) {
         if (cache.containsKey(name)) return cache.get(name);
-        return selectOne(name);
+        
+        val account = selectOne(name);
+        if (account != null) put(account);
+
+        return account;
     }
 
     /**

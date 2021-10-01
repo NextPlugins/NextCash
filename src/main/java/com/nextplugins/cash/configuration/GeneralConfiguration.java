@@ -26,8 +26,6 @@ public final class GeneralConfiguration implements ConfigurationInjectable {
     // configuration
 
     @ConfigField("configuration.format-type") private String formatType;
-    @ConfigField("configuration.use-bStats") private boolean useBStats;
-
     @ConfigField("configuration.initial-cash") private double initialBalance;
 
     // check

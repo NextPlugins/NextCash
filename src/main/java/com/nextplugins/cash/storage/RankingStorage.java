@@ -31,7 +31,7 @@ public final class RankingStorage {
     public boolean checkUpdate(boolean force) {
         if (!force && nextUpdate > System.currentTimeMillis()) return false;
 
-        nextUpdate = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(RankingConfiguration.get(RankingConfiguration::updateDelay));
+        nextUpdate = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(RankingConfiguration.get(RankingConfiguration::updateDelay));
 
         val plugin = NextCash.getInstance();
         val rankLimit = RankingConfiguration.get(RankingConfiguration::rankingLimit);

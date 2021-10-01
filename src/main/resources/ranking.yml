@@ -1,4 +1,5 @@
 ranking:
+  update-delay: 30 # Em minutos
   limit: 10 # limite de contas que serão mostradas no ranking
   model:
     type: 'INVENTORY' # tipo do ranking, tipos válidos: 'CHAT' e 'INVENTORY'
