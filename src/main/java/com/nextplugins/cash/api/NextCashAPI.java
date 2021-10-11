@@ -27,11 +27,11 @@ public final class NextCashAPI {
     @Deprecated
     public Set<Account> findAccountsByFilter(Predicate<Account> filter) {
         return NextCash.getInstance().getAccountStorage()
-                .getCache()
-                .values()
-                .stream()
-                .filter(filter)
-                .collect(Collectors.toSet());
+            .getCache()
+            .values()
+            .stream()
+            .filter(filter)
+            .collect(Collectors.toSet());
     }
 
     /**

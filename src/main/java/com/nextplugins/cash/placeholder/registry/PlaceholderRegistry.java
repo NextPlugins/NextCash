@@ -13,7 +13,7 @@ public class PlaceholderRegistry {
     public void register() {
         if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             plugin.getLogger().warning(
-                    "Dependência não encontrada (PlaceholderAPI). A placeholder não poderá ser usada."
+                "Dependência não encontrada (PlaceholderAPI). A placeholder não poderá ser usada."
             );
             return;
         }

@@ -25,9 +25,9 @@ public final class RankingInventory extends PagedInventory {
 
     public RankingInventory() {
         super(
-                "nextcash.ranking.inventory",
-                RankingConfiguration.get(RankingConfiguration::inventoryModelTitle),
-                4 * 9
+            "nextcash.ranking.inventory",
+            RankingConfiguration.get(RankingConfiguration::inventoryModelTitle),
+            4 * 9
         );
     }
 
@@ -53,45 +53,43 @@ public final class RankingInventory extends PagedInventory {
 
         val position = new AtomicInteger(1);
 
-        rankingStorage.getRankingAccounts().forEach((owner, balance) -> {
-            items.add(() -> {
-                val group = rankingStorage.getGroupManager().getGroup(owner);
-                val replacedDisplayName = headDisplayName
-                        .replace("$player", owner)
-                        .replace("$amount", balance)
-                        .replace("$prefix", group.getPrefix())
-                        .replace("$suffix", group.getSuffix())
-                        .replace("$position", String.valueOf(position.getAndIncrement()));
+        rankingStorage.getRankingAccounts().forEach((owner, balance) -> items.add(() -> {
+            val group = rankingStorage.getGroupManager().getGroup(owner);
+            val replacedDisplayName = headDisplayName
+                .replace("$player", owner)
+                .replace("$amount", balance)
+                .replace("$prefix", group.getPrefix())
+                .replace("$suffix", group.getSuffix())
+                .replace("$position", String.valueOf(position.getAndIncrement()));
 
-                List<String> replacedLore = Lists.newArrayList();
-                for (val lore : headLore) {
-                    replacedLore.add(lore
-                            .replace("$player", owner)
-                            .replace("$amount", balance)
-                            .replace("$position", String.valueOf(position.getAndIncrement()))
-                    );
-                }
-
-                return InventoryItem.of(
-                        new ItemBuilder(owner)
-                                .name(replacedDisplayName)
-                                .setLore(replacedLore)
-                                .wrap()
+            List<String> replacedLore = Lists.newArrayList();
+            for (val lore : headLore) {
+                replacedLore.add(lore
+                    .replace("$player", owner)
+                    .replace("$amount", balance)
+                    .replace("$position", String.valueOf(position.getAndIncrement()))
                 );
-            });
-        });
+            }
+
+            return InventoryItem.of(
+                new ItemBuilder(owner)
+                    .name(replacedDisplayName)
+                    .setLore(replacedLore)
+                    .wrap()
+            );
+        }));
 
         return items;
     }
 
     private InventoryItem restTimeUpdate() {
         return InventoryItem.of(new ItemBuilder("MHF_QUESTION")
-                .name("&6Próxima atualização")
-                .setLore(
-                        "&7A próxima atualização do ranking será em",
-                        "&e" + TimeUtils.format(rankingStorage.getNextUpdate() - System.currentTimeMillis())
-                )
-                .wrap()
+            .name("&6Próxima atualização")
+            .setLore(
+                "&7A próxima atualização do ranking será em",
+                "&e" + TimeUtils.format(rankingStorage.getNextUpdate() - System.currentTimeMillis())
+            )
+            .wrap()
         );
     }
 }

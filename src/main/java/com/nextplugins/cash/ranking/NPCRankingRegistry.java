@@ -31,14 +31,14 @@ public class NPCRankingRegistry {
 
         if (!pluginManager.isPluginEnabled("Citizens")) {
             plugin.getLogger().warning("Citizens não foi encontrado no servidor! Portanto, não" +
-                    "o ranking em NPC não será utilizado.");
+                "o ranking em NPC não será utilizado.");
             return;
         }
 
         if (!pluginManager.isPluginEnabled("CMI") && !pluginManager.isPluginEnabled("HolographicDisplays")) {
             plugin.getLogger().log(Level.WARNING,
-                    "Dependência não encontrada ({0}) O ranking em NPC não será usado.",
-                    "HolographicDisplays ou CMI"
+                "Dependência não encontrada ({0}) O ranking em NPC não será usado.",
+                "HolographicDisplays ou CMI"
             );
             return;
         }

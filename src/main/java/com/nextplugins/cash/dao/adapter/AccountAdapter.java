@@ -13,10 +13,10 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
         boolean receiveCash = resultSet.get("receive_cash") == "1";
 
         return Account.builder()
-                .owner(accountOwner)
-                .balance(accountBalance)
-                .receiveCash(receiveCash)
-                .build();
+            .owner(accountOwner)
+            .balance(accountBalance)
+            .receiveCash(receiveCash)
+            .build();
     }
 
 }

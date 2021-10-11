@@ -77,22 +77,22 @@ public final class NPCRunnable implements Runnable {
                         val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
                         for (val hologramLine : hologramLines) {
                             hologram.appendTextLine(hologramLine
-                                    .replace("$position", String.valueOf(position))
-                                    .replace("$player", username)
-                                    .replace("$prefix", group.getPrefix())
-                                    .replace("$suffix", group.getSuffix())
-                                    .replace("$amount", amount)
+                                .replace("$position", String.valueOf(position))
+                                .replace("$player", username)
+                                .replace("$prefix", group.getPrefix())
+                                .replace("$suffix", group.getSuffix())
+                                .replace("$amount", amount)
                             );
                         }
                     } else {
                         val cmiHologram = new CMIHologram("NextCash" + position, hologramLocation);
                         for (val hologramLine : hologramLines) {
                             cmiHologram.addLine(hologramLine
-                                    .replace("$position", String.valueOf(position))
-                                    .replace("$player", username)
-                                    .replace("$prefix", group.getPrefix())
-                                    .replace("$suffix", group.getSuffix())
-                                    .replace("$amount", amount)
+                                .replace("$position", String.valueOf(position))
+                                .replace("$player", username)
+                                .replace("$prefix", group.getPrefix())
+                                .replace("$suffix", group.getSuffix())
+                                .replace("$amount", amount)
                             );
                         }
 

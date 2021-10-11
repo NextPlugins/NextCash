@@ -51,11 +51,11 @@ public final class RankingStorage {
                     val position = new AtomicInteger(1);
                     Group group = groupManager.getGroup(account.getOwner());
                     bodyLines.add(body
-                            .replace("$position", String.valueOf(position.getAndIncrement()))
-                            .replace("$player", account.getOwner())
-                            .replace("$amount", NumberUtil.format(account.getBalance()))
-                            .replace("$prefix", group.getPrefix())
-                            .replace("$suffix", group.getSuffix())
+                        .replace("$position", String.valueOf(position.getAndIncrement()))
+                        .replace("$player", account.getOwner())
+                        .replace("$amount", NumberUtil.format(account.getBalance()))
+                        .replace("$prefix", group.getPrefix())
+                        .replace("$suffix", group.getSuffix())
                     );
                 }
 
@@ -63,7 +63,7 @@ public final class RankingStorage {
             }
         } else {
             rankingChatBody.setBodyLines(new String[]{ColorUtil.colored(
-                    "  &cNenhum jogador está no ranking!"
+                "  &cNenhum jogador está no ranking!"
             )});
         }
 

@@ -70,9 +70,9 @@ public enum TimeUtils {
 
     public static TimeUtils fromFormats(String format) {
         return Arrays.stream(values())
-                .filter(type -> type.getFormats().contains(format.toLowerCase()))
-                .findFirst()
-                .orElse(null);
+            .filter(type -> type.getFormats().contains(format.toLowerCase()))
+            .findFirst()
+            .orElse(null);
     }
 
     public long getMillis() {

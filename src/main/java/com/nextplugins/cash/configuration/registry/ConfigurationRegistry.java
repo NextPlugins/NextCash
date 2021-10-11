@@ -16,15 +16,15 @@ public final class ConfigurationRegistry {
         BukkitConfigurationInjector configurationInjector = new BukkitConfigurationInjector(plugin);
 
         configurationInjector.saveDefaultConfiguration(
-                plugin,
-                "messages.yml",
-                "ranking.yml"
+            plugin,
+            "messages.yml",
+            "ranking.yml"
         );
 
         configurationInjector.injectConfiguration(
-                MessageValue.instance(),
-                GeneralConfiguration.instance(),
-                RankingConfiguration.instance()
+            MessageValue.instance(),
+            GeneralConfiguration.instance(),
+            RankingConfiguration.instance()
         );
     }
 

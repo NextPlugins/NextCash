@@ -12,6 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import java.util.Objects;
+
 @RequiredArgsConstructor
 public final class TransactionRequestListener implements Listener {
 
@@ -40,7 +42,7 @@ public final class TransactionRequestListener implements Listener {
             event.setCancelled(true);
 
             player.sendMessage(MessageValue.get(MessageValue::toggledOff)
-                    .replace("$player", target.getName())
+                .replace("$player", Objects.requireNonNull(target.getName()))
             );
 
             return;
@@ -51,13 +53,13 @@ public final class TransactionRequestListener implements Listener {
             account.withdrawAmount(amount);
 
             player.sendMessage(
-                    MessageValue.get(MessageValue::paid).replace("$player", target.getName())
-                            .replace("$amount", NumberUtil.format(amount))
+                MessageValue.get(MessageValue::paid).replace("$player", Objects.requireNonNull(target.getName()))
+                    .replace("$amount", NumberUtil.format(amount))
             );
 
-            if (target.isOnline()) target.getPlayer().sendMessage(
-                    MessageValue.get(MessageValue::received).replace("$player", player.getName())
-                            .replace("$amount", NumberUtil.format(amount))
+            if (target.isOnline()) Objects.requireNonNull(target.getPlayer()).sendMessage(
+                MessageValue.get(MessageValue::received).replace("$player", player.getName())
+                    .replace("$amount", NumberUtil.format(amount))
             );
 
             Bukkit.getPluginManager().callEvent(new TransactionCompletedEvent(player, target, amount));

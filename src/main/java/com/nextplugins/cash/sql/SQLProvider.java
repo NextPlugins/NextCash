@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
+import java.util.Objects;
 
 @RequiredArgsConstructor(staticName = "of")
 public final class SQLProvider {
@@ -22,22 +23,22 @@ public final class SQLProvider {
         FileConfiguration configuration = plugin.getConfig();
         ConfigurationSection databaseConfiguration = configuration.getConfigurationSection("database");
 
-        String sqlType = databaseConfiguration.getString("type");
+        String sqlType = Objects.requireNonNull(databaseConfiguration).getString("type");
 
         val logger = plugin.getTextLogger();
 
         SQLConnector sqlConnector;
 
-        if (sqlType.equalsIgnoreCase("mysql")) {
+        if (Objects.requireNonNull(sqlType).equalsIgnoreCase("mysql")) {
             ConfigurationSection mysqlSection = databaseConfiguration.getConfigurationSection("mysql");
 
-            sqlConnector = mysqlDatabaseType(mysqlSection).connect();
+            sqlConnector = mysqlDatabaseType(Objects.requireNonNull(mysqlSection)).connect();
 
             logger.info("Conexão com o banco de dados (MySQL) realizada com sucesso.");
         } else if (sqlType.equalsIgnoreCase("sqlite")) {
             ConfigurationSection sqliteSection = databaseConfiguration.getConfigurationSection("sqlite");
 
-            sqlConnector = sqliteDatabaseType(sqliteSection).connect();
+            sqlConnector = sqliteDatabaseType(Objects.requireNonNull(sqliteSection)).connect();
 
             logger.info("Conexão com o banco de dados (SQLite) realizada com sucesso.");
             logger.warn("Recomendamos o uso do banco de dados MySQL.");
@@ -53,7 +54,7 @@ public final class SQLProvider {
 
     private SQLDatabaseType sqliteDatabaseType(ConfigurationSection section) {
         return SQLiteDatabaseType.builder()
-            .file(new File(plugin.getDataFolder(), section.getString("file")))
+            .file(new File(plugin.getDataFolder(), Objects.requireNonNull(section.getString("file"))))
             .build();
     }
 

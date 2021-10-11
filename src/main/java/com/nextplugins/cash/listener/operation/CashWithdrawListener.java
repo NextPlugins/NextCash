@@ -36,8 +36,8 @@ public final class CashWithdrawListener implements Listener {
         targetAccount.withdrawAmount(amount);
 
         sender.sendMessage(MessageValue.get(MessageValue::removeAmount)
-                .replace("$player", targetAccount.getOwner())
-                .replace("$amount", NumberUtil.format(amount))
+            .replace("$player", targetAccount.getOwner())
+            .replace("$amount", NumberUtil.format(amount))
         );
     }
 

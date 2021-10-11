@@ -8,6 +8,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class ItemBuilder {
@@ -28,10 +29,10 @@ public class ItemBuilder {
 
     public ItemBuilder(String name) {
 
-        item = new ItemStack(MaterialUtils.convertFromLegacy("SKULL_ITEM", 3));
+        item = new ItemStack(Objects.requireNonNull(MaterialUtils.convertFromLegacy("SKULL_ITEM", 3)));
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setOwner(name);
+        Objects.requireNonNull(meta).setOwner(name);
 
         item.setItemMeta(meta);
     }
@@ -65,7 +66,7 @@ public class ItemBuilder {
 
         return changeItemMeta(meta -> {
             List<String> list = meta.getLore();
-            list.addAll(lore);
+            Objects.requireNonNull(list).addAll(lore);
             meta.setLore(list);
         });
     }

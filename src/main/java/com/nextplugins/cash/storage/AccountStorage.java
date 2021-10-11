@@ -46,7 +46,7 @@ public final class AccountStorage {
     @Nullable
     public Account findAccountCache(String name) {
         if (cache.containsKey(name)) return cache.get(name);
-        
+
         val account = selectOne(name);
         if (account != null) put(account);
 
@@ -82,10 +82,10 @@ public final class AccountStorage {
         Account account = findAccountCache(player.getName());
         if (account == null) {
             account = Account.builder()
-                    .owner(player.getName())
-                    .balance(GeneralConfiguration.get(GeneralConfiguration::initialBalance))
-                    .receiveCash(true)
-                    .build();
+                .owner(player.getName())
+                .balance(GeneralConfiguration.get(GeneralConfiguration::initialBalance))
+                .receiveCash(true)
+                .build();
             put(account);
         }
 
@@ -105,7 +105,7 @@ public final class AccountStorage {
     }
 
     /**
-     * Put account directly in cache (will be sync to database automaticly)
+     * Put account directly in cache (will be sync to database automatically)
      *
      * @param account of player
      */

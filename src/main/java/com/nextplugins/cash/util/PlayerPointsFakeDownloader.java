@@ -20,8 +20,8 @@ public final class PlayerPointsFakeDownloader {
         if (!file.exists()) {
             try {
                 FileUtils.copyURLToFile(
-                        new URL("https://github.com/NextPlugins/PlayerPoints-FAKE/releases/download/1.0.0/playerpoints-fake-1.0.0.jar"),
-                        file
+                    new URL("https://github.com/NextPlugins/PlayerPoints-FAKE/releases/download/1.0.0/playerpoints-fake-1.0.0.jar"),
+                    file
                 );
             } catch (Throwable t) {
                 t.printStackTrace();

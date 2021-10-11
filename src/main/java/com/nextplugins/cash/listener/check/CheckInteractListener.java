@@ -54,9 +54,9 @@ public final class CheckInteractListener implements Listener {
         account.depositAmount(value);
 
         player.sendMessage(
-                MessageValue.get(MessageValue::checkUsed)
-                        .replace("$checkAmount", NumberUtil.format(item.getAmount()))
-                        .replace("$checkTotalValue", NumberUtil.format(value))
+            MessageValue.get(MessageValue::checkUsed)
+                .replace("$checkAmount", NumberUtil.format(item.getAmount()))
+                .replace("$checkTotalValue", NumberUtil.format(value))
         );
     }
 

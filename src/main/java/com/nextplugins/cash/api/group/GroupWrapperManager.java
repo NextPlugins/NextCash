@@ -19,7 +19,7 @@ public final class GroupWrapperManager {
         if (pluginManager.isPluginEnabled("NextTestServer")) wrapper = new NextTestServerGroupWrapper();
         else if (pluginManager.isPluginEnabled("Vault")) wrapper = new VaultGroupWrapper();
 
-        final val logger = NextCash.getInstance().getLogger();
+        val logger = NextCash.getInstance().getLogger();
         if (wrapper == null) {
             logger.warning("[Grupos] Não foi encontrado nenhum plugin de grupos compatível.");
             return;
