@@ -1,11 +1,11 @@
 package com.nextplugins.cash.placeholder.registry;
 
 import com.nextplugins.cash.placeholder.CashPlaceholderHook;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@Data(staticConstructor = "of")
+@RequiredArgsConstructor(staticName = "of")
 public class PlaceholderRegistry {
 
     private final JavaPlugin plugin;

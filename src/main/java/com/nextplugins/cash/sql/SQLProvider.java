@@ -5,14 +5,14 @@ import com.henryfabio.sqlprovider.connector.type.SQLDatabaseType;
 import com.henryfabio.sqlprovider.connector.type.impl.MySQLDatabaseType;
 import com.henryfabio.sqlprovider.connector.type.impl.SQLiteDatabaseType;
 import com.nextplugins.cash.NextCash;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
 
-@Data(staticConstructor = "of")
+@RequiredArgsConstructor(staticName = "of")
 public final class SQLProvider {
 
     private final NextCash plugin;
@@ -53,17 +53,17 @@ public final class SQLProvider {
 
     private SQLDatabaseType sqliteDatabaseType(ConfigurationSection section) {
         return SQLiteDatabaseType.builder()
-                .file(new File(plugin.getDataFolder(), section.getString("file")))
-                .build();
+            .file(new File(plugin.getDataFolder(), section.getString("file")))
+            .build();
     }
 
     private SQLDatabaseType mysqlDatabaseType(ConfigurationSection section) {
         return MySQLDatabaseType.builder()
-                .address(section.getString("address"))
-                .username(section.getString("username"))
-                .password(section.getString("password"))
-                .database(section.getString("database"))
-                .build();
+            .address(section.getString("address"))
+            .username(section.getString("username"))
+            .password(section.getString("password"))
+            .database(section.getString("database"))
+            .build();
     }
 
 }

@@ -3,12 +3,12 @@ package com.nextplugins.cash.command.registry;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.command.CashCommand;
 import com.nextplugins.cash.configuration.MessageValue;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
 import me.saiintbrisson.minecraft.command.message.MessageType;
 
-@Data(staticConstructor = "of")
+@RequiredArgsConstructor(staticName = "of")
 public final class CommandRegistry {
 
     private final NextCash plugin;

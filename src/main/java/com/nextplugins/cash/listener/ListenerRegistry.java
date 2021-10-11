@@ -7,11 +7,11 @@ import com.nextplugins.cash.listener.operation.CashSetListener;
 import com.nextplugins.cash.listener.operation.CashWithdrawListener;
 import com.nextplugins.cash.listener.operation.UserDisconnectListener;
 import com.nextplugins.cash.listener.transaction.TransactionRequestListener;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
 
-@Data(staticConstructor = "of")
+@RequiredArgsConstructor(staticName = "of")
 public final class ListenerRegistry {
 
     private final NextCash plugin;

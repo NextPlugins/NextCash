@@ -4,10 +4,10 @@ import com.henryfabio.minecraft.configinjector.bukkit.injector.BukkitConfigurati
 import com.nextplugins.cash.configuration.GeneralConfiguration;
 import com.nextplugins.cash.configuration.MessageValue;
 import com.nextplugins.cash.configuration.RankingConfiguration;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@Data(staticConstructor = "of")
+@RequiredArgsConstructor(staticName = "of")
 public final class ConfigurationRegistry {
 
     private final JavaPlugin plugin;

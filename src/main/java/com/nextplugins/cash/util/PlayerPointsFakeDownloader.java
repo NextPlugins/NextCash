@@ -1,14 +1,14 @@
 package com.nextplugins.cash.util;
 
 import com.nextplugins.cash.NextCash;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.net.URL;
 
-@Data(staticConstructor = "of")
+@RequiredArgsConstructor(staticName = "of")
 public final class PlayerPointsFakeDownloader {
 
     private final NextCash plugin;
