@@ -262,8 +262,7 @@ public final class CashCommand {
         }
 
         if (rankingStorage.checkUpdate(false)) {
-            // TODO pass to messages.yml
-            sender.sendMessage("&cAguarde o ranking está atualizando.");
+            sender.sendMessage(MessageValue.get(MessageValue::updatingRanking));
             return;
         }
 

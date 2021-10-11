@@ -3,7 +3,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e514adb7e1414702b539e5c46018dc12)](https://app.codacy.com/gh/NextPlugins/NextCash?utm_source=github.com&utm_medium=referral&utm_content=NextPlugins/NextCash&utm_campaign=Badge_Grade)
 
 Um sistema simples e completo de uma economia secundária ("cash") para servidores de Minecraft, quase que 100%
-configurável, com pódio em chat/menu e NPCs, suporte ao PlaceholderAPI, informações salvas em banco de dados SQL e com
+configurável, com pódio em chat/gui e NPCs, suporte ao PlaceholderAPI, informações salvas em banco de dados SQL e com
 uma robusta [API](https://github.com/NextPlugins/NextCash/tree/main/src/main/java/com/nextplugins/cash/api) (em breve
 uma Wiki) para desenvolvedores. [Prints in-game](https://imgur.com/gallery/QAf28xj).
 
@@ -22,6 +22,7 @@ uma Wiki) para desenvolvedores. [Prints in-game](https://imgur.com/gallery/QAf28
 |/cash npc       |Veja a ajuda para o sistema de NPCs.|`nextcash.command.npc.help`|
 |/cash npc add   |Adicione uma localização de spawn de NPC.|`nextcash.command.npc.add`|
 |/cash npc remove|Remova uma localização de spawn de NPC.|`nextcash.command.npc.remove`|
+|/cash check     |Veja os comandos do sistema de cheque.|`nextcash.command.check`|
 
 ## Download
 
@@ -39,12 +40,12 @@ Placeholder: "{placeholderapi_nextcash_amount}"
 O NextCash necessita do [Citizens](https://dev.bukkit.org/projects/citizens) para o sistema de
 NPCs, [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) para suporte a
 placeholders, [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) para hologramas (utilizado no
-sistema de ranking por NPC). As dependências de desenvolvimento serão baixadas automaticamente quando o plugin for
+sistema de classificação por NPC). As dependências de desenvolvimento serão baixadas automaticamente quando o plugin for
 habilitado pela primeira vez.
 
 ### Tecnologias usadas
 
-- [PDM](https://github.com/knightzmc/pdm) - Faz o download de dependências de desenvolvimento durante o carregamento do
+- [PDM](https://github.com/knightzmc/pdm) - Faz a transferência de dependências de desenvolvimento durante o carregamento do
   servidor.
 - [Lombok](https://projectlombok.org/) - Gera “getters”, “setters” e outros métodos uteis durante a compilação através
   de anotações.

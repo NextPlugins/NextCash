@@ -26,6 +26,7 @@ public final class MessageValue implements ConfigurationInjectable {
     // requests
 
     @ConfigField("requests.invalid-target") private String invalidTarget;
+    @ConfigField("requests.updating-ranking") private String updatingRanking;
 
     // operations
 
