@@ -55,19 +55,20 @@ public final class RankingInventory extends PagedInventory {
 
         rankingStorage.getRankingAccounts().forEach((owner, balance) -> items.add(() -> {
             val group = rankingStorage.getGroupManager().getGroup(owner);
+            val value = position.getAndIncrement();
             val replacedDisplayName = headDisplayName
                 .replace("$player", owner)
                 .replace("$amount", balance)
                 .replace("$prefix", group.getPrefix())
                 .replace("$suffix", group.getSuffix())
-                .replace("$position", String.valueOf(position.getAndIncrement()));
+                .replace("$position", String.valueOf(value));
 
             List<String> replacedLore = Lists.newArrayList();
             for (val lore : headLore) {
                 replacedLore.add(lore
                     .replace("$player", owner)
                     .replace("$amount", balance)
-                    .replace("$position", String.valueOf(position.getAndIncrement()))
+                    .replace("$position", String.valueOf(value))
                 );
             }
 

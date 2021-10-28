@@ -43,13 +43,13 @@ public final class RankingStorage {
             val rankingType = RankingConfiguration.get(RankingConfiguration::rankingType);
             val chatRanking = rankingType.equals("CHAT");
             val bodyLines = new LinkedList<String>();
+            val position = new AtomicInteger(1);
             for (val account : accounts) {
                 addAccount(account);
                 if (chatRanking) {
                     val body = RankingConfiguration.get(RankingConfiguration::chatModelBody);
 
-                    val position = new AtomicInteger(1);
-                    Group group = groupManager.getGroup(account.getOwner());
+                    val group = groupManager.getGroup(account.getOwner());
                     bodyLines.add(body
                         .replace("$position", String.valueOf(position.getAndIncrement()))
                         .replace("$player", account.getOwner())
