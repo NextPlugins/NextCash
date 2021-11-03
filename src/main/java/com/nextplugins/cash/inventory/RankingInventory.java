@@ -53,32 +53,36 @@ public final class RankingInventory extends PagedInventory {
 
         val position = new AtomicInteger(1);
 
-        rankingStorage.getRankingAccounts().forEach((owner, balance) -> items.add(() -> {
-            val group = rankingStorage.getGroupManager().getGroup(owner);
+        rankingStorage.getRankingAccounts().forEach((owner, balance) -> {
+
             val value = position.getAndIncrement();
-            val replacedDisplayName = headDisplayName
-                .replace("$player", owner)
-                .replace("$amount", balance)
-                .replace("$prefix", group.getPrefix())
-                .replace("$suffix", group.getSuffix())
-                .replace("$position", String.valueOf(value));
+            items.add(() -> {
+                val group = rankingStorage.getGroupManager().getGroup(owner);
 
-            List<String> replacedLore = Lists.newArrayList();
-            for (val lore : headLore) {
-                replacedLore.add(lore
-                    .replace("$player", owner)
-                    .replace("$amount", balance)
-                    .replace("$position", String.valueOf(value))
+                val replacedDisplayName = headDisplayName
+                        .replace("$player", owner)
+                        .replace("$amount", balance)
+                        .replace("$prefix", group.getPrefix())
+                        .replace("$suffix", group.getSuffix())
+                        .replace("$position", String.valueOf(value));
+
+                List<String> replacedLore = Lists.newArrayList();
+                for (val lore : headLore) {
+                    replacedLore.add(lore
+                            .replace("$player", owner)
+                            .replace("$amount", balance)
+                            .replace("$position", String.valueOf(value))
+                    );
+                }
+
+                return InventoryItem.of(
+                        new ItemBuilder(owner)
+                                .name(replacedDisplayName)
+                                .setLore(replacedLore)
+                                .wrap()
                 );
-            }
-
-            return InventoryItem.of(
-                new ItemBuilder(owner)
-                    .name(replacedDisplayName)
-                    .setLore(replacedLore)
-                    .wrap()
-            );
-        }));
+            });
+        });
 
         return items;
     }
