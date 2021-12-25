@@ -36,6 +36,7 @@ dependencies {
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly fileTree('libs')
 
+    implementation 'com.github.Yuhtin:update-checker:60104e14e4'
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
 
@@ -62,6 +63,7 @@ bukkit {
 shadowJar {
     archiveName("${project.name}-${project.version}.jar")
 
+    relocate 'com.yuhtin.updatechecker', 'com.nextplugins.cash.libs.updatechecker'
     relocate 'com.nextplugins.libs.data.converter', 'com.nextplugins.cash.libs.dataconverter'
 
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.cash.libs.configinjector'

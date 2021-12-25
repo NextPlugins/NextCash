@@ -2,6 +2,7 @@ package com.nextplugins.cash.listener;
 
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.listener.check.CheckInteractListener;
+import com.nextplugins.cash.listener.check.UpdateCheckerListener;
 import com.nextplugins.cash.listener.operation.CashDepositListener;
 import com.nextplugins.cash.listener.operation.CashSetListener;
 import com.nextplugins.cash.listener.operation.CashWithdrawListener;
@@ -23,37 +24,41 @@ public final class ListenerRegistry {
             // system
 
             pluginManager.registerEvents(
-                new UserDisconnectListener(plugin.getAccountStorage()),
-                plugin
+                    new UserDisconnectListener(plugin.getAccountStorage()),
+                    plugin
             );
 
             // operations
 
             pluginManager.registerEvents(
-                new CashDepositListener(plugin.getAccountStorage()),
-                plugin
+                    new CashDepositListener(plugin.getAccountStorage()),
+                    plugin
             );
             pluginManager.registerEvents(
-                new CashSetListener(plugin.getAccountStorage()),
-                plugin
+                    new CashSetListener(plugin.getAccountStorage()),
+                    plugin
             );
             pluginManager.registerEvents(
-                new CashWithdrawListener(plugin.getAccountStorage()),
-                plugin
+                    new CashWithdrawListener(plugin.getAccountStorage()),
+                    plugin
             );
 
             // transactions
 
             pluginManager.registerEvents(
-                new TransactionRequestListener(plugin.getAccountStorage()),
-                plugin
+                    new TransactionRequestListener(plugin.getAccountStorage()),
+                    plugin
             );
 
             // check
 
             pluginManager.registerEvents(
-                new CheckInteractListener(plugin.getAccountStorage()),
-                plugin
+                    new CheckInteractListener(plugin.getAccountStorage()),
+                    plugin
+            );
+
+            pluginManager.registerEvents(new UpdateCheckerListener(),
+                    plugin
             );
 
             plugin.getTextLogger().info("Listeners registrados com sucesso.");

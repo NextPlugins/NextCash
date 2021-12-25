@@ -23,6 +23,7 @@ import com.nextplugins.cash.storage.AccountStorage;
 import com.nextplugins.cash.storage.RankingStorage;
 import com.nextplugins.cash.util.PlayerPointsFakeDownloader;
 import com.nextplugins.cash.util.text.TextLogger;
+import com.yuhtin.updatechecker.UpdateChecker;
 import lombok.Getter;
 import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
@@ -51,6 +52,8 @@ public final class NextCash extends JavaPlugin {
     private LocationManager locationManager;
     private GroupWrapperManager groupWrapperManager;
 
+    private UpdateChecker updateChecker;
+
     private File npcFile;
     private FileConfiguration npcConfiguration;
 
@@ -60,6 +63,9 @@ public final class NextCash extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        updateChecker = new UpdateChecker(this, "NextPlugins");
+        updateChecker.check();
+
         saveDefaultConfig();
 
         npcFile = new File(getDataFolder(), "npcs.yml");
@@ -73,6 +79,15 @@ public final class NextCash extends JavaPlugin {
         getLogger().info("Iniciando carregamento do plugin.");
 
         val loadTime = Stopwatch.createStarted();
+
+        if (updateChecker.canUpdate()) {
+            getLogger().info("");
+            getLogger().info("ATENÇÃO!");
+            getLogger().info("Você está usando uma versão antiga deste plugin!");
+            getLogger().info("Nova versão: " + updateChecker.getMoreRecentVersion());
+            getLogger().info("Baixe aqui: " + updateChecker.getDownloadLink());
+            getLogger().info("");
+        }
 
         sqlConnector = SQLProvider.of(this).setup();
         sqlExecutor = new SQLExecutor(sqlConnector);
