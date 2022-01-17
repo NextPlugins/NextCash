@@ -23,6 +23,12 @@ plugin:
   # Ative ou desative o envio de algumas informações do 'back-end' do plugin no console.
   debug: false
 
+  # Dar suporte para plugins que usam o playerpoints
+  # ATENÇÃO: O PlayerPoints usa INTEGER para guardar os cashs, então o limite será de 2.15B de cash (limitação do INTEGER)
+  # O NextCash da suporte a DOUBLE (1.7*10^308), porém a api do playerpoints limite apenas para 2.15B
+  # não use caso seu servidor seja CASH-OP (jogadores tenham mais de 2.15B em cash)
+  playerPoints: true
+
   configuration:
 
     # Opções válidas: 'DECIMAL' e 'LETTER'
