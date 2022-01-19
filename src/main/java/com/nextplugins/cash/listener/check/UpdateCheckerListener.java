@@ -16,7 +16,7 @@ public class UpdateCheckerListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        if (!event.getPlayer().hasPermission("nexteconomy.admin")) return;
+        if (!event.getPlayer().hasPermission("nextcash.admin")) return;
 
         val updateChecker = NextCash.getInstance().getUpdateChecker();
         if (!updateChecker.canUpdate()) return;
