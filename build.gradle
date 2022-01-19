@@ -36,7 +36,7 @@ dependencies {
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly fileTree('libs')
 
-    implementation 'com.github.Yuhtin:update-checker:60104e14e4'
+    implementation 'com.github.Yuhtin:update-checker:1.1'
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
 

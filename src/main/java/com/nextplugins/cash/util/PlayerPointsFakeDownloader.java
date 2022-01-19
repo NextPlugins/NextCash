@@ -14,7 +14,7 @@ public final class PlayerPointsFakeDownloader {
     private final NextCash plugin;
 
     public void download() {
-        if (!plugin.getConfig().getBoolean("plugin.playerPoints")) return;
+        if (!plugin.getConfig().getBoolean("plugin.playerPoints", true)) return;
 
         val parent = plugin.getDataFolder().getParent();
         val file = new File(parent, "PlayerPoints-FAKE.jar");
