@@ -3,6 +3,7 @@ package com.nextplugins.cash.command.registry;
 import com.nextplugins.cash.NextCash;
 import com.nextplugins.cash.command.CashCommand;
 import com.nextplugins.cash.configuration.MessageValue;
+import com.nextplugins.cash.util.text.NumberUtil;
 import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
@@ -15,9 +16,16 @@ public final class CommandRegistry {
 
     public void register() {
         try {
-            BukkitFrame bukkitFrame = new BukkitFrame(plugin);
+            final BukkitFrame frame = new BukkitFrame(plugin);
 
-            bukkitFrame.registerCommands(
+            frame.registerAdapter(Double.TYPE, argument -> {
+                double value = Double.parseDouble(argument);
+
+                if (NumberUtil.isInvalid(value)) return 0D;
+                else return value;
+            });
+
+            frame.registerCommands(
                 new CashCommand(
                     plugin,
                     plugin.getAccountStorage(),
@@ -26,7 +34,7 @@ public final class CommandRegistry {
                 )
             );
 
-            MessageHolder messageHolder = bukkitFrame.getMessageHolder();
+            final MessageHolder messageHolder = frame.getMessageHolder();
 
             messageHolder.setMessage(MessageType.ERROR, MessageValue.get(MessageValue::error));
             messageHolder.setMessage(MessageType.INCORRECT_TARGET, MessageValue.get(MessageValue::incorrectTarget));

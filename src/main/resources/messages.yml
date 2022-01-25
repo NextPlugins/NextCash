@@ -1,5 +1,6 @@
 messages:
   requests:
+    invalid-amount: '&cA quantia inserida é inválida, deve ser maior que 0.'
     invalid-target: '&cO jogador solicitado não encontra-se online ou é inexistente.'
     updating-ranking: '&aAguarde, o ranking está atualizando.'
   convert:
@@ -65,7 +66,6 @@ messages:
       - ''
       - '&6/cash&7 toggle'
       - ' &8&l➥&f Alterne entre receber ou não cash de outros jogadores.'
-      - ''
       - ''
     help-command-staff: # mensagem que será enviada se o player tiver a permissão: 'nextcash.command.help.staff'
       - ''

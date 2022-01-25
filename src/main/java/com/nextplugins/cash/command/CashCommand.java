@@ -101,6 +101,11 @@ public final class CashCommand {
                 return;
             }
 
+            if (amount <= 0) {
+                player.sendMessage(MessageValue.get(MessageValue::invalidAmount));
+                return;
+            }
+
             val requestEvent = new TransactionRequestEvent(player, target, amount);
             Bukkit.getPluginManager().callEvent(requestEvent);
 
@@ -166,6 +171,11 @@ public final class CashCommand {
         val sender = context.getSender();
 
         if (target != null) {
+            if (amount <= 0) {
+                sender.sendMessage(MessageValue.get(MessageValue::invalidAmount));
+                return;
+            }
+
             CashSetEvent cashSetEvent = new CashSetEvent(sender, target, amount);
             Bukkit.getPluginManager().callEvent(cashSetEvent);
         } else {
@@ -186,6 +196,11 @@ public final class CashCommand {
         val sender = context.getSender();
 
         if (target != null) {
+            if (amount <= 0) {
+                sender.sendMessage(MessageValue.get(MessageValue::invalidAmount));
+                return;
+            }
+
             CashDepositEvent cashDepositEvent = new CashDepositEvent(sender, target, amount);
             Bukkit.getPluginManager().callEvent(cashDepositEvent);
         } else {
@@ -206,6 +221,11 @@ public final class CashCommand {
         val sender = context.getSender();
 
         if (target != null) {
+            if (amount <= 0) {
+                sender.sendMessage(MessageValue.get(MessageValue::invalidAmount));
+                return;
+            }
+
             val cashWithdrawEvent = new CashWithdrawEvent(sender, target, amount);
             Bukkit.getPluginManager().callEvent(cashWithdrawEvent);
         } else {
@@ -226,13 +246,10 @@ public final class CashCommand {
         val sender = context.getSender();
 
         if (target != null) {
-
             val targetAccount = accountStorage.findAccount(target);
             if (targetAccount == null) {
-
                 sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
                 return;
-
             }
 
             targetAccount.setBalance(0);
@@ -243,7 +260,6 @@ public final class CashCommand {
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
-
     }
 
     @Command(

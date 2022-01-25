@@ -39,4 +39,8 @@ public final class NumberUtil {
         }
     }
 
+    public static boolean isInvalid(double value) {
+        return Double.isNaN(value) || Double.isInfinite(value);
+    }
+
 }
