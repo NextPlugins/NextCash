@@ -39,6 +39,14 @@ public final class CashPlaceholderHook extends PlaceholderExpansion {
             return NumberUtil.format(account.getBalance());
         }
 
+        if (params.equalsIgnoreCase("raw")) {
+            val account = NextCashAPI.getInstance().findAccountByPlayer(player).orElse(null);
+
+            if (account == null) return "";
+
+            return String.valueOf(account.getBalance());
+        }
+
         return "Placeholder inválida";
     }
 
